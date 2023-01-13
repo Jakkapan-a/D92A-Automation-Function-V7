@@ -37,44 +37,47 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelHomeHeader = new System.Windows.Forms.TableLayoutPanel();
-            this.panelHome = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBoxConnection = new System.Windows.Forms.GroupBox();
-            this.comboBoxBaudList = new System.Windows.Forms.ComboBox();
-            this.comboBoxSerialPort = new System.Windows.Forms.ComboBox();
-            this.btnConnectionSave = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.toolStripStatusConection = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dataGridViewModelList = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanelHome = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelHome = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelHome = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelHome2 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnEditModel = new System.Windows.Forms.Button();
+            this.btnAddModel = new System.Windows.Forms.Button();
+            this.dataGridViewModelList = new System.Windows.Forms.DataGridView();
+            this.groupBoxConnection = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnConnectionSave = new System.Windows.Forms.Button();
+            this.comboBoxSerialPort = new System.Windows.Forms.ComboBox();
+            this.comboBoxBaudList = new System.Windows.Forms.ComboBox();
+            this.statusStripHome = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusConection = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusSerialPort = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
+            this.iOTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.groupBoxConnection.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
             this.tableLayoutPanelHome.SuspendLayout();
             this.tableLayoutPanelHome2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
+            this.groupBoxConnection.SuspendLayout();
+            this.statusStripHome.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripHome
@@ -99,7 +102,7 @@
             this.btnStartStop.Location = new System.Drawing.Point(20, 20);
             this.btnStartStop.Margin = new System.Windows.Forms.Padding(20);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(69, 44);
+            this.btnStartStop.Size = new System.Drawing.Size(68, 44);
             this.btnStartStop.TabIndex = 2;
             this.btnStartStop.Text = "START";
             this.btnStartStop.UseVisualStyleBackColor = true;
@@ -132,6 +135,8 @@
             // 
             // systemToolStripMenuItem
             // 
+            this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iOTestingToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
             this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.systemToolStripMenuItem.Text = "System";
@@ -153,6 +158,32 @@
             this.tableLayoutPanelHomeHeader.Size = new System.Drawing.Size(834, 84);
             this.tableLayoutPanelHomeHeader.TabIndex = 5;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(116, 8);
+            this.label4.Margin = new System.Windows.Forms.Padding(8);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(569, 68);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "-----------------------";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(703, 10);
+            this.label5.Margin = new System.Windows.Forms.Padding(10);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(121, 64);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Wait...";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // panelHome
             // 
             this.panelHome.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -165,16 +196,6 @@
             this.panelHome.Name = "panelHome";
             this.panelHome.Size = new System.Drawing.Size(831, 420);
             this.panelHome.TabIndex = 6;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusConection});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(834, 22);
-            this.statusStrip1.TabIndex = 7;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // tabControl1
             // 
@@ -201,118 +222,6 @@
             this.tabPage1.Text = "HOME";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(817, 388);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "STATUS";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.button2);
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Controls.Add(this.dataGridViewModelList);
-            this.tabPage3.Controls.Add(this.groupBoxConnection);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(817, 388);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "SETTING";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxConnection
-            // 
-            this.groupBoxConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxConnection.Controls.Add(this.label3);
-            this.groupBoxConnection.Controls.Add(this.label2);
-            this.groupBoxConnection.Controls.Add(this.label1);
-            this.groupBoxConnection.Controls.Add(this.btnConnectionSave);
-            this.groupBoxConnection.Controls.Add(this.comboBoxSerialPort);
-            this.groupBoxConnection.Controls.Add(this.comboBoxBaudList);
-            this.groupBoxConnection.Controls.Add(this.comboBoxDriveCamera);
-            this.groupBoxConnection.Location = new System.Drawing.Point(611, 6);
-            this.groupBoxConnection.Name = "groupBoxConnection";
-            this.groupBoxConnection.Size = new System.Drawing.Size(200, 168);
-            this.groupBoxConnection.TabIndex = 0;
-            this.groupBoxConnection.TabStop = false;
-            this.groupBoxConnection.Text = "CONNECTION";
-            // 
-            // comboBoxBaudList
-            // 
-            this.comboBoxBaudList.FormattingEnabled = true;
-            this.comboBoxBaudList.Location = new System.Drawing.Point(73, 79);
-            this.comboBoxBaudList.Name = "comboBoxBaudList";
-            this.comboBoxBaudList.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxBaudList.TabIndex = 3;
-            // 
-            // comboBoxSerialPort
-            // 
-            this.comboBoxSerialPort.FormattingEnabled = true;
-            this.comboBoxSerialPort.Location = new System.Drawing.Point(73, 106);
-            this.comboBoxSerialPort.Name = "comboBoxSerialPort";
-            this.comboBoxSerialPort.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxSerialPort.TabIndex = 3;
-            // 
-            // btnConnectionSave
-            // 
-            this.btnConnectionSave.Location = new System.Drawing.Point(107, 133);
-            this.btnConnectionSave.Name = "btnConnectionSave";
-            this.btnConnectionSave.Size = new System.Drawing.Size(87, 23);
-            this.btnConnectionSave.TabIndex = 4;
-            this.btnConnectionSave.Text = "Save";
-            this.btnConnectionSave.UseVisualStyleBackColor = true;
-            this.btnConnectionSave.Click += new System.EventHandler(this.btnConnectionSave_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Drive :";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 82);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Baud :";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 109);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Serial Port :";
-            // 
-            // toolStripStatusConection
-            // 
-            this.toolStripStatusConection.Name = "toolStripStatusConection";
-            this.toolStripStatusConection.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusConection.Text = "toolStripStatusLabel1";
-            // 
-            // dataGridViewModelList
-            // 
-            this.dataGridViewModelList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewModelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewModelList.Location = new System.Drawing.Point(7, 7);
-            this.dataGridViewModelList.Name = "dataGridViewModelList";
-            this.dataGridViewModelList.Size = new System.Drawing.Size(598, 376);
-            this.dataGridViewModelList.TabIndex = 1;
-            // 
             // tableLayoutPanelHome
             // 
             this.tableLayoutPanelHome.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -331,77 +240,11 @@
             this.tableLayoutPanelHome.Size = new System.Drawing.Size(805, 379);
             this.tableLayoutPanelHome.TabIndex = 0;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(117, 8);
-            this.label4.Margin = new System.Windows.Forms.Padding(8);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(570, 68);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "-----------------------";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(705, 10);
-            this.label5.Margin = new System.Windows.Forms.Padding(10);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 64);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Wait...";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(736, 359);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(611, 359);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Edit";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.82759F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.17241F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 53);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(801, 329);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
             // tableLayoutPanelHome2
             // 
+            this.tableLayoutPanelHome2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelHome2.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome2.ColumnCount = 1;
             this.tableLayoutPanelHome2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -428,23 +271,216 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 189);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(387, 165);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(387, 178);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(817, 388);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "STATUS";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.82759F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.17241F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 211F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 53);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(801, 329);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.btnEditModel);
+            this.tabPage3.Controls.Add(this.btnAddModel);
+            this.tabPage3.Controls.Add(this.dataGridViewModelList);
+            this.tabPage3.Controls.Add(this.groupBoxConnection);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(817, 388);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "SETTING";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnEditModel
+            // 
+            this.btnEditModel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditModel.Location = new System.Drawing.Point(611, 359);
+            this.btnEditModel.Name = "btnEditModel";
+            this.btnEditModel.Size = new System.Drawing.Size(75, 23);
+            this.btnEditModel.TabIndex = 2;
+            this.btnEditModel.Text = "Edit";
+            this.btnEditModel.UseVisualStyleBackColor = true;
+            this.btnEditModel.Click += new System.EventHandler(this.btnEditModel_Click);
+            // 
+            // btnAddModel
+            // 
+            this.btnAddModel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddModel.Location = new System.Drawing.Point(736, 359);
+            this.btnAddModel.Name = "btnAddModel";
+            this.btnAddModel.Size = new System.Drawing.Size(75, 23);
+            this.btnAddModel.TabIndex = 2;
+            this.btnAddModel.Text = "Add";
+            this.btnAddModel.UseVisualStyleBackColor = true;
+            this.btnAddModel.Click += new System.EventHandler(this.btnAddModel_Click);
+            // 
+            // dataGridViewModelList
+            // 
+            this.dataGridViewModelList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewModelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewModelList.Location = new System.Drawing.Point(7, 7);
+            this.dataGridViewModelList.Name = "dataGridViewModelList";
+            this.dataGridViewModelList.Size = new System.Drawing.Size(598, 376);
+            this.dataGridViewModelList.TabIndex = 1;
+            // 
+            // groupBoxConnection
+            // 
+            this.groupBoxConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxConnection.Controls.Add(this.label3);
+            this.groupBoxConnection.Controls.Add(this.label2);
+            this.groupBoxConnection.Controls.Add(this.label1);
+            this.groupBoxConnection.Controls.Add(this.btnConnectionSave);
+            this.groupBoxConnection.Controls.Add(this.comboBoxSerialPort);
+            this.groupBoxConnection.Controls.Add(this.comboBoxBaudList);
+            this.groupBoxConnection.Controls.Add(this.comboBoxDriveCamera);
+            this.groupBoxConnection.Location = new System.Drawing.Point(611, 6);
+            this.groupBoxConnection.Name = "groupBoxConnection";
+            this.groupBoxConnection.Size = new System.Drawing.Size(200, 168);
+            this.groupBoxConnection.TabIndex = 0;
+            this.groupBoxConnection.TabStop = false;
+            this.groupBoxConnection.Text = "CONNECTION";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 109);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Serial Port :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(29, 82);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Baud :";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Drive :";
+            // 
+            // btnConnectionSave
+            // 
+            this.btnConnectionSave.Location = new System.Drawing.Point(107, 133);
+            this.btnConnectionSave.Name = "btnConnectionSave";
+            this.btnConnectionSave.Size = new System.Drawing.Size(87, 23);
+            this.btnConnectionSave.TabIndex = 4;
+            this.btnConnectionSave.Text = "Save";
+            this.btnConnectionSave.UseVisualStyleBackColor = true;
+            this.btnConnectionSave.Click += new System.EventHandler(this.btnConnectionSave_Click);
+            // 
+            // comboBoxSerialPort
+            // 
+            this.comboBoxSerialPort.FormattingEnabled = true;
+            this.comboBoxSerialPort.Location = new System.Drawing.Point(73, 106);
+            this.comboBoxSerialPort.Name = "comboBoxSerialPort";
+            this.comboBoxSerialPort.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxSerialPort.TabIndex = 3;
+            // 
+            // comboBoxBaudList
+            // 
+            this.comboBoxBaudList.FormattingEnabled = true;
+            this.comboBoxBaudList.Location = new System.Drawing.Point(73, 79);
+            this.comboBoxBaudList.Name = "comboBoxBaudList";
+            this.comboBoxBaudList.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxBaudList.TabIndex = 3;
+            // 
+            // statusStripHome
+            // 
+            this.statusStripHome.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusConection,
+            this.toolStripStatusSerialPort,
+            this.toolStripStatusSerialDetails});
+            this.statusStripHome.Location = new System.Drawing.Point(0, 537);
+            this.statusStripHome.Name = "statusStripHome";
+            this.statusStripHome.Size = new System.Drawing.Size(834, 24);
+            this.statusStripHome.TabIndex = 7;
+            this.statusStripHome.Text = "statusStrip1";
+            // 
+            // toolStripStatusConection
+            // 
+            this.toolStripStatusConection.Name = "toolStripStatusConection";
+            this.toolStripStatusConection.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusConection.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripStatusSerialPort
+            // 
+            this.toolStripStatusSerialPort.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusSerialPort.Name = "toolStripStatusSerialPort";
+            this.toolStripStatusSerialPort.Size = new System.Drawing.Size(122, 19);
+            this.toolStripStatusSerialPort.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripStatusSerialDetails
+            // 
+            this.toolStripStatusSerialDetails.Name = "toolStripStatusSerialDetails";
+            this.toolStripStatusSerialDetails.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusSerialDetails.Text = "toolStripStatusLabel1";
+            // 
+            // iOTestingToolStripMenuItem
+            // 
+            this.iOTestingToolStripMenuItem.Name = "iOTestingToolStripMenuItem";
+            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iOTestingToolStripMenuItem.Text = "IO Testing";
+            this.iOTestingToolStripMenuItem.Click += new System.EventHandler(this.iOTestingToolStripMenuItem_Click);
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 561);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStripHome);
             this.Controls.Add(this.panelHome);
             this.Controls.Add(this.tableLayoutPanelHomeHeader);
             this.Controls.Add(this.menuStripHome);
             this.MainMenuStrip = this.menuStripHome;
             this.Name = "Home";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Home_FormClosing);
             this.Load += new System.EventHandler(this.Home_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.menuStripHome.ResumeLayout(false);
@@ -452,18 +488,18 @@
             this.tableLayoutPanelHomeHeader.ResumeLayout(false);
             this.tableLayoutPanelHomeHeader.PerformLayout();
             this.panelHome.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.groupBoxConnection.ResumeLayout(false);
-            this.groupBoxConnection.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
             this.tableLayoutPanelHome.ResumeLayout(false);
             this.tableLayoutPanelHome2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
+            this.groupBoxConnection.ResumeLayout(false);
+            this.groupBoxConnection.PerformLayout();
+            this.statusStripHome.ResumeLayout(false);
+            this.statusStripHome.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -484,7 +520,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStripHome;
         private System.Windows.Forms.GroupBox groupBoxConnection;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -497,12 +533,15 @@
         private System.Windows.Forms.DataGridView dataGridViewModelList;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEditModel;
+        private System.Windows.Forms.Button btnAddModel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelHome2;
         private System.Windows.Forms.PictureBox pictureBoxDetect;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSerialPort;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSerialDetails;
+        private System.Windows.Forms.ToolStripMenuItem iOTestingToolStripMenuItem;
     }
 }
 

@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Markup;
 
 namespace D92A_Automation_Function_V7
 {
@@ -16,28 +18,49 @@ namespace D92A_Automation_Function_V7
     {
         public Home() => InitializeComponent();
 
-        public string[,] keys = {
-            { "0R01", "1R01" }, // BAT + ON OFF
-            { "0R02", "1R02" }, // ACC + ON OFF
-            { "0R03", "1R03" }, // V+ REAR CAMERA
-            { "0R04", "1R04" }, // V- REAR CAMERA
-            { "0R05", "1R05" }, // ALRAM RED
-            { "0R06", "1R06" }, // ALRAM YOLLOW
-            { "0R07", "1R07" }, // ALRAM GREEN
-            { "0R08", "1R08" }, // ALRAM SOUND
+        //public string[,] keys = {
+        //    { "0R01", "1R01" }, // BAT + ON OFF
+        //    { "0R02", "1R02" }, // ACC + ON OFF
+        //    { "0R03", "1R03" }, // V+ REAR CAMERA
+        //    { "0R04", "1R04" }, // V- REAR CAMERA
+        //    { "0R05", "1R05" }, // ALRAM RED
+        //    { "0R06", "1R06" }, // ALRAM YOLLOW
+        //    { "0R07", "1R07" }, // ALRAM GREEN
+        //    { "0R08", "1R08" }, // ALRAM SOUND
+        //};
+
+        //public string[,] keysSLD = {
+        //    { "0R09", "1R09" }, // SLD 45° 1
+        //    { "0R10", "1R10" }, // SLD 45° 2
+        //    { "0R11", "1R11" }, // SLD 45° 3
+        //    { "0R12", "1R12" }, // SLD 45° 4
+        //    { "0R13", "1R13" }, // SLD 90° 1
+        //    { "0R14", "1R14" }, // SLD 90° 2
+        //    { "0R15", "1R15" }, // SLD 90° 3
+        //    { "0R16", "1R16" }, // SLD 90° 4
+        //};
+
+        public string[] masterNameKeys =
+        {
+            "BAT+",
+            "ACC+",
+            "V+ REAR CAMERA",
+            "V- REAR CAMERA",
+            "ALRAM RED",
+            "ALRAM YOLLOW",
+            "ALRAM GREEN",
+            "ALRAM SOUND",
+            "SLD 45° 1",
+            "SLD 45° 2",
+            "SLD 45° 3",
+            "SLD 45° 4",
+            "SLD 90° 1",
+            "SLD 90° 2",
+            "SLD 90° 3",
+            "SLD 90° 4",
         };
 
-        public string[,] keysSLD = {
-            { "0R09", "1R09" }, // SLD 45° 1
-            { "0R10", "1R10" }, // SLD 45° 2
-            { "0R11", "1R11" }, // SLD 45° 3
-            { "0R12", "1R12" }, // SLD 45° 4
-            { "0R13", "1R13" }, // SLD 90° 1
-            { "0R14", "1R14" }, // SLD 90° 2
-            { "0R15", "1R15" }, // SLD 90° 3
-            { "0R16", "1R16" }, // SLD 90° 4
-        };
-
+        public Dictionary<string, string[,]> keysSLD = new Dictionary<string, string[,]>();
 
         private OpenCvSharp.VideoCapture capture;
 
@@ -48,9 +71,10 @@ namespace D92A_Automation_Function_V7
 
         private string _baudRate = string.Empty;
         private string _serialPortName = string.Empty;
-        private int _deviceCamera = -1;
 
         private SerialPort _SerialPort;
+
+        private int _indexDriverCamera = -1;
 
         private void Home_Load(object sender, EventArgs e)
         {
@@ -74,7 +98,20 @@ namespace D92A_Automation_Function_V7
             if (comboBoxSerialPort.Items.Count > 0)
                 comboBoxSerialPort.SelectedIndex = comboBoxSerialPort.Items.Count - 1;
 
-            toolStripStatusConection.Text = string.Empty;
+            if (!Directory.Exists(_path))
+                Directory.CreateDirectory(_path);
+
+            // Loop set default text are empty of statusStripHome
+            foreach (ToolStripItem item in statusStripHome.Items)
+            {
+                item.Text = string.Empty;
+            }
+
+            // Add key to dictionary
+            for (int i = 0; i < masterNameKeys.Length; i++)
+            {
+                keysSLD.Add(masterNameKeys[i], new string[,] { { "0R" + (i + 1).ToString("00"), "1R" + (i + 1).ToString("00") } });
+            };
         }
 
         private void timerVideo_Trick(object sender, EventArgs e)
@@ -109,41 +146,118 @@ namespace D92A_Automation_Function_V7
             {
                 if (isCapturing)
                 {
-                    if(comboBoxDriveCamera.SelectedIndex == -1)
+                    if(_indexDriverCamera == -1)
                         throw new Exception("Please select a camera drive!");
 
-                    capture = new OpenCvSharp.VideoCapture(comboBoxDriveCamera.SelectedIndex);
-                    capture.Open(comboBoxDriveCamera.SelectedIndex);
+                    capture = new OpenCvSharp.VideoCapture(_indexDriverCamera);
+                    capture.Open(_indexDriverCamera);
                     btnStartStop.Text = "STOP";
                     timerVideo.Start();
+
+                    _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
+                    _SerialPort.Open();
+                    toolStripStatusSerialPort.Text = "Serial Port : Connected";
+                    toolStripStatusSerialPort.ForeColor = Color.Green;
+                   
                 }
                 else
                 {
                     capture.Dispose();
                     timerVideo.Stop();
                     btnStartStop.Text = "START";
+
+                    if (_SerialPort != null && _SerialPort.IsOpen)
+                    {
+                        sendSerialCommand("close");
+                        _SerialPort.Close();
+                        _SerialPort.Dispose();
+                    }
+                    _SerialPort = null;
+
+                    toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
+                    toolStripStatusSerialPort.ForeColor = Color.Red;
                 }
-
-
             }
             catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        public void sendSerialCommand(string command)
+        {
+            try
+            {
+                if (_SerialPort != null && _SerialPort.IsOpen)
+                {
+                    _SerialPort.Write(">" + command + "<#");
+                    toolStripStatusSerialDetails.Text = "Send : " + command;
+                }
+            }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
         private void btnConnectionSave_Click(object sender, EventArgs e)
         {
 
             try
             {
-                toolStripStatusConection.Text = "";
+                if (comboBoxDriveCamera.SelectedIndex == -1)
+                    throw new Exception("Please select a camera drive!");
+                _indexDriverCamera = comboBoxDriveCamera.SelectedIndex;
+
+                if (comboBoxBaudList.SelectedIndex == -1)
+                    throw new Exception("Please select a baud rate!");
+                _baudRate = comboBoxBaudList.SelectedItem.ToString();
+
+                if (comboBoxSerialPort.SelectedIndex == -1)
+                    throw new Exception("Please select a serial port!");
+                _serialPortName = comboBoxSerialPort.SelectedItem.ToString();
+                // Update to toolStripStatusConection status
+                toolStripStatusConection.Text = $"Camera: {_indexDriverCamera} | Baud Rate: {_baudRate} | Serial Port: {_serialPortName}";
+
+                MessageBox.Show("Save connection success!", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             
+        }
+
+        private void btnEditModel_Click(object sender, EventArgs e)
+        {
+            Items items = new Items();
+            items.ShowDialog();
+        }
+
+        private void btnAddModel_Click(object sender, EventArgs e)
+        {
+            AddModel model = new AddModel();
+            model.ShowDialog();
+        }
+
+        private void iOTestingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_SerialPort != null && _SerialPort.IsOpen)
+            {
+                IO_Testing io = new IO_Testing(this);
+                io.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please connect to serial port!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void Home_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_SerialPort != null && _SerialPort.IsOpen)
+            {
+                sendSerialCommand("close");
+                _SerialPort.Close();
+                _SerialPort.Dispose();
+            }
         }
     }
 }
