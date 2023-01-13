@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Markup;
@@ -146,7 +147,7 @@ namespace D92A_Automation_Function_V7
             {
                 if (isCapturing)
                 {
-                    if(_indexDriverCamera == -1)
+                    if (_indexDriverCamera == -1)
                         throw new Exception("Please select a camera drive!");
 
                     capture = new OpenCvSharp.VideoCapture(_indexDriverCamera);
@@ -155,10 +156,14 @@ namespace D92A_Automation_Function_V7
                     timerVideo.Start();
 
                     _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
+                    _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
                     _SerialPort.Open();
                     toolStripStatusSerialPort.Text = "Serial Port : Connected";
                     toolStripStatusSerialPort.ForeColor = Color.Green;
-                   
+                    sendSerialCommand("conn");
+                        Task.Delay(500); 
+                    sendSerialCommand("conn");
+
                 }
                 else
                 {
@@ -166,8 +171,9 @@ namespace D92A_Automation_Function_V7
                     timerVideo.Stop();
                     btnStartStop.Text = "START";
 
-                    if (_SerialPort != null && _SerialPort.IsOpen)
+                    if (_SerialPort != null || _SerialPort.IsOpen)
                     {
+                        _SerialPort.DataReceived -= serialPort_DataReceived;
                         sendSerialCommand("close");
                         _SerialPort.Close();
                         _SerialPort.Dispose();
@@ -183,6 +189,73 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
+        string ReadDataSerial;
+        string dataSerialReceived;
+
+        private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                ReadDataSerial = _SerialPort.ReadExisting();
+                this.Invoke(new EventHandler(dataReceived));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void dataReceived(object sender, EventArgs e)
+        {
+            try
+            {
+                dataSerialReceived += ReadDataSerial;
+                
+
+                if (dataSerialReceived.Contains(">") && dataSerialReceived.Contains("<"))
+                {
+                    // Remove \r\n
+                    string data = dataSerialReceived.Replace("\r\n", string.Empty);
+                    dataSerialReceived = string.Empty;
+                    // [1][2][3][4][5][6][7]
+                    //  >  1  1  1  1  1  < 
+                    int indexStart = data.IndexOf(">") + ">".Length;
+                    int indexEnd = data.IndexOf("<");
+                    data = data.Substring(indexStart, indexEnd - indexStart);
+                    Console.WriteLine(data);
+                    string[] findKeyValue = data.Split(':');
+                    if (findKeyValue.Length == 2)
+                    {
+                        switch (findKeyValue[0])
+                        {
+                            case "P":
+                                break;
+                            case "set":
+                              
+                                break;
+                            case "clear":
+                              
+                                break;
+                            case "reset":
+                              
+                            case "conn":
+                                break;
+                        }
+                    }
+                    ReadDataSerial = "";
+                }
+                else if(!dataSerialReceived.Contains(">"))
+                {
+                    dataSerialReceived = string.Empty;
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
         public void sendSerialCommand(string command)
         {
             try
@@ -216,7 +289,7 @@ namespace D92A_Automation_Function_V7
                 // Update to toolStripStatusConection status
                 toolStripStatusConection.Text = $"Camera: {_indexDriverCamera} | Baud Rate: {_baudRate} | Serial Port: {_serialPortName}";
 
-                MessageBox.Show("Save connection success!", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                MessageBox.Show("Save connection success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -233,14 +306,19 @@ namespace D92A_Automation_Function_V7
 
         private void btnAddModel_Click(object sender, EventArgs e)
         {
-            AddModel model = new AddModel();
+            AddModel model = new AddModel(this);
             model.ShowDialog();
         }
 
         private void iOTestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_SerialPort != null && _SerialPort.IsOpen)
-            {
+            {               
+                for(int i = 0; i <16; i++)
+                {
+                    sendSerialCommand("0R"+(i+1<10? "0"+(i+1).ToString():(i+1).ToString()));
+                    Thread.Sleep(100);
+                }           
                 IO_Testing io = new IO_Testing(this);
                 io.ShowDialog();
             }

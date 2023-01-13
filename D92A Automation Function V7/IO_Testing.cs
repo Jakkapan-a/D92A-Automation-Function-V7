@@ -14,6 +14,7 @@ namespace D92A_Automation_Function_V7
     {
 
         Home home;
+        Dictionary<string, bool> stateBtn = new Dictionary<string, bool>();
         public IO_Testing(Home home)
         {
             InitializeComponent();
@@ -22,37 +23,64 @@ namespace D92A_Automation_Function_V7
         private void IO_Testingcs_Load(object sender, EventArgs e)
         {
             toolStripStatusSerialData.Text = string.Empty;
-            // keysSLD Add to combo
-            foreach (var item in home.keysSLD)
+            for (int i = 1; i <= 16; i++)
             {
-                comboBoxSerialPort.Items.Add(item.Key);
-            }
-            if (comboBoxSerialPort.Items.Count > 0)
-            {
-                comboBoxSerialPort.SelectedIndex = 0;
-            }
-        }
-
-        private void btnOn_Click(object sender, EventArgs e)
-        {
-            if (comboBoxSerialPort.SelectedIndex >= 0)
-            {
-                var key = home.keysSLD[comboBoxSerialPort.SelectedItem.ToString()][0, 1];
-                //Console.WriteLine(key[0,1]);
-                home.sendSerialCommand(key);
-                toolStripStatusSerialData.Text = "Data : "+key;
+                if (i < 10)
+                {
+                    this.stateBtn.Add("R0" + i.ToString(), false);
+                }
+                else
+                {
+                    this.stateBtn.Add("R" + i.ToString(), false);
+                }
             }
         }
 
-        private void btnOff_Click(object sender, EventArgs e)
+        private void btn_click(object sender, EventArgs e)
         {
-            if (comboBoxSerialPort.SelectedIndex >= 0)
+            if (home != null)
             {
-                var key = home.keysSLD[comboBoxSerialPort.SelectedItem.ToString()][0, 0];
-                //Console.WriteLine(key[0,1]);
-                home.sendSerialCommand(key);
-                toolStripStatusSerialData.Text = "Data : " + key;
+                Button btn = (Button)sender;
+                string name = btn.Name;
+                if (this.stateBtn[name])
+                {
+                    this.stateBtn[name] = false;
+                }
+                else
+                {
+                    this.stateBtn[name] = true;
+                }
+                this.home.sendSerialCommand((this.stateBtn[name] ? 1 : 0) + name);
+                updateLight(name);
             }
         }
+
+        private async void updateLight(string _name)
+        {
+            string name = _name.Replace("R", "L");
+            var groupBox = this.Controls.OfType<GroupBox>();
+            //.where(c => c.name.startswith("lbl10"))
+            //.tolist();
+            foreach (var g in groupBox)
+            {
+                var labels = g.Controls.OfType<Label>();
+                foreach (var label in labels)
+                {
+                    if (label.Name == name)
+                    {
+                        if (this.stateBtn[_name])
+                        {
+                            label.Image = Properties.Resources.Light_32;
+                        }
+                        else
+                        {
+                            label.Image = Properties.Resources.Light_Off_32;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 }
