@@ -55,7 +55,7 @@ namespace D92A_Automation_Function_V7
             }
         }
 
-        private async void updateLight(string _name)
+        private void updateLight(string _name)
         {
             string name = _name.Replace("R", "L");
             var groupBox = this.Controls.OfType<GroupBox>();

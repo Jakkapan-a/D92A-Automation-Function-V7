@@ -149,10 +149,17 @@
     <Compile Include="Items.Designer.cs">
       <DependentUpon>Items.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadImage.Designer.cs">
+      <DependentUpon>LoadImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="modules\Actions.cs" />
     <Compile Include="modules\Images.cs" />
-    <Compile Include="modules\Items.cs" />
+    <Compile Include="modules\Itemslist.cs" />
     <Compile Include="modules\Models.cs" />
+    <Compile Include="modules\Process.cs" />
     <Compile Include="modules\SQliteDataAccess.cs" />
     <Compile Include="modules\_IO.cs" />
     <Compile Include="Program.cs" />
@@ -171,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Items.resx">
       <DependentUpon>Items.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadImage.resx">
+      <DependentUpon>LoadImage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

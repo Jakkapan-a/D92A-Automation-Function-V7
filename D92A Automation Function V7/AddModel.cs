@@ -22,10 +22,30 @@ namespace D92A_Automation_Function_V7
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Models model = new Models();
-            model.name = txtName.Text;
-            model.description = txtDescription.Text;
-            model.Save();
+            try
+            {
+                if (Process.isModelsExist(txtName.Text))
+                {
+                    MessageBox.Show("Model has been added");
+                    return;
+                }
+                Models model = new Models();
+                model.name = txtName.Text.Trim();
+                model.description = txtDescription.Text.Trim();
+                model.Save();
+                this.home.loadModel();
+
+                txtName.Text = string.Empty;
+                txtDescription.Text = string.Empty;
+
+                // Message Box
+                MessageBox.Show("Model has been saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void AddModel_Load(object sender, EventArgs e)

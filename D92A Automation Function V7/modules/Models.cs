@@ -49,5 +49,19 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
+
+        #region Get Model
+        public static List<Models> GetModelsAll() => SQliteDataAccess.GetAllNolimit<Models>("models");
+        #endregion
+
+        #region Get Model by ID
+        public static Models GetModelById(int id)
+        {
+            string sql = "SELECT * FROM models WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            return SQliteDataAccess.LoadData<Models>(sql, parameters).FirstOrDefault();
+        }
+        #endregion
     }
 }

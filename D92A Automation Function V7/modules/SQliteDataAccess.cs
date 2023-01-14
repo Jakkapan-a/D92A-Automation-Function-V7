@@ -20,8 +20,16 @@ namespace D92A_Automation_Function_V7.modules
                 return output.ToList();
             }
         }
-
-        public static List<T> LoadData<T>(string sql, Dictionary<string, object> parameters = null)
+        // GetAllNolimit
+        public static List<T> GetAllNolimit<T>(string table_name)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<T>("select * from " + table_name + " order by id desc", new DynamicParameters());
+                return output.ToList();
+            }
+        }
+        public static List<T> LoadData<T>(string sql, Dictionary<string, object> parameters)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
@@ -37,8 +45,18 @@ namespace D92A_Automation_Function_V7.modules
                 con.Execute(sql, parameters);
             }
         }
-
+        public static void Delete(string table_name,int id)
+        {
+            Execute("DELETE FROM " + table_name + " WHERE id = @id", new Dictionary<string, object> { { "@id", id } });
+        }
         private static string LoadConnectionString(string id = "Default")=> "Data Source=" + System.IO.Directory.GetCurrentDirectory() + "\\" + ConfigurationManager.ConnectionStrings[id];
-        
+
+        internal static int GetScalar(string sql, Dictionary<string, object> parameters)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                return cnn.ExecuteScalar<int>(sql, parameters);
+            }
+        }
     }
 }

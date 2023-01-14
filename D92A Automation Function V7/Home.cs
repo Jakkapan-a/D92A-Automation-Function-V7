@@ -1,4 +1,5 @@
-﻿using DirectShowLib;
+﻿using D92A_Automation_Function_V7.modules;
+using DirectShowLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,7 +41,7 @@ namespace D92A_Automation_Function_V7
         //    { "0R15", "1R15" }, // SLD 90° 3
         //    { "0R16", "1R16" }, // SLD 90° 4
         //};
-
+        #region Global Variable
         public string[] masterNameKeys =
         {
             "BAT+",
@@ -60,7 +61,7 @@ namespace D92A_Automation_Function_V7
             "SLD 90° 3",
             "SLD 90° 4",
         };
-
+        int modelId = -1;
         public Dictionary<string, string[,]> keysSLD = new Dictionary<string, string[,]>();
 
         private OpenCvSharp.VideoCapture capture;
@@ -68,7 +69,7 @@ namespace D92A_Automation_Function_V7
         private bool isCapturing = false;
         private System.Windows.Forms.Timer timerVideo;
         private string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
-        private string _path = @"./system";
+        public string _path = @"./system";
 
         private string _baudRate = string.Empty;
         private string _serialPortName = string.Empty;
@@ -77,6 +78,11 @@ namespace D92A_Automation_Function_V7
 
         private int _indexDriverCamera = -1;
 
+
+        
+        #endregion
+
+        #region Form Home Load
         private void Home_Load(object sender, EventArgs e)
         {
             this.timerVideo = new System.Windows.Forms.Timer();
@@ -114,7 +120,9 @@ namespace D92A_Automation_Function_V7
                 keysSLD.Add(masterNameKeys[i], new string[,] { { "0R" + (i + 1).ToString("00"), "1R" + (i + 1).ToString("00") } });
             };
         }
-
+        #endregion
+        
+        
         private void timerVideo_Trick(object sender, EventArgs e)
         {
             try
@@ -231,16 +239,7 @@ namespace D92A_Automation_Function_V7
                         {
                             case "P":
                                 break;
-                            case "set":
-                              
-                                break;
-                            case "clear":
-                              
-                                break;
-                            case "reset":
-                              
-                            case "conn":
-                                break;
+                           
                         }
                     }
                     ReadDataSerial = "";
@@ -252,7 +251,7 @@ namespace D92A_Automation_Function_V7
             }
             catch(Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -297,10 +296,19 @@ namespace D92A_Automation_Function_V7
             }
             
         }
-
+        Items items;
         private void btnEditModel_Click(object sender, EventArgs e)
         {
-            Items items = new Items();
+            if(modelId == -1)
+            {
+                MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (items != null)
+            {
+                items.Dispose();
+            }
+            items = new Items(modelId);
             items.ShowDialog();
         }
 
@@ -309,7 +317,7 @@ namespace D92A_Automation_Function_V7
             AddModel model = new AddModel(this);
             model.ShowDialog();
         }
-
+        IO_Testing io;
         private void iOTestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_SerialPort != null && _SerialPort.IsOpen)
@@ -318,8 +326,13 @@ namespace D92A_Automation_Function_V7
                 {
                     sendSerialCommand("0R"+(i+1<10? "0"+(i+1).ToString():(i+1).ToString()));
                     Thread.Sleep(100);
-                }           
-                IO_Testing io = new IO_Testing(this);
+                }
+
+                if (io != null)
+                {
+                    io.Dispose();
+                }
+                io = new IO_Testing(this);
                 io.ShowDialog();
             }
             else
@@ -335,6 +348,86 @@ namespace D92A_Automation_Function_V7
                 sendSerialCommand("close");
                 _SerialPort.Close();
                 _SerialPort.Dispose();
+            }
+        }
+
+        internal void loadModel()
+        {
+            try
+            {
+                dataGridViewModelList.DataSource = null;
+                List<Models> models = Models.GetModelsAll();
+                int num = 1;
+                var data = (from x in models
+                            select new
+                            {
+                                x.id,
+                                No = num++,
+                                Models_Name = x.name,
+                                Description = x.description,
+                                Date = x.created_at
+                            }).ToList();
+
+                dataGridViewModelList.DataSource = data;
+                dataGridViewModelList.Columns[0].Visible = false;
+                dataGridViewModelList.Columns[1].Width = (int)(dataGridViewModelList.Width * 0.1);
+
+                // Add buuton to datagridview
+                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
+                btnEdit.HeaderText = "Edit";
+                btnEdit.Text = "Edit";
+                btnEdit.Name = "btnEdit";
+                btnEdit.UseColumnTextForButtonValue = true;
+                dataGridViewModelList.Columns.Add(btnEdit);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+}
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 2)
+            {
+                loadModel();
+            }
+        }
+
+        private void dataGridViewModelList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (modelId == -1)
+            {
+                MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            
+            if (items != null)
+            {
+                items.Dispose();
+            }
+            // Column index of button edit
+            if (e.ColumnIndex == 5)
+            {
+                items = new Items(modelId);
+                items.ShowDialog();
+            }
+        }
+
+        private void dataGridViewModelList_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridViewModelList.SelectedRows.Count > 0)
+                {
+                    dynamic row = dataGridViewModelList.SelectedRows[0].DataBoundItem;
+                    this.modelId =int.Parse(row.id.ToString());
+                    lbModelName.Text = row.Models_Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exclamation 02", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }
