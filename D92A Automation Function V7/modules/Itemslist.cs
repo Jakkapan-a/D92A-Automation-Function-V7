@@ -41,9 +41,12 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
 
-        public static void Delete(int id) { 
-
-            //SQliteDataAccess.Delete("itemslist", id);
+        public static void Delete(int id) 
+        {
+            string sql = "DELETE FROM itemslist WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            SQliteDataAccess.Execute(sql, parameters);
         }
 
         public static List<_ItemsList> LoadItems(int model_id)

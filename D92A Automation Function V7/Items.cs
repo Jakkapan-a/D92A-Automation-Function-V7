@@ -16,6 +16,8 @@ namespace D92A_Automation_Function_V7
         private int model_id = -1;
         private int item_id = -1;
         Models model;
+        Actions actions;
+        private string path_image = string.Empty;
         public Items(int model_id)
         {
             InitializeComponent();
@@ -24,24 +26,31 @@ namespace D92A_Automation_Function_V7
             model = Models.GetModelById(model_id);
             lbModelName.Text = model.name;
         }
-        Actions actions;
+       
         private void btnAddActions_Click(object sender, EventArgs e)
         {
             if (actions != null)
             {
                 actions.Close();
             }
-            actions = new Actions(item_id);
+            actions = new Actions(this,item_id);
             actions.Show(this);
         }
 
         private void Items_Load(object sender, EventArgs e)
         {
             LoadItemList();
+            // Loop set default text are empty of statusStripHome
+            foreach (ToolStripItem item in statusStrip.Items)
+            {
+                item.Text = string.Empty;
+            }
         }
 
-        private void LoadItemList()
+        public void LoadItemList()
         {
+            if (model_id == -1)
+                return;
             dataGridViewItemList.DataSource = null;
             List<_ItemsList> items = _ItemsList.LoadItems(model_id);
             int i = 0;
@@ -55,17 +64,41 @@ namespace D92A_Automation_Function_V7
             dataGridViewItemList.DataSource = data;
             dataGridViewItemList.Columns[0].Visible = false;
             dataGridViewItemList.Columns[1].Width = (int)(dataGridViewItemList.Width * 0.1);
-
-           
+        }
+         public void LoadActionsList()
+        {
+            dataGridViewActionList.DataSource = null;
+            if (item_id == -1)
+                return;
+            List<modules.Actions> actions = modules.Actions.LoadActions(item_id);
+            int i = 0;
+            var data = (from x in actions
+                        select new
+                        {
+                            id = x.id,
+                            No = ++i,
+                            Type = x.name,
+                            IO_Name = (x._type == 0) ? x.io_name : "-",
+                            Image = x.image_path,
+                            Delay = x.delay,
+                            Date = x.created_at                           
+                        }).ToList();
+            dataGridViewActionList.DataSource = data;
+            dataGridViewActionList.Columns[0].Visible = false;
+            dataGridViewActionList.Columns[1].Width = (int)(dataGridViewActionList.Width * 0.1);
         }
 
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             try
             {
+                if(txtItemName.Text.Trim() == string.Empty)
+                {
+                    throw new Exception("Item name is required");
+                }
                 // Add new item
                 _ItemsList item = new _ItemsList();
-                item.name = txtItemName.Text;
+                item.name = txtItemName.Text.Trim();
                 item.model_id = model_id;
                 item.Save();
                 // Load Items from database
@@ -79,23 +112,84 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show(ex.Message);
             }
         }
-   
         private void dataGridViewItemList_SelectionChanged(object sender, EventArgs e)
         {
             try
             {
                 if (dataGridViewItemList.SelectedRows.Count > 0)
                 {
-                    item_id = (int)dataGridViewItemList.SelectedRows[0].Cells[0].Value;
-                    /*
-                        Load actions
-                     */
+                    dynamic row = dataGridViewItemList.SelectedRows[0].DataBoundItem;
+                    item_id = int.Parse(row.id.ToString());
+
+                    toolStripStatusItemId.Text = "Item ID : " + item_id.ToString();
+                    //
+                    if (item_id != -1)
+                    {
+                        LoadActionsList();
+                    }
+                  
+                    Console.WriteLine(item_id);
                 }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+        private int action_id = -1;
+        private void dataGridViewActionList_SelectionChanged(object sender, EventArgs e)
+        {
+
+            // Get value columns 0
+            if (dataGridViewActionList.SelectedRows.Count > 0)
+            {
+                dynamic row = dataGridViewActionList.SelectedRows[0].DataBoundItem;
+                action_id = int.Parse(row.id.ToString());
+                path_image = (row.Image != string.Empty)? row.Image : string.Empty; 
+                toolStripStatusActionId.Text = "Action ID : " + action_id.ToString() + " Path : " + path_image;
+                Console.WriteLine(action_id);
+            }
+        }
+
+
+        private void deleteItemList_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure to delete this item ?", "Confirm Delete!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmResult == DialogResult.Yes)
+            {
+                modules.Actions.byItemToTemp(item_id);
+                _ItemsList.Delete(item_id);
+                LoadItemList();
+            }
+        }
+
+
+        private void deleteActinList_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure to delete this action?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                modules.Actions.ToTemp(action_id);
+                LoadActionsList();
+            }         
+        }
+        View view;
+        private void viewActionList_Click(object sender, EventArgs e)
+        {
+            if (path_image != string.Empty)
+            {
+                if(view != null)
+                {
+                    view.Dispose();
+                }
+                view = new View(path_image);
+                view.Show(this);
+            }
+        }
+
+        private void editModelNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

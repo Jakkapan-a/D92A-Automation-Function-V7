@@ -34,6 +34,7 @@ namespace D92A_Automation_Function_V7.modules
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 IEnumerable<T> output = cnn.Query<T>(sql, parameters);
+                Console.WriteLine(output);
                 return output.ToList();
             }
         }

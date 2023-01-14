@@ -109,6 +109,8 @@
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.txtName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximumSize = new System.Drawing.Size(406, 311);
+            this.MinimumSize = new System.Drawing.Size(406, 311);
             this.Name = "AddModel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddModel";

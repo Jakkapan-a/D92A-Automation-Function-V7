@@ -51,6 +51,10 @@
             this.btnEditModel = new System.Windows.Forms.Button();
             this.btnAddModel = new System.Windows.Forms.Button();
             this.dataGridViewModelList = new System.Windows.Forms.DataGridView();
+            this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -62,6 +66,9 @@
             this.toolStripStatusConection = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSerialPort = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
+            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.processTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
             this.menuStripHome.SuspendLayout();
@@ -74,6 +81,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
+            this.contextMenuStripModel.SuspendLayout();
             this.groupBoxConnection.SuspendLayout();
             this.statusStripHome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
@@ -124,7 +132,9 @@
             // systemToolStripMenuItem
             // 
             this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.iOTestingToolStripMenuItem});
+            this.iOTestingToolStripMenuItem,
+            this.loginToolStripMenuItem,
+            this.processTestingToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
             this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.systemToolStripMenuItem.Text = "System";
@@ -132,7 +142,7 @@
             // iOTestingToolStripMenuItem
             // 
             this.iOTestingToolStripMenuItem.Name = "iOTestingToolStripMenuItem";
-            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iOTestingToolStripMenuItem.Text = "IO Testing";
             this.iOTestingToolStripMenuItem.Click += new System.EventHandler(this.iOTestingToolStripMenuItem_Click);
             // 
@@ -283,7 +293,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.17241F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 53);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 8;
@@ -345,6 +355,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewModelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewModelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewModelList.ContextMenuStrip = this.contextMenuStripModel;
             this.dataGridViewModelList.Location = new System.Drawing.Point(7, 7);
             this.dataGridViewModelList.Name = "dataGridViewModelList";
             this.dataGridViewModelList.ReadOnly = true;
@@ -354,6 +365,36 @@
             this.dataGridViewModelList.TabIndex = 1;
             this.dataGridViewModelList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewModelList_CellContentClick);
             this.dataGridViewModelList.SelectionChanged += new System.EventHandler(this.dataGridViewModelList_SelectionChanged);
+            // 
+            // contextMenuStripModel
+            // 
+            this.contextMenuStripModel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addModelToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.deleteToolStripMenuItem});
+            this.contextMenuStripModel.Name = "contextMenuStripModel";
+            this.contextMenuStripModel.Size = new System.Drawing.Size(134, 70);
+            // 
+            // addModelToolStripMenuItem
+            // 
+            this.addModelToolStripMenuItem.Name = "addModelToolStripMenuItem";
+            this.addModelToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.addModelToolStripMenuItem.Text = "Add Model";
+            this.addModelToolStripMenuItem.Click += new System.EventHandler(this.btnAddModel_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.btnEditModel_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // groupBoxConnection
             // 
@@ -430,7 +471,8 @@
             this.statusStripHome.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusConection,
             this.toolStripStatusSerialPort,
-            this.toolStripStatusSerialDetails});
+            this.toolStripStatusSerialDetails,
+            this.toolStripStatusLabelModelID});
             this.statusStripHome.Location = new System.Drawing.Point(0, 537);
             this.statusStripHome.Name = "statusStripHome";
             this.statusStripHome.Size = new System.Drawing.Size(834, 24);
@@ -452,9 +494,31 @@
             // 
             // toolStripStatusSerialDetails
             // 
+            this.toolStripStatusSerialDetails.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.toolStripStatusSerialDetails.Name = "toolStripStatusSerialDetails";
-            this.toolStripStatusSerialDetails.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusSerialDetails.Size = new System.Drawing.Size(122, 19);
             this.toolStripStatusSerialDetails.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripStatusLabelModelID
+            // 
+            this.toolStripStatusLabelModelID.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabelModelID.Name = "toolStripStatusLabelModelID";
+            this.toolStripStatusLabelModelID.Size = new System.Drawing.Size(122, 19);
+            this.toolStripStatusLabelModelID.Text = "toolStripStatusLabel1";
+            // 
+            // loginToolStripMenuItem
+            // 
+            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loginToolStripMenuItem.Text = "Login";
+            this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+            // 
+            // processTestingToolStripMenuItem
+            // 
+            this.processTestingToolStripMenuItem.Name = "processTestingToolStripMenuItem";
+            this.processTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.processTestingToolStripMenuItem.Text = "Process Testing";
+            this.processTestingToolStripMenuItem.Visible = false;
             // 
             // pictureBoxCamera
             // 
@@ -506,6 +570,7 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
+            this.contextMenuStripModel.ResumeLayout(false);
             this.groupBoxConnection.ResumeLayout(false);
             this.groupBoxConnection.PerformLayout();
             this.statusStripHome.ResumeLayout(false);
@@ -554,6 +619,13 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSerialPort;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSerialDetails;
         private System.Windows.Forms.ToolStripMenuItem iOTestingToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripModel;
+        private System.Windows.Forms.ToolStripMenuItem addModelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelModelID;
+        private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem processTestingToolStripMenuItem;
     }
 }
 

@@ -350,7 +350,7 @@ namespace D92A_Automation_Function_V7
                 _SerialPort.Dispose();
             }
         }
-
+        
         internal void loadModel()
         {
             try
@@ -365,7 +365,7 @@ namespace D92A_Automation_Function_V7
                                 No = num++,
                                 Models_Name = x.name,
                                 Description = x.description,
-                                Date = x.created_at
+                                Date = x.created_at,
                             }).ToList();
 
                 dataGridViewModelList.DataSource = data;
@@ -373,12 +373,7 @@ namespace D92A_Automation_Function_V7
                 dataGridViewModelList.Columns[1].Width = (int)(dataGridViewModelList.Width * 0.1);
 
                 // Add buuton to datagridview
-                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
-                btnEdit.HeaderText = "Edit";
-                btnEdit.Text = "Edit";
-                btnEdit.Name = "btnEdit";
-                btnEdit.UseColumnTextForButtonValue = true;
-                dataGridViewModelList.Columns.Add(btnEdit);
+
             }
             catch (Exception ex)
             {
@@ -407,11 +402,9 @@ namespace D92A_Automation_Function_V7
                 items.Dispose();
             }
             // Column index of button edit
-            if (e.ColumnIndex == 5)
-            {
-                items = new Items(modelId);
-                items.ShowDialog();
-            }
+            items = new Items(modelId);
+            items.ShowDialog();
+            
         }
 
         private void dataGridViewModelList_SelectionChanged(object sender, EventArgs e)
@@ -423,12 +416,56 @@ namespace D92A_Automation_Function_V7
                     dynamic row = dataGridViewModelList.SelectedRows[0].DataBoundItem;
                     this.modelId =int.Parse(row.id.ToString());
                     lbModelName.Text = row.Models_Name;
+                    toolStripStatusLabelModelID.Text = "Model ID :" + this.modelId.ToString();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exclamation 02", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ProcessTesting()
+        {
+            if(modelId == -1)
+            {
+                throw new Exception("Please select model!");
+            }
+
+            List<_ItemsList> _Items = _ItemsList.LoadItems(modelId);
+            foreach(_ItemsList item in _Items)
+            {
+                List<modules.Actions> actions = modules.Actions.LoadActions(item.id);
+                foreach(modules.Actions action in actions)
+                {
+                    //
+                }
+                actions = null;
+            }
+            _Items = null;
+
+
+
+
+
+
+
+        }
+        Login login;
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(login != null)
+            {
+                login.Dispose();
+            }
+
+            login = new Login(this);
+            login.Show(this);
         }
     }
 }

@@ -22,7 +22,6 @@ namespace D92A_Automation_Function_V7
         private System.Drawing.Point LocationX1Y1;
         private bool IsMouseDown = false;
         private bool IsCapture;
-        private string _path = @"./system";
         private OpenCvSharp.VideoCapture capture;
         private int indexDriver = -1;
         public LoadImage(Actions action,int indexDriver)
@@ -31,7 +30,6 @@ namespace D92A_Automation_Function_V7
             this.actions = action;
             this.indexDriver = indexDriver;
         }
-
 
         private void LoadImage_Load(object sender, EventArgs e)
         {
