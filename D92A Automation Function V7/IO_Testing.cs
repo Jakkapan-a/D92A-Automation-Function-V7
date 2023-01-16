@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +23,12 @@ namespace D92A_Automation_Function_V7
         }        
         private void IO_Testingcs_Load(object sender, EventArgs e)
         {
+            for (int i = 0; i < 16; i++)
+            {
+                this.home.sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                Thread.Sleep(100);
+            }
+
             toolStripStatusSerialData.Text = string.Empty;
             for (int i = 1; i <= 16; i++)
             {
@@ -82,5 +89,14 @@ namespace D92A_Automation_Function_V7
             }
         }
 
+        private void IO_Testing_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                // sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                this.home.sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                Thread.Sleep(50);
+            }
+        }
     }
 }

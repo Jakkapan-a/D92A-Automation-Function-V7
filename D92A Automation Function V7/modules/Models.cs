@@ -43,6 +43,25 @@ namespace D92A_Automation_Function_V7.modules
         #region Delete Model
         public void Delete()
         {
+            List<_ItemsList> items = _ItemsList.LoadItems(this.id);
+            foreach (var item in items)
+            {
+                _ItemsList.Delete(item.id);
+            }
+            string sql = "DELETE FROM models WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            SQliteDataAccess.Execute(sql, parameters);
+        }
+        #endregion
+        #region Delete Model
+        public static void Delete(int id)
+        {
+            List<_ItemsList> items = _ItemsList.LoadItems(id);
+            foreach (var item in items)
+            {
+                _ItemsList.Delete(item.id);
+            }
             string sql = "DELETE FROM models WHERE id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", id);

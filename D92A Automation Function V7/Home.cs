@@ -1,5 +1,7 @@
 ﻿using D92A_Automation_Function_V7.modules;
 using DirectShowLib;
+using Emgu.CV.Structure;
+using Emgu.CV;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +15,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Markup;
+using OpenCvSharp.Extensions;
+using System.Runtime.InteropServices;
 
 namespace D92A_Automation_Function_V7
 {
@@ -75,11 +79,11 @@ namespace D92A_Automation_Function_V7
         private string _serialPortName = string.Empty;
 
         private SerialPort _SerialPort;
-
+        private Login login;
         private int _indexDriverCamera = -1;
 
 
-        
+        private Bitmap bitmapCamera;
         #endregion
 
         #region Form Home Load
@@ -119,6 +123,8 @@ namespace D92A_Automation_Function_V7
             {
                 keysSLD.Add(masterNameKeys[i], new string[,] { { "0R" + (i + 1).ToString("00"), "1R" + (i + 1).ToString("00") } });
             };
+            // Delete file
+            modules.Actions.DeleteTemp();
         }
         #endregion
         
@@ -137,6 +143,7 @@ namespace D92A_Automation_Function_V7
                         {
                             pictureBoxCamera.SuspendLayout();
                             pictureBoxCamera.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
+                            bitmapCamera = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
                             pictureBoxCamera.ResumeLayout();
                         }                       
                     }
@@ -322,12 +329,6 @@ namespace D92A_Automation_Function_V7
         {
             if (_SerialPort != null && _SerialPort.IsOpen)
             {               
-                for(int i = 0; i <16; i++)
-                {
-                    sendSerialCommand("0R"+(i+1<10? "0"+(i+1).ToString():(i+1).ToString()));
-                    Thread.Sleep(100);
-                }
-
                 if (io != null)
                 {
                     io.Dispose();
@@ -427,36 +428,228 @@ namespace D92A_Automation_Function_V7
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            modules.Models.Delete(this.modelId);
         }
+
+        List<_ItemsList> _Items;
+        List<modules.Actions> actions;
 
         private void ProcessTesting()
         {
             if(modelId == -1)
             {
+                MessageBox.Show("Please select model!");
+                return;
                 throw new Exception("Please select model!");
             }
 
-            List<_ItemsList> _Items = _ItemsList.LoadItems(modelId);
-            foreach(_ItemsList item in _Items)
+            for (int i = 0; i < 16; i++)
             {
-                List<modules.Actions> actions = modules.Actions.LoadActions(item.id);
+                sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                Console.WriteLine("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                Thread.Sleep(50);
+            }
+
+            _Items = null;
+            _Items = _ItemsList.LoadItems(modelId);
+            if (txtProcessDetails.InvokeRequired)
+                txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
+            
+            foreach (_ItemsList item in _Items)
+            {
+                Console.WriteLine($"Item : {item.name}");
+                txtProcessDetailsAppendText($"Item : {item.name} ");
+
+                actions = null;
+                actions = modules.Actions.LoadActions(item.id);
                 foreach(modules.Actions action in actions)
                 {
-                    //
+                    //Console.WriteLine(action._type);
+                    if(action._type == 0)
+                    {
+                        // Mode IO Function
+                        if(action.io_type == 0)
+                        {
+                            //Console.WriteLine($"{action.io_state}{action.io_port}");
+                            sendSerialCommand($"{action.io_state}{action.io_port}");
+                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ");                        }
+                        else if(action.io_type == 1)
+                        {
+                            sendSerialCommand($"1{action.io_port}");
+                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ");
+                            Thread.Sleep(action.auto_delay);
+                            sendSerialCommand($"0{action.io_port}");
+                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ");
+                        }
+                        
+                    }
+                    else if(action._type == 1)
+                    {
+                        int ngCount = 0;
+                        process_compare:
+                        var result = ProcessCompare(action.image_path);
+                        txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Image Comapre result : {result}%, config :{action.image_percent} ");
+                        if (result < action.image_percent)
+                        {
+                            // Test Again
+                            ngCount++;
+                            if(ngCount < 10)
+                            {
+                                txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Test again : ---{ngCount}--- ");
+                                Thread.Sleep(100);
+                                goto process_compare;
+                            }
+                            // Test 
+                            txtProcessDetailsAppendText("Judement NG");
+                            Console.WriteLine("Judement NG");
+                            // End process
+                        }
+                        else
+                        {
+                            txtProcessDetailsAppendText("Judement OK");
+                            Console.WriteLine("Judement OK");
+                        }                        
+                        Console.WriteLine("Test Image Process...");
+                    }
+                    
+                    Thread.Sleep(action.delay);
                 }
-                actions = null;
             }
-            _Items = null;
-
-
-
-
-
-
-
+            txtProcessDetailsAppendText("End Process");
+            Console.WriteLine("End Process");
         }
-        Login login;
+        public void txtProcessDetailsAppendText(string data)
+        {
+            if (txtProcessDetails.InvokeRequired)
+            {
+                txtProcessDetails.Invoke((MethodInvoker)delegate
+                {
+                txtProcessDetails.AppendText($"{data} {Environment.NewLine}");
+                    txtProcessDetails.ScrollToCaret();
+                });
+            }
+        }
+        public double ProcessCompare(string path_master)
+        {
+            if (!File.Exists(path_master))
+                throw new Exception("File master not found!!");
+
+            Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> image_master = new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(path_master).Clone();
+
+            Bitmap match = Matching(image_master.ToBitmap(), imageSlave: bitmapCamera);
+            pictureBoxDetect.Image = (Image)match.Clone();
+
+            string path_temp = _path + "/temp/" + Guid.NewGuid().ToString() + ".jpg";
+
+            if (!Directory.Exists(_path + "/temp/"))
+                Directory.CreateDirectory(_path + "/temp/");
+            match.Save(path_temp, System.Drawing.Imaging.ImageFormat.Jpeg);
+            double result = Compare(image_master, new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(path_temp));
+
+            image_master.Dispose();
+            match.Dispose();
+            if (File.Exists(path_temp))
+                File.Delete(path_temp);
+
+            return result;
+        }
+
+        //private static Bitmap GetBtmCam()
+        //{
+        //    Bitmap btmCam;
+        //    //if (thsi.pictureBoxCamera.InvokeRequired)
+        //    //{
+        //    //    pictureBoxCamera.Invoke((MethodInvoker)delegate { btmCam = new Bitmap(pictureBoxCamera.Image); });
+        //    //}
+        //    return btmCam;
+        //}
+
+        public double Compare(Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> imageMaster, Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> imageSlave, string path = null, string stepname = null)
+        {
+            try
+            {
+                if (imageMaster.Width != imageSlave.Width || imageMaster.Height != imageSlave.Height)
+                {
+                    return 0;
+                }
+                var diffImage = new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(imageMaster.Width, imageMaster.Height);
+                // Get the image of different pixels.
+                Emgu.CV.CvInvoke.AbsDiff(imageMaster, imageSlave, diffImage);
+
+                var threadholdImage = new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(imageMaster.Width, imageMaster.Height);
+                // Check the pixies difference.
+                // For instance, if difference between the same pixel on both image are less then 20,
+                // we can say that this pixel is the same on both images.
+                // After threadholding we would have matrix on which we would have 0 for pixels which are "nearly" the same and 1 for pixes which are different.
+                Emgu.CV.CvInvoke.Threshold(diffImage, threadholdImage, 20, 1, Emgu.CV.CvEnum.ThresholdType.Binary);
+                int diff = Emgu.CV.CvInvoke.CountNonZero(threadholdImage);
+
+                // Take the percentage of the pixels which are different.
+                var deffPrecentage = diff / (double)(imageMaster.Width * imageMaster.Height);
+                if (path != null)
+                {
+                    string name = "D-";
+                    if (stepname != null)
+                    {
+                        name += stepname;
+                    }
+                    var fileName = $@"{name}{DateTime.Now.Ticks}_DIF.jpg";
+                    string pathDiffImage = System.IO.Path.Combine(path, fileName);
+                    diffImage.Save(pathDiffImage);
+                }
+
+                diffImage.Dispose();
+                threadholdImage.Dispose();
+                // If the amount of different pixeles more then 15% then we can say that those immages are different.
+                var percent = deffPrecentage * 100;
+                // round off
+                return Math.Round(100 - percent, 3);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("E006" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 0;
+            }
+        }
+
+        private Bitmap Matching(Bitmap imageMaster, Bitmap imageSlave, string path_save = null)
+        {
+            try
+            {
+                var imgScene = imageSlave.ToImage<Bgr, byte>();// new Bitmap(@"D:\CPush\Image\008.JPG").ToImage<Bgr, byte>(); // Image imput
+                var template = imageMaster.ToImage<Bgr, byte>(); // new Bitmap(@"D:\CPush\Image\007.JPG").ToImage<Bgr, byte>(); // Master 
+                string pathCurrent = Directory.GetCurrentDirectory();
+
+                Emgu.CV.Mat imgout = new Emgu.CV.Mat();
+
+                CvInvoke.MatchTemplate(imgScene, template, imgout, Emgu.CV.CvEnum.TemplateMatchingType.CcorrNormed);
+
+                double minVal = 0.0;
+                double maxVal = 0.0;
+                Point minLoc = new Point();
+                Point maxLoc = new Point();
+
+                CvInvoke.MinMaxLoc(imgout, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
+                Rectangle r = new Rectangle(maxLoc, template.Size);
+                var imgCrop = imgScene.Copy(r);
+                CvInvoke.Rectangle(imgScene, r, new MCvScalar(0, 0, 255), 2);
+                //this.pictureBox2.Image = imgScene.ToBitmap();
+
+                if (path_save != null)
+                {
+                    imgScene.Save(path_save);
+                }
+                //this.pictureBox1.Hide();
+                return imgCrop.ToBitmap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("E007 " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(login != null)
@@ -466,6 +659,16 @@ namespace D92A_Automation_Function_V7
 
             login = new Login(this);
             login.Show(this);
+        }
+        Thread thread;
+
+        private void TestingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //ProcessTesting();
+            if (thread != null)
+                thread.DisableComObjectEagerCleanup();
+            thread = new Thread(new ThreadStart(ProcessTesting));
+            thread.Start();
         }
     }
 }

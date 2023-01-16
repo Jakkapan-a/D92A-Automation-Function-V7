@@ -92,26 +92,34 @@ namespace D92A_Automation_Function_V7
 
         private void btnSaveAction_Click(object sender, EventArgs e)
         {
-            if (!btnSelectedIOFunction.Checked && !btnSelectedImageFunction.Checked)
-                throw new Exception("Functions not select!!");            
-            modules.Actions actions = new modules.Actions();
-            actions.item_id = item_id;
-            actions.name = btnSelectedIOFunction.Checked ? "IO Fuction": "Image Fuction";
-            actions._type = btnSelectedIOFunction.Checked ? 0 : 1;  // 0 = IO, 1 = Image
-            actions.io_type = btnTypeManual.Checked ? 0 : 1;        // 0 = Manual, 1 = Auto
-            actions.io_state = checkBocON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
-            actions.io_port = (comboBoxIOPort.SelectedIndex > 10) ? "R0" + (comboBoxIOPort.SelectedIndex + 1).ToString() : "R" + (comboBoxIOPort.SelectedIndex + 1).ToString();
-            actions.io_name = comboBoxIOPort.SelectedItem.ToString();
-            actions.delay = (int)txtDelay.Value;
-            actions.auto_delay = (int)txtAutoDelay.Value;
-            string filename = !btnSelectedIOFunction.Checked ? saveFileImage() :"" ;
-            actions.image_path = filename;
-            actions.image_percent = (int)txtPercent.Value;
-            actions.image_status = 1;
-            actions.Save();
+            try
+            {
+                if (!btnSelectedIOFunction.Checked && !btnSelectedImageFunction.Checked)
+                    throw new Exception("Functions not select!!");
 
-            this.Items.LoadActionsList();
-            this.Close();
+                modules.Actions actions = new modules.Actions();
+                actions.item_id = item_id;
+                actions.name = btnSelectedIOFunction.Checked ? "IO Fuction" : "Image Fuction";
+                actions._type = btnSelectedIOFunction.Checked ? 0 : 1;  // 0 = IO, 1 = Image
+                actions.io_type = btnTypeManual.Checked ? 0 : 1;        // 0 = Manual, 1 = Auto
+                actions.io_state = checkBocON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
+                actions.io_port = (comboBoxIOPort.SelectedIndex+1 < 10) ? "R0" + (comboBoxIOPort.SelectedIndex + 1).ToString() : "R" + (comboBoxIOPort.SelectedIndex + 1).ToString();
+                actions.io_name = comboBoxIOPort.SelectedItem.ToString();
+                actions.delay = (int)txtDelay.Value;
+                actions.auto_delay = (int)txtAutoDelay.Value;
+                string filename = !btnSelectedIOFunction.Checked ? saveFileImage() : "";
+                actions.image_path = filename;
+                actions.image_percent = (int)txtPercent.Value;
+                actions.image_status = 1;
+                actions.Save();
+
+                this.Items.LoadActionsList();
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
         private string saveFileImage()
         {

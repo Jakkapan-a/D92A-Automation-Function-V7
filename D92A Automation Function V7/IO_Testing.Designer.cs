@@ -495,6 +495,7 @@
             this.Name = "IO_Testing";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IO_Testing";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IO_Testing_FormClosing);
             this.Load += new System.EventHandler(this.IO_Testingcs_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

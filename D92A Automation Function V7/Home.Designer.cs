@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             this.contextMenuStripHome = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btnStartStop = new System.Windows.Forms.Button();
             this.comboBoxDriveCamera = new System.Windows.Forms.ComboBox();
@@ -36,6 +37,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iOTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelHomeHeader = new System.Windows.Forms.TableLayoutPanel();
             this.lbModelName = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -43,10 +46,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelHome = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelHome2 = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnEditModel = new System.Windows.Forms.Button();
             this.btnAddModel = new System.Windows.Forms.Button();
@@ -67,25 +70,23 @@
             this.toolStripStatusSerialPort = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
-            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.processTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
-            this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
+            this.panelProcessDetails = new System.Windows.Forms.Panel();
+            this.txtProcessDetails = new System.Windows.Forms.RichTextBox();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanelHome.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.tableLayoutPanelHome2.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
             this.contextMenuStripModel.SuspendLayout();
             this.groupBoxConnection.SuspendLayout();
             this.statusStripHome.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
+            this.panelProcessDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripHome
@@ -134,7 +135,7 @@
             this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.iOTestingToolStripMenuItem,
             this.loginToolStripMenuItem,
-            this.processTestingToolStripMenuItem});
+            this.TestingToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
             this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.systemToolStripMenuItem.Text = "System";
@@ -145,6 +146,20 @@
             this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iOTestingToolStripMenuItem.Text = "IO Testing";
             this.iOTestingToolStripMenuItem.Click += new System.EventHandler(this.iOTestingToolStripMenuItem_Click);
+            // 
+            // loginToolStripMenuItem
+            // 
+            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loginToolStripMenuItem.Text = "Login";
+            this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+            // 
+            // TestingToolStripMenuItem
+            // 
+            this.TestingToolStripMenuItem.Name = "TestingToolStripMenuItem";
+            this.TestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.TestingToolStripMenuItem.Text = "Testing";
+            this.TestingToolStripMenuItem.Click += new System.EventHandler(this.TestingToolStripMenuItem_Click);
             // 
             // tableLayoutPanelHomeHeader
             // 
@@ -246,6 +261,18 @@
             this.tableLayoutPanelHome.Size = new System.Drawing.Size(805, 379);
             this.tableLayoutPanelHome.TabIndex = 0;
             // 
+            // pictureBoxCamera
+            // 
+            this.pictureBoxCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
+            this.pictureBoxCamera.Name = "pictureBoxCamera";
+            this.pictureBoxCamera.Size = new System.Drawing.Size(395, 371);
+            this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCamera.TabIndex = 1;
+            this.pictureBoxCamera.TabStop = false;
+            // 
             // tableLayoutPanelHome2
             // 
             this.tableLayoutPanelHome2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -255,7 +282,7 @@
             this.tableLayoutPanelHome2.ColumnCount = 1;
             this.tableLayoutPanelHome2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 0);
-            this.tableLayoutPanelHome2.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanelHome2.Controls.Add(this.panelProcessDetails, 0, 1);
             this.tableLayoutPanelHome2.Location = new System.Drawing.Point(406, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
@@ -264,19 +291,20 @@
             this.tableLayoutPanelHome2.Size = new System.Drawing.Size(395, 371);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
-            // flowLayoutPanel1
+            // pictureBoxDetect
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBoxDetect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 189);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(387, 178);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.pictureBoxDetect.Location = new System.Drawing.Point(4, 4);
+            this.pictureBoxDetect.Name = "pictureBoxDetect";
+            this.pictureBoxDetect.Size = new System.Drawing.Size(387, 178);
+            this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxDetect.TabIndex = 0;
+            this.pictureBoxDetect.TabStop = false;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -284,29 +312,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "STATUS";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.82759F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.17241F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 53);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(801, 329);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -506,42 +511,27 @@
             this.toolStripStatusLabelModelID.Size = new System.Drawing.Size(122, 19);
             this.toolStripStatusLabelModelID.Text = "toolStripStatusLabel1";
             // 
-            // loginToolStripMenuItem
+            // panelProcessDetails
             // 
-            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loginToolStripMenuItem.Text = "Login";
-            this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
-            // 
-            // processTestingToolStripMenuItem
-            // 
-            this.processTestingToolStripMenuItem.Name = "processTestingToolStripMenuItem";
-            this.processTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.processTestingToolStripMenuItem.Text = "Process Testing";
-            this.processTestingToolStripMenuItem.Visible = false;
-            // 
-            // pictureBoxCamera
-            // 
-            this.pictureBoxCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panelProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
-            this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(395, 371);
-            this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCamera.TabIndex = 1;
-            this.pictureBoxCamera.TabStop = false;
+            this.panelProcessDetails.Controls.Add(this.txtProcessDetails);
+            this.panelProcessDetails.Location = new System.Drawing.Point(4, 189);
+            this.panelProcessDetails.Name = "panelProcessDetails";
+            this.panelProcessDetails.Size = new System.Drawing.Size(387, 178);
+            this.panelProcessDetails.TabIndex = 1;
             // 
-            // pictureBoxDetect
+            // txtProcessDetails
             // 
-            this.pictureBoxDetect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxDetect.Location = new System.Drawing.Point(4, 4);
-            this.pictureBoxDetect.Name = "pictureBoxDetect";
-            this.pictureBoxDetect.Size = new System.Drawing.Size(387, 178);
-            this.pictureBoxDetect.TabIndex = 0;
-            this.pictureBoxDetect.TabStop = false;
+            this.txtProcessDetails.Location = new System.Drawing.Point(3, 4);
+            this.txtProcessDetails.Name = "txtProcessDetails";
+            this.txtProcessDetails.Size = new System.Drawing.Size(381, 171);
+            this.txtProcessDetails.TabIndex = 1;
+            this.txtProcessDetails.Text = "";
             // 
             // Home
             // 
@@ -552,10 +542,11 @@
             this.Controls.Add(this.panelHome);
             this.Controls.Add(this.tableLayoutPanelHomeHeader);
             this.Controls.Add(this.menuStripHome);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStripHome;
             this.Name = "Home";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "D92A Automation Function V7";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Home_FormClosing);
             this.Load += new System.EventHandler(this.Home_Load);
             this.menuStripHome.ResumeLayout(false);
@@ -566,8 +557,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanelHome.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.tableLayoutPanelHome2.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
             this.contextMenuStripModel.ResumeLayout(false);
@@ -575,8 +567,7 @@
             this.groupBoxConnection.PerformLayout();
             this.statusStripHome.ResumeLayout(false);
             this.statusStripHome.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
+            this.panelProcessDetails.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -614,8 +605,6 @@
         private System.Windows.Forms.Button btnAddModel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelHome2;
         private System.Windows.Forms.PictureBox pictureBoxDetect;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSerialPort;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSerialDetails;
         private System.Windows.Forms.ToolStripMenuItem iOTestingToolStripMenuItem;
@@ -625,7 +614,9 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelModelID;
         private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
-        public System.Windows.Forms.ToolStripMenuItem processTestingToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem TestingToolStripMenuItem;
+        private System.Windows.Forms.Panel panelProcessDetails;
+        private System.Windows.Forms.RichTextBox txtProcessDetails;
     }
 }
 

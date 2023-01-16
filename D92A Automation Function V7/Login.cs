@@ -23,7 +23,7 @@ namespace D92A_Automation_Function_V7
         {
             if(txtPassword.Text == "asdfghjkl")
             {
-                this.home.processTestingToolStripMenuItem.Visible = true;
+                this.home.TestingToolStripMenuItem.Visible = true;
                 this.Close();
             }
         }

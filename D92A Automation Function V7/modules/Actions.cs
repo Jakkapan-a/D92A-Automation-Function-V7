@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +12,16 @@ namespace D92A_Automation_Function_V7.modules
         public int id { get; set; }
         public int item_id { get; set; }
         public string name { get; set; }
-        public int _type { get; set; }
+        public int _type { get; set; } // 0 = IO, 1 = Image
         public string image_path { get; set; }
         public int image_percent { get; set; }
         public int image_status { get; set; }
         public string io_port { get; set; }
         public string io_name { get; set; }
-        public int io_type { get; set; }
-        public int io_state { get; set; }
-        public int delay { get; set; }
-        public int auto_delay { get; set; }
+        public int io_type { get; set; }    // 0 = Manual, 1 = Auto
+        public int io_state { get; set; }   // Active in io_type = 0;
+        public int delay { get; set; }      // Active after end process = 0;
+        public int auto_delay { get; set; }  // Active in Auto = 0;
         public string created_at { get; set; }
         public string updated_at { get; set; }
 
@@ -83,9 +84,38 @@ namespace D92A_Automation_Function_V7.modules
         #region Update DeleteTemp
         public static void DeleteTemp()
         {
-            string sql = "DELETE FROM actions WHERE image_status = @image_status";
+            var actionListTemp = modules.Actions.GetTemp();
+            foreach(var item in actionListTemp)
+            {
+                if(item._type == 1)
+                {
+                    if(File.Exists(item.image_path))
+                        File.Delete(item.image_path);
+
+                }
+                item.Delete();
+            }
+            //string sql = "DELETE FROM actions WHERE image_status = @image_status";
+            //Dictionary<string, object> parameters = new Dictionary<string, object>();
+            //parameters.Add("@image_status", 0);
+            //SQliteDataAccess.Execute(sql, parameters);
+        }
+        public static List<modules.Actions> GetTemp()
+        {
+            string sql = "SELECT * FROM actions WHERE image_status = @image_status";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@image_status", 0);
+            return SQliteDataAccess.LoadData<modules.Actions>(sql, parameters);
+        }
+        #endregion
+        #region ByItem
+        public static void byItemToTemp(int item_id)
+        {
+            string sql = "UPDATE actions SET image_status = @image_status, updated_at = @updated_at WHERE item_id = @item_id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@item_id", item_id);
+            parameters.Add("@image_status", 0);
+            parameters.Add("@updated_at", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
@@ -108,16 +138,6 @@ namespace D92A_Automation_Function_V7.modules
             return SQliteDataAccess.LoadData<modules.Actions>(sql, parameters);
         }
         #endregion
-        #region ByItem
-        public static void byItemToTemp(int item_id)
-        {
-            string sql = "UPDATE actions SET image_status = @image_status, updated_at = @updated_at WHERE item_id = @item_id";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@item_id", item_id);
-            parameters.Add("@image_status", 0);
-            parameters.Add("@updated_at", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            SQliteDataAccess.Execute(sql, parameters);
-        }
-        #endregion
+
     }
 }

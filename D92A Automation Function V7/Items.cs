@@ -79,7 +79,8 @@ namespace D92A_Automation_Function_V7
                             No = ++i,
                             Type = x.name,
                             IO_Name = (x._type == 0) ? x.io_name : "-",
-                            Image = x.image_path,
+                            IO_PORT = (x._type == 0) ? x.io_port : "-",
+                            Image = (x._type == 1) ? x.image_path : "-",
                             Delay = x.delay,
                             Date = x.created_at                           
                         }).ToList();
