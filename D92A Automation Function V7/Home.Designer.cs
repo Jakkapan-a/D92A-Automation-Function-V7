@@ -49,7 +49,8 @@
             this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelHome2 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panelProcessDetails = new System.Windows.Forms.Panel();
+            this.txtProcessDetails = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnEditModel = new System.Windows.Forms.Button();
             this.btnAddModel = new System.Windows.Forms.Button();
@@ -70,8 +71,6 @@
             this.toolStripStatusSerialPort = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panelProcessDetails = new System.Windows.Forms.Panel();
-            this.txtProcessDetails = new System.Windows.Forms.RichTextBox();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
@@ -81,12 +80,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.tableLayoutPanelHome2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
+            this.panelProcessDetails.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
             this.contextMenuStripModel.SuspendLayout();
             this.groupBoxConnection.SuspendLayout();
             this.statusStripHome.SuspendLayout();
-            this.panelProcessDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripHome
@@ -223,7 +222,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
@@ -252,8 +250,8 @@
             this.tableLayoutPanelHome.ColumnCount = 2;
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
+            this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
             this.tableLayoutPanelHome.Name = "tableLayoutPanelHome";
             this.tableLayoutPanelHome.RowCount = 1;
@@ -279,10 +277,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelHome2.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanelHome2.ColumnCount = 1;
+            this.tableLayoutPanelHome2.ColumnCount = 2;
             this.tableLayoutPanelHome2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 0);
+            this.tableLayoutPanelHome2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.Controls.Add(this.panelProcessDetails, 0, 1);
+            this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 0);
             this.tableLayoutPanelHome2.Location = new System.Drawing.Point(406, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
@@ -293,25 +292,34 @@
             // 
             // pictureBoxDetect
             // 
-            this.pictureBoxDetect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxDetect.Location = new System.Drawing.Point(4, 4);
             this.pictureBoxDetect.Name = "pictureBoxDetect";
-            this.pictureBoxDetect.Size = new System.Drawing.Size(387, 178);
+            this.pictureBoxDetect.Size = new System.Drawing.Size(188, 179);
             this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxDetect.TabIndex = 0;
             this.pictureBoxDetect.TabStop = false;
             // 
-            // tabPage2
+            // panelProcessDetails
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(817, 388);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "STATUS";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.panelProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelProcessDetails.Controls.Add(this.txtProcessDetails);
+            this.panelProcessDetails.Location = new System.Drawing.Point(4, 189);
+            this.panelProcessDetails.Name = "panelProcessDetails";
+            this.panelProcessDetails.Size = new System.Drawing.Size(190, 178);
+            this.panelProcessDetails.TabIndex = 1;
+            // 
+            // txtProcessDetails
+            // 
+            this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProcessDetails.Location = new System.Drawing.Point(3, 4);
+            this.txtProcessDetails.Name = "txtProcessDetails";
+            this.txtProcessDetails.Size = new System.Drawing.Size(184, 171);
+            this.txtProcessDetails.TabIndex = 1;
+            this.txtProcessDetails.Text = "";
             // 
             // tabPage3
             // 
@@ -511,28 +519,6 @@
             this.toolStripStatusLabelModelID.Size = new System.Drawing.Size(122, 19);
             this.toolStripStatusLabelModelID.Text = "toolStripStatusLabel1";
             // 
-            // panelProcessDetails
-            // 
-            this.panelProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelProcessDetails.Controls.Add(this.txtProcessDetails);
-            this.panelProcessDetails.Location = new System.Drawing.Point(4, 189);
-            this.panelProcessDetails.Name = "panelProcessDetails";
-            this.panelProcessDetails.Size = new System.Drawing.Size(387, 178);
-            this.panelProcessDetails.TabIndex = 1;
-            // 
-            // txtProcessDetails
-            // 
-            this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProcessDetails.Location = new System.Drawing.Point(3, 4);
-            this.txtProcessDetails.Name = "txtProcessDetails";
-            this.txtProcessDetails.Size = new System.Drawing.Size(381, 171);
-            this.txtProcessDetails.TabIndex = 1;
-            this.txtProcessDetails.Text = "";
-            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -560,6 +546,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.tableLayoutPanelHome2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
+            this.panelProcessDetails.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
             this.contextMenuStripModel.ResumeLayout(false);
@@ -567,7 +554,6 @@
             this.groupBoxConnection.PerformLayout();
             this.statusStripHome.ResumeLayout(false);
             this.statusStripHome.PerformLayout();
-            this.panelProcessDetails.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -586,7 +572,6 @@
         private System.Windows.Forms.Panel panelHome;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.StatusStrip statusStripHome;
         private System.Windows.Forms.GroupBox groupBoxConnection;

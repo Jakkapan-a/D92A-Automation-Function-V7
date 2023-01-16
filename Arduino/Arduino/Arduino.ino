@@ -1,5 +1,5 @@
 /*
-  Name:    Arduino.ino v2.00
+  Name:    Arduino.ino v2.02
   Created: 9/24/2022 12:17:46 PM
   Author:  Jakkapan
 */
@@ -96,7 +96,8 @@ BUTTON SW_Button_Start(24);
 String inputString = "";      // String to hold incoming data
 bool stringComplete = false;  // Whether the string is complete
 bool state_connected = false;
-
+bool IsRunning = false;
+int judgement = -1;
 //*********************** Value ***********************//
 unsigned long period = 1000;                                           //ระยะเวลาที่ต้องการรอ 1000 = 1 sce
 int period_overspend = -1000;                                          //ระยะเวลาที่ต้องการรอ 1000 = 1 sce
@@ -209,7 +210,7 @@ void func_control(String _data) {
   } else if (_data == "1R16") {
     SLN90_BT4.on();
   }
-    sendDataToSerialPort(_data);
+    sendSerialCommand(_data);
 }
 bool isControlKeys(String _data) {
   String data[] = {
@@ -236,22 +237,22 @@ bool isControlKeys(String _data) {
       return true;
     }
   }
+
   return false;
 }
 bool toggleBrightness = true;
 void timeCount() {
   if (millis() - last_time_cs >= period) {
-    // Active every 1 second
 
-    state_connected = true;
-    isConnectChange = true;
+    // sendSerialCommand(String(state_connected) + " : "+String(isConnectChange));
+    
     if (!state_connected && isConnectChange) {
       toggleBrightness = !toggleBrightness;
       display.setBrightness(5, toggleBrightness);  // on
     } else if (state_connected && isConnectChange) {
       display.setBrightness(5, true);  // on
-      isConnectChange = false;
     }
+
     timer_count++;
     if (timer_count > 3600) {
       timer_count = 0;
@@ -262,7 +263,7 @@ void timeCount() {
   }
 }
 //****************** Func Send data ***********************//
-void sendDataToSerialPort(String msg) {
+void sendSerialCommand(String msg) {
   Serial.println(">" + msg + "<#");
 }
 void serialEvent() {
@@ -280,7 +281,6 @@ void serialEvent() {
     inputString += inChar;
   }
 }
-
 
 void setup() {
   //
@@ -301,33 +301,71 @@ void setup() {
   display.setBrightness(5, true);  // on
   display.setSegments(SEG_WAIT);
   delay(TEST_DELAY);
+
+  
+}
+bool state_btn_Start,state_btn_OK,state_btn_NG;
+void func_button(){
+
+  if(SW_Button_Start.isPressed() && state_btn_Start){
+    IsRunning = true;
+    judgement = -1;
+    state_btn_Start = false;
+    sendSerialCommand("start");
+  } else if(!SW_Button_Start.isPressed())
+  {
+    state_btn_Start = true;
+  } 
+
+  if(SW_Button_JudgeNG.isPressed() && state_btn_NG){
+    judgement = 0;
+    state_btn_NG = false;
+    sendSerialCommand("NG");
+  }else if(!SW_Button_JudgeNG.isPressed()){
+     state_btn_NG = true;
+  }
+
+  if(SW_Button_JudgeOK.isPressed() && state_btn_OK){
+    judgement = 1;
+    state_btn_OK = false;
+    sendSerialCommand("OK");
+  }else if(!SW_Button_JudgeOK.isPressed()){
+    state_btn_OK = true;
+  }
 }
 
 void loop() {
-  //
+  
+func_button();
+
   //-- Received data --//
   if (stringComplete == true) {
     // If received image
     if (inputString == "NG" || inputString == "PASS") {
       if (inputString == "NG") {
-        //
+        judgement = 0;
       } else if (inputString == "PASS") {
-        //
+        judgement = 1;
       }
+
     } else if (inputString == "conn") {
       state_connected = true;
       isConnectChange = true;
-      sendDataToSerialPort(inputString);
+      sendSerialCommand(inputString);
     } else if (inputString == "close") {
       state_connected = false;
       isConnectChange = true;
+    }else if(inputString == "run"){
+      IsRunning = true;
+      judgement = -1;
+    }else if(inputString == "end"){
+      IsRunning = false;
     }
+
     // For control
     if (state_connected && isControlKeys(inputString)) {
       func_control(inputString);
     }
-
-    // sendDataToSerialPort(inputString);
     inputString = "";        // Clear string to empty
     stringComplete = false;  // Reset string is complete to false
   }

@@ -80,6 +80,7 @@ namespace D92A_Automation_Function_V7
 
         private SerialPort _SerialPort;
         private Login login;
+        private Thread thread;
         private int _indexDriverCamera = -1;
 
 
@@ -226,8 +227,6 @@ namespace D92A_Automation_Function_V7
             try
             {
                 dataSerialReceived += ReadDataSerial;
-                
-
                 if (dataSerialReceived.Contains(">") && dataSerialReceived.Contains("<"))
                 {
                     // Remove \r\n
@@ -238,7 +237,16 @@ namespace D92A_Automation_Function_V7
                     int indexStart = data.IndexOf(">") + ">".Length;
                     int indexEnd = data.IndexOf("<");
                     data = data.Substring(indexStart, indexEnd - indexStart);
-                    Console.WriteLine(data);
+                    Console.WriteLine("Received : "+data);
+                    if (data == "start")
+                    {
+                        TestingToolStripMenuItem.PerformClick();
+                    }
+                    else if(data == "end")
+                    {
+
+                    }
+
                     string[] findKeyValue = data.Split(':');
                     if (findKeyValue.Length == 2)
                     {
@@ -268,6 +276,7 @@ namespace D92A_Automation_Function_V7
             {
                 if (_SerialPort != null && _SerialPort.IsOpen)
                 {
+                    
                     _SerialPort.Write(">" + command + "<#");
                     toolStripStatusSerialDetails.Text = "Send : " + command;
                 }
@@ -509,7 +518,7 @@ namespace D92A_Automation_Function_V7
                             txtProcessDetailsAppendText("Judement OK");
                             Console.WriteLine("Judement OK");
                         }                        
-                        Console.WriteLine("Test Image Process...");
+                        //Console.WriteLine("Test Image Process...");
                     }
                     
                     Thread.Sleep(action.delay);
@@ -517,7 +526,9 @@ namespace D92A_Automation_Function_V7
             }
             txtProcessDetailsAppendText("End Process");
             Console.WriteLine("End Process");
+            sendSerialCommand("end");
         }
+
         public void txtProcessDetailsAppendText(string data)
         {
             if (txtProcessDetails.InvokeRequired)
@@ -529,6 +540,7 @@ namespace D92A_Automation_Function_V7
                 });
             }
         }
+
         public double ProcessCompare(string path_master)
         {
             if (!File.Exists(path_master))
@@ -553,16 +565,6 @@ namespace D92A_Automation_Function_V7
 
             return result;
         }
-
-        //private static Bitmap GetBtmCam()
-        //{
-        //    Bitmap btmCam;
-        //    //if (thsi.pictureBoxCamera.InvokeRequired)
-        //    //{
-        //    //    pictureBoxCamera.Invoke((MethodInvoker)delegate { btmCam = new Bitmap(pictureBoxCamera.Image); });
-        //    //}
-        //    return btmCam;
-        //}
 
         public double Compare(Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> imageMaster, Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> imageSlave, string path = null, string stepname = null)
         {
@@ -649,7 +651,6 @@ namespace D92A_Automation_Function_V7
             }
         }
 
-
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(login != null)
@@ -660,15 +661,20 @@ namespace D92A_Automation_Function_V7
             login = new Login(this);
             login.Show(this);
         }
-        Thread thread;
 
         private void TestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            sendSerialCommand("run");
             //ProcessTesting();
             if (thread != null)
+            {
+                thread.Abort();
                 thread.DisableComObjectEagerCleanup();
+                thread= null;
+            }
             thread = new Thread(new ThreadStart(ProcessTesting));
             thread.Start();
+            
         }
     }
 }
