@@ -33,14 +33,10 @@
             this.groupBoxItem = new System.Windows.Forms.GroupBox();
             this.dataGridViewItemList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripItenList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddItem = new System.Windows.Forms.Button();
             this.groupBoxActions = new System.Windows.Forms.GroupBox();
             this.dataGridViewActionList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripActionList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
-            this.addAction = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddActions = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusItemId = new System.Windows.Forms.ToolStripStatusLabel();
@@ -50,6 +46,11 @@
             this.editModelNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbModelName = new System.Windows.Forms.Label();
+            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
+            this.addAction = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -124,16 +125,10 @@
             // contextMenuStripItenList
             // 
             this.contextMenuStripItenList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editItemToolStripMenuItem,
             this.deleteItemList});
             this.contextMenuStripItenList.Name = "contextMenuStripItenList";
-            this.contextMenuStripItenList.Size = new System.Drawing.Size(108, 26);
-            // 
-            // deleteItemList
-            // 
-            this.deleteItemList.Name = "deleteItemList";
-            this.deleteItemList.Size = new System.Drawing.Size(107, 22);
-            this.deleteItemList.Text = "Delete";
-            this.deleteItemList.Click += new System.EventHandler(this.deleteItemList_Click);
+            this.contextMenuStripItenList.Size = new System.Drawing.Size(181, 70);
             // 
             // btnAddItem
             // 
@@ -184,27 +179,6 @@
             this.deleteActionList});
             this.contextMenuStripActionList.Name = "contextMenuStripActionList";
             this.contextMenuStripActionList.Size = new System.Drawing.Size(135, 70);
-            // 
-            // viewActionList
-            // 
-            this.viewActionList.Name = "viewActionList";
-            this.viewActionList.Size = new System.Drawing.Size(134, 22);
-            this.viewActionList.Text = "View";
-            this.viewActionList.Click += new System.EventHandler(this.viewActionList_Click);
-            // 
-            // addAction
-            // 
-            this.addAction.Name = "addAction";
-            this.addAction.Size = new System.Drawing.Size(134, 22);
-            this.addAction.Text = "Add Action";
-            this.addAction.Click += new System.EventHandler(this.btnAddActions_Click);
-            // 
-            // deleteActionList
-            // 
-            this.deleteActionList.Name = "deleteActionList";
-            this.deleteActionList.Size = new System.Drawing.Size(134, 22);
-            this.deleteActionList.Text = "Delete";
-            this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
             // 
             // btnAddActions
             // 
@@ -263,14 +237,14 @@
             // editModelNameToolStripMenuItem
             // 
             this.editModelNameToolStripMenuItem.Name = "editModelNameToolStripMenuItem";
-            this.editModelNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editModelNameToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.editModelNameToolStripMenuItem.Text = "Edit Model Name";
             this.editModelNameToolStripMenuItem.Click += new System.EventHandler(this.editModelNameToolStripMenuItem_Click);
             // 
             // deleteModelToolStripMenuItem
             // 
             this.deleteModelToolStripMenuItem.Name = "deleteModelToolStripMenuItem";
-            this.deleteModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteModelToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.deleteModelToolStripMenuItem.Text = "Delete Model";
             // 
             // lbModelName
@@ -285,6 +259,46 @@
             this.lbModelName.TabIndex = 4;
             this.lbModelName.Text = "-------------------";
             this.lbModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // editItemToolStripMenuItem
+            // 
+            this.editItemToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.edit_property_32;
+            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editItemToolStripMenuItem.Text = "Edit Item";
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            // 
+            // deleteItemList
+            // 
+            this.deleteItemList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
+            this.deleteItemList.Name = "deleteItemList";
+            this.deleteItemList.Size = new System.Drawing.Size(180, 22);
+            this.deleteItemList.Text = "Delete";
+            this.deleteItemList.Click += new System.EventHandler(this.deleteItemList_Click);
+            // 
+            // viewActionList
+            // 
+            this.viewActionList.Image = global::D92A_Automation_Function_V7.Properties.Resources.view_32;
+            this.viewActionList.Name = "viewActionList";
+            this.viewActionList.Size = new System.Drawing.Size(134, 22);
+            this.viewActionList.Text = "View";
+            this.viewActionList.Click += new System.EventHandler(this.viewActionList_Click);
+            // 
+            // addAction
+            // 
+            this.addAction.Image = global::D92A_Automation_Function_V7.Properties.Resources.add_list_32;
+            this.addAction.Name = "addAction";
+            this.addAction.Size = new System.Drawing.Size(134, 22);
+            this.addAction.Text = "Add Action";
+            this.addAction.Click += new System.EventHandler(this.btnAddActions_Click);
+            // 
+            // deleteActionList
+            // 
+            this.deleteActionList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
+            this.deleteActionList.Name = "deleteActionList";
+            this.deleteActionList.Size = new System.Drawing.Size(134, 22);
+            this.deleteActionList.Text = "Delete";
+            this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
             // 
             // Items
             // 
@@ -342,5 +356,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewActionList;
         private System.Windows.Forms.ToolStripMenuItem addAction;
         public System.Windows.Forms.Label lbModelName;
+        private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
     }
 }

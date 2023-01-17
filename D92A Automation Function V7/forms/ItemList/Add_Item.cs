@@ -48,7 +48,6 @@ namespace D92A_Automation_Function_V7.forms.ItemList
                 // Refresh item list
                 this._item.LoadItemList();
                 this.Close();
-
             }
             catch(Exception ex)
             {

@@ -108,9 +108,11 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.txtName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximumSize = new System.Drawing.Size(406, 311);
             this.MinimumSize = new System.Drawing.Size(406, 311);
             this.Name = "EditModel";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EditModel";
             this.Load += new System.EventHandler(this.EditModel_Load);
             this.ResumeLayout(false);

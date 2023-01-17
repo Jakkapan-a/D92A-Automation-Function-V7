@@ -18,7 +18,7 @@ namespace D92A_Automation_Function_V7.modules
 
         public void Save()
         {
-            if (this.model_id == 0)
+            if (this.model_id == -1)
             {
                 throw new Exception("Model ID is required");
             }
@@ -69,6 +69,14 @@ namespace D92A_Automation_Function_V7.modules
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@model_id", model_id);
             return SQliteDataAccess.LoadData<_ItemsList>(sql, parameters);
+        }
+
+        public static _ItemsList LoadItemById(int id)
+        {
+            string sql = "SELECT * FROM itemslist WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            return SQliteDataAccess.LoadData<_ItemsList>(sql, parameters).FirstOrDefault();
         }
     }
 }

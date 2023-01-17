@@ -66,7 +66,7 @@ namespace D92A_Automation_Function_V7
             dataGridViewItemList.Columns[0].Visible = false;
             dataGridViewItemList.Columns[1].Width = (int)(dataGridViewItemList.Width * 0.1);
         }
-         public void LoadActionsList()
+        public void LoadActionsList()
         {
             dataGridViewActionList.DataSource = null;
             if (item_id == -1)
@@ -89,7 +89,9 @@ namespace D92A_Automation_Function_V7
             dataGridViewActionList.Columns[0].Visible = false;
             dataGridViewActionList.Columns[1].Width = (int)(dataGridViewActionList.Width * 0.1);
         }
+        
         private Add_Item add_item;
+
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             try
@@ -184,10 +186,28 @@ namespace D92A_Automation_Function_V7
                 view.Show(this);
             }
         }
-
+        EditModel editModel;
         private void editModelNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (editModel != null)
+            {
+                editModel.Dispose();
+                editModel = null;
+            }
+            editModel = new EditModel(this,model_id);
+            editModel.Show(this);
+        }
 
+        Edit_Item edit_Item;
+        private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (edit_Item != null)
+            {
+                edit_Item.Dispose();
+                edit_Item = null;
+            }
+            edit_Item = new Edit_Item(this,item_id);
+            edit_Item.Show(this);
         }
     }
 }

@@ -47,7 +47,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(380, 33);
             this.label4.TabIndex = 16;
-            this.label4.Text = "Add Item";
+            this.label4.Text = "Edit Item";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -106,6 +106,7 @@
             this.btnUpdate.TabIndex = 10;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // txtItemName
             // 
@@ -135,6 +136,7 @@
             this.Name = "Edit_Item";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit_Item";
+            this.Load += new System.EventHandler(this.Edit_Item_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
