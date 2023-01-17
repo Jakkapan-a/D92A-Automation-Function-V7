@@ -24,13 +24,15 @@ namespace D92A_Automation_Function_V7.forms.ItemList
         {
             comboBoxType.Items.Clear();
             comboBoxType.Items.AddRange(type_items);
+            if(comboBoxType.Items.Count > 0)
+                comboBoxType.SelectedIndex = 0;
         }
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             try
             {
                 // Validate
-                if (_item != null)
+                if (_item == null)
                     throw new Exception("Component is invalid");
                 if (txtItemName.Text.Trim() == string.Empty)
                     throw new Exception("Name is Empty!");

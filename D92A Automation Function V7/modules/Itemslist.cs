@@ -65,7 +65,7 @@ namespace D92A_Automation_Function_V7.modules
 
         public static List<_ItemsList> LoadItems(int model_id)
         {
-            string sql = "SELECT * FROM itemslist WHERE model_id = @model_id ORDER BY step ASC";
+            string sql = "SELECT * FROM itemslist WHERE model_id = @model_id ORDER BY id ASC";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@model_id", model_id);
             return SQliteDataAccess.LoadData<_ItemsList>(sql, parameters);

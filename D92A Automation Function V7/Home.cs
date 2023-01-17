@@ -393,7 +393,7 @@ namespace D92A_Automation_Function_V7
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 1)
+            if (tabControl.SelectedIndex == 1)
             {
                 loadModel();
             }
@@ -665,6 +665,10 @@ namespace D92A_Automation_Function_V7
 
         private void TestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Vavidate
+            
+
+            // 
             sendSerialCommand("run");
             //ProcessTesting();
             if (thread != null)
@@ -676,6 +680,11 @@ namespace D92A_Automation_Function_V7
             thread = new Thread(new ThreadStart(ProcessTesting));
             thread.Start();
             
+        }
+
+        private void settingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabControl.SelectTab(1);
         }
     }
 }

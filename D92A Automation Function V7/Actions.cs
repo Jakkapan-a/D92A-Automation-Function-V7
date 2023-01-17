@@ -41,11 +41,21 @@ namespace D92A_Automation_Function_V7
         };
 
         private Items Items;
+        private _ItemsList _itemsList;
         public Actions(Items Items, int item_id)
         {
             InitializeComponent();
             this.item_id = item_id;
             this.Items = Items;
+            _itemsList = _ItemsList.LoadItemById(item_id);
+            if(_itemsList._type == 2)
+            {
+                btnIO_TypeWaitJudgment.Visible = false;
+                lbTimeOut.Visible = false;
+                txtTimeOut.Visible = false;
+                lbTimeOutS.Visible = false;
+                lbButtom.Visible = false;
+            }
         }
         private void Actions_Load(object sender, EventArgs e)
         {

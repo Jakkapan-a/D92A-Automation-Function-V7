@@ -39,26 +39,31 @@
             this.iOTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelHomeHeader = new System.Windows.Forms.TableLayoutPanel();
             this.lbModelName = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panelHome = new System.Windows.Forms.Panel();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelHome = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelHome2 = new System.Windows.Forms.TableLayoutPanel();
             this.txtProcessDetails = new System.Windows.Forms.RichTextBox();
+            this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
             this.dataGridViewHistory = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtSerialProduct = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnEditModel = new System.Windows.Forms.Button();
             this.btnAddModel = new System.Windows.Forms.Button();
             this.dataGridViewModelList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxConnection = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -71,27 +76,25 @@
             this.toolStripStatusSerialPort = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
-            this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label6 = new System.Windows.Forms.Label();
+            this.checkBoxTypeAuto = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanelHome.SuspendLayout();
             this.tableLayoutPanelHome2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
             this.contextMenuStripModel.SuspendLayout();
             this.groupBoxConnection.SuspendLayout();
             this.statusStripHome.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStripHome
@@ -167,6 +170,13 @@
             this.TestingToolStripMenuItem.Text = "Testing";
             this.TestingToolStripMenuItem.Click += new System.EventHandler(this.TestingToolStripMenuItem_Click);
             // 
+            // settingToolStripMenuItem
+            // 
+            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingToolStripMenuItem.Text = "Setting";
+            this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
+            // 
             // tableLayoutPanelHomeHeader
             // 
             this.tableLayoutPanelHomeHeader.ColumnCount = 3;
@@ -217,26 +227,26 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelHome.BackColor = System.Drawing.Color.Transparent;
-            this.panelHome.Controls.Add(this.tabControl1);
+            this.panelHome.Controls.Add(this.tabControl);
             this.panelHome.Location = new System.Drawing.Point(3, 116);
             this.panelHome.Margin = new System.Windows.Forms.Padding(5);
             this.panelHome.Name = "panelHome";
             this.panelHome.Size = new System.Drawing.Size(831, 420);
             this.panelHome.TabIndex = 6;
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(3, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(825, 414);
-            this.tabControl1.TabIndex = 0;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage3);
+            this.tabControl.Location = new System.Drawing.Point(3, 3);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(825, 414);
+            this.tabControl.TabIndex = 0;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -256,8 +266,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelHome.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome.ColumnCount = 2;
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 500F));
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
             this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
@@ -280,12 +290,12 @@
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 1);
             this.tableLayoutPanelHome2.Controls.Add(this.dataGridViewHistory, 1, 0);
             this.tableLayoutPanelHome2.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(325, 4);
+            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(307, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(476, 371);
+            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(494, 371);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
             // txtProcessDetails
@@ -293,11 +303,23 @@
             this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProcessDetails.Location = new System.Drawing.Point(241, 189);
+            this.txtProcessDetails.Location = new System.Drawing.Point(250, 189);
             this.txtProcessDetails.Name = "txtProcessDetails";
-            this.txtProcessDetails.Size = new System.Drawing.Size(231, 178);
+            this.txtProcessDetails.Size = new System.Drawing.Size(240, 178);
             this.txtProcessDetails.TabIndex = 1;
             this.txtProcessDetails.Text = "";
+            // 
+            // pictureBoxDetect
+            // 
+            this.pictureBoxDetect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxDetect.Location = new System.Drawing.Point(4, 189);
+            this.pictureBoxDetect.Name = "pictureBoxDetect";
+            this.pictureBoxDetect.Size = new System.Drawing.Size(239, 178);
+            this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxDetect.TabIndex = 0;
+            this.pictureBoxDetect.TabStop = false;
             // 
             // dataGridViewHistory
             // 
@@ -305,9 +327,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewHistory.Location = new System.Drawing.Point(241, 4);
+            this.dataGridViewHistory.Location = new System.Drawing.Point(250, 4);
             this.dataGridViewHistory.Name = "dataGridViewHistory";
-            this.dataGridViewHistory.Size = new System.Drawing.Size(231, 178);
+            this.dataGridViewHistory.Size = new System.Drawing.Size(240, 178);
             this.dataGridViewHistory.TabIndex = 2;
             // 
             // panel1
@@ -315,37 +337,58 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.checkBoxTypeAuto);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.txtSerialProduct);
+            this.panel1.Controls.Add(this.txtName);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(230, 178);
+            this.panel1.Size = new System.Drawing.Size(239, 178);
             this.panel1.TabIndex = 3;
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(224, 42);
+            this.label4.Size = new System.Drawing.Size(233, 52);
             this.label4.TabIndex = 1;
-            this.label4.Text = "label4";
+            this.label4.Text = "Input";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox3
+            // txtSerialProduct
             // 
-            this.textBox3.Location = new System.Drawing.Point(79, 136);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(148, 20);
-            this.textBox3.TabIndex = 0;
+            this.txtSerialProduct.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSerialProduct.Location = new System.Drawing.Point(79, 116);
+            this.txtSerialProduct.Name = "txtSerialProduct";
+            this.txtSerialProduct.Size = new System.Drawing.Size(157, 20);
+            this.txtSerialProduct.TabIndex = 0;
             // 
-            // textBox2
+            // txtName
             // 
-            this.textBox2.Location = new System.Drawing.Point(79, 78);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(148, 20);
-            this.textBox2.TabIndex = 0;
+            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtName.Location = new System.Drawing.Point(79, 78);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(157, 20);
+            this.txtName.TabIndex = 0;
+            // 
+            // pictureBoxCamera
+            // 
+            this.pictureBoxCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
+            this.pictureBoxCamera.Name = "pictureBoxCamera";
+            this.pictureBoxCamera.Size = new System.Drawing.Size(296, 371);
+            this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCamera.TabIndex = 1;
+            this.pictureBoxCamera.TabStop = false;
             // 
             // tabPage3
             // 
@@ -421,6 +464,22 @@
             this.addModelToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.addModelToolStripMenuItem.Text = "Add Model";
             this.addModelToolStripMenuItem.Click += new System.EventHandler(this.btnAddModel_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.edit_property_32;
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.btnEditModel_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // groupBoxConnection
             // 
@@ -532,51 +591,34 @@
             this.toolStripStatusLabelModelID.Size = new System.Drawing.Size(122, 19);
             this.toolStripStatusLabelModelID.Text = "toolStripStatusLabel1";
             // 
-            // pictureBoxDetect
+            // label6
             // 
-            this.pictureBoxDetect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxDetect.Location = new System.Drawing.Point(4, 189);
-            this.pictureBoxDetect.Name = "pictureBoxDetect";
-            this.pictureBoxDetect.Size = new System.Drawing.Size(230, 178);
-            this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxDetect.TabIndex = 0;
-            this.pictureBoxDetect.TabStop = false;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(30, 81);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Name :";
             // 
-            // pictureBoxCamera
+            // checkBoxTypeAuto
             // 
-            this.pictureBoxCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
-            this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(314, 371);
-            this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCamera.TabIndex = 1;
-            this.pictureBoxCamera.TabStop = false;
+            this.checkBoxTypeAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxTypeAuto.AutoSize = true;
+            this.checkBoxTypeAuto.Location = new System.Drawing.Point(188, 142);
+            this.checkBoxTypeAuto.Name = "checkBoxTypeAuto";
+            this.checkBoxTypeAuto.Size = new System.Drawing.Size(48, 17);
+            this.checkBoxTypeAuto.TabIndex = 3;
+            this.checkBoxTypeAuto.Text = "Auto";
+            this.checkBoxTypeAuto.UseVisualStyleBackColor = true;
             // 
-            // editToolStripMenuItem
+            // label7
             // 
-            this.editToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.edit_property_32;
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
-            this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.btnEditModel_Click);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // settingToolStripMenuItem
-            // 
-            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.settingToolStripMenuItem.Text = "Setting";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(38, 116);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(33, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "S/N :";
             // 
             // Home
             // 
@@ -599,13 +641,15 @@
             this.tableLayoutPanelHomeHeader.ResumeLayout(false);
             this.tableLayoutPanelHomeHeader.PerformLayout();
             this.panelHome.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanelHome.ResumeLayout(false);
             this.tableLayoutPanelHome2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
             this.contextMenuStripModel.ResumeLayout(false);
@@ -613,8 +657,6 @@
             this.groupBoxConnection.PerformLayout();
             this.statusStripHome.ResumeLayout(false);
             this.statusStripHome.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -631,7 +673,7 @@
         private System.Windows.Forms.ToolStripMenuItem systemToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelHomeHeader;
         private System.Windows.Forms.Panel panelHome;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.StatusStrip statusStripHome;
@@ -665,9 +707,12 @@
         private System.Windows.Forms.DataGridView dataGridViewHistory;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtSerialProduct;
+        private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBoxTypeAuto;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }
 

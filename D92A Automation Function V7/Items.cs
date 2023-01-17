@@ -16,6 +16,7 @@ namespace D92A_Automation_Function_V7
     {
         public int model_id = -1;
         private int item_id = -1;
+        private string[] type_items = { "Normal", "Manual", "Auto" };
         Models model;
         Actions actions;
         private string path_image = string.Empty;
@@ -60,7 +61,8 @@ namespace D92A_Automation_Function_V7
                         {
                             x.id,
                             No = ++i,
-                            Name = x.name
+                            Name = x.name,
+                            Type = type_items[x._type]
                         }).ToList();
             dataGridViewItemList.DataSource = data;
             dataGridViewItemList.Columns[0].Visible = false;
