@@ -38,6 +38,8 @@ namespace D92A_Automation_Function_V7
             models.description = txtDescription.Text.Trim();
             models.Update();
             this.Items.lbModelName.Text = models.name;
+            this.Items.LoadItemList();
+            this.Close();
         }
     }
 }

@@ -34,14 +34,13 @@
             this.dataGridViewItemList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripItenList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtItemName = new System.Windows.Forms.TextBox();
             this.btnAddItem = new System.Windows.Forms.Button();
             this.groupBoxActions = new System.Windows.Forms.GroupBox();
             this.dataGridViewActionList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripActionList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.addAction = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddActions = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusItemId = new System.Windows.Forms.ToolStripStatusLabel();
@@ -94,7 +93,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxItem.Controls.Add(this.dataGridViewItemList);
-            this.groupBoxItem.Controls.Add(this.txtItemName);
             this.groupBoxItem.Controls.Add(this.btnAddItem);
             this.groupBoxItem.Location = new System.Drawing.Point(3, 3);
             this.groupBoxItem.Name = "groupBoxItem";
@@ -136,15 +134,6 @@
             this.deleteItemList.Size = new System.Drawing.Size(107, 22);
             this.deleteItemList.Text = "Delete";
             this.deleteItemList.Click += new System.EventHandler(this.deleteItemList_Click);
-            // 
-            // txtItemName
-            // 
-            this.txtItemName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtItemName.Location = new System.Drawing.Point(6, 314);
-            this.txtItemName.Name = "txtItemName";
-            this.txtItemName.Size = new System.Drawing.Size(167, 20);
-            this.txtItemName.TabIndex = 1;
             // 
             // btnAddItem
             // 
@@ -196,13 +185,6 @@
             this.contextMenuStripActionList.Name = "contextMenuStripActionList";
             this.contextMenuStripActionList.Size = new System.Drawing.Size(135, 70);
             // 
-            // deleteActionList
-            // 
-            this.deleteActionList.Name = "deleteActionList";
-            this.deleteActionList.Size = new System.Drawing.Size(134, 22);
-            this.deleteActionList.Text = "Delete";
-            this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
-            // 
             // viewActionList
             // 
             this.viewActionList.Name = "viewActionList";
@@ -216,6 +198,13 @@
             this.addAction.Size = new System.Drawing.Size(134, 22);
             this.addAction.Text = "Add Action";
             this.addAction.Click += new System.EventHandler(this.btnAddActions_Click);
+            // 
+            // deleteActionList
+            // 
+            this.deleteActionList.Name = "deleteActionList";
+            this.deleteActionList.Size = new System.Drawing.Size(134, 22);
+            this.deleteActionList.Text = "Delete";
+            this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
             // 
             // btnAddActions
             // 
@@ -281,7 +270,7 @@
             // deleteModelToolStripMenuItem
             // 
             this.deleteModelToolStripMenuItem.Name = "deleteModelToolStripMenuItem";
-            this.deleteModelToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.deleteModelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteModelToolStripMenuItem.Text = "Delete Model";
             // 
             // lbModelName
@@ -316,7 +305,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.groupBoxItem.ResumeLayout(false);
-            this.groupBoxItem.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewItemList)).EndInit();
             this.contextMenuStripItenList.ResumeLayout(false);
             this.groupBoxActions.ResumeLayout(false);
@@ -340,7 +328,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusItemId;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem maToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtItemName;
         private System.Windows.Forms.GroupBox groupBoxItem;
         private System.Windows.Forms.DataGridView dataGridViewItemList;
         private System.Windows.Forms.GroupBox groupBoxActions;

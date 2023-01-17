@@ -59,6 +59,8 @@ namespace D92A_Automation_Function_V7
 
             comboBoxIOPort.Items.AddRange(masterNameKeys);
             comboBoxIOPort.SelectedIndex = 0;
+
+            btnSelectedIOFunction.Select();
         }
 
         LoadImage loadImage;
@@ -101,10 +103,14 @@ namespace D92A_Automation_Function_V7
                 actions.item_id = item_id;
                 actions.name = btnSelectedIOFunction.Checked ? "IO Fuction" : "Image Fuction";
                 actions._type = btnSelectedIOFunction.Checked ? 0 : 1;  // 0 = IO, 1 = Image
-                actions.io_type = btnTypeManual.Checked ? 0 : 1;        // 0 = Manual, 1 = Auto
+
+                if (TypeActionOfIO() == -1 && btnSelectedIOFunction.Checked)
+                    throw new Exception("Type of IO is invalid!.");
+                actions.io_type = TypeActionOfIO();     // 0 = Manual, 1 = Auto, 3 = Wait judment
                 actions.io_state = checkBocON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
                 actions.io_port = (comboBoxIOPort.SelectedIndex+1 < 10) ? "R0" + (comboBoxIOPort.SelectedIndex + 1).ToString() : "R" + (comboBoxIOPort.SelectedIndex + 1).ToString();
                 actions.io_name = comboBoxIOPort.SelectedItem.ToString();
+                actions.io_timeout = (int)txtTimeOut.Value;
                 actions.delay = (int)txtDelay.Value;
                 actions.auto_delay = (int)txtAutoDelay.Value;
                 string filename = !btnSelectedIOFunction.Checked ? saveFileImage() : "";
@@ -120,6 +126,17 @@ namespace D92A_Automation_Function_V7
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+        private int TypeActionOfIO()
+        {
+            if(btnIO_TypeManual.Checked)
+                return 0;
+            else if(btnIO_TypeAuto.Checked)
+                return 1;
+            else if(btnIO_TypeWaitJudgment.Checked)
+                return 2;
+
+            return -1;
         }
         private string saveFileImage()
         {

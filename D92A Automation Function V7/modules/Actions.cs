@@ -12,23 +12,24 @@ namespace D92A_Automation_Function_V7.modules
         public int id { get; set; }
         public int item_id { get; set; }
         public string name { get; set; }
-        public int _type { get; set; } // 0 = IO, 1 = Image
+        public int _type { get; set; }          // 0 = IO, 1 = Image
         public string image_path { get; set; }
         public int image_percent { get; set; }
         public int image_status { get; set; }
         public string io_port { get; set; }
         public string io_name { get; set; }
-        public int io_type { get; set; }    // 0 = Manual, 1 = Auto
-        public int io_state { get; set; }   // Active in io_type = 0;
-        public int delay { get; set; }      // Active after end process = 0;
-        public int auto_delay { get; set; }  // Active in Auto = 0;
+        public int io_type { get; set; }        // 0 = Manual, 1 = Auto
+        public int io_state { get; set; }       // Active in io_type = 0;
+        public int io_timeout { get; set; }     // Second
+        public int delay { get; set; }          // Active after end process = 0;
+        public int auto_delay { get; set; }     // Active in Auto = 0;
         public string created_at { get; set; }
         public string updated_at { get; set; }
 
         #region Save Action
         public void Save()
         {
-            string sql = "INSERT INTO actions (item_id, name, _type, image_path, image_percent, image_status, io_port, io_name, io_type, io_state, delay, auto_delay,created_at,updated_at) VALUES (@item_id, @name, @_type, @image_path, @image_percent, @image_status, @io_port, @io_name, @io_type, @io_state, @delay, @auto_delay,@created_at,@updated_at)";
+            string sql = "INSERT INTO actions (item_id, name, _type, image_path, image_percent, image_status, io_port, io_name, io_type, io_state,io_timeout, delay, auto_delay,created_at,updated_at) VALUES (@item_id, @name, @_type, @image_path, @image_percent, @image_status, @io_port, @io_name, @io_type, @io_state,@io_timeout, @delay, @auto_delay,@created_at,@updated_at)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@item_id", item_id);
             parameters.Add("@name", name);
@@ -40,6 +41,7 @@ namespace D92A_Automation_Function_V7.modules
             parameters.Add("@io_name", io_name);
             parameters.Add("@io_type", io_type);
             parameters.Add("@io_state", io_state);
+            parameters.Add("@io_timeout", io_timeout);
             parameters.Add("@delay", delay);
             parameters.Add("@auto_delay", auto_delay);
             parameters.Add("@created_at", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -70,7 +72,7 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
-        #region Update DeleteTemp
+        #region Update ToTemp
         public static void ToTemp(int id)
         {
             string sql = "UPDATE actions SET image_status = @image_status, updated_at = @updated_at WHERE id = @id";
@@ -81,6 +83,7 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
+
         #region Update DeleteTemp
         public static void DeleteTemp()
         {
@@ -108,7 +111,8 @@ namespace D92A_Automation_Function_V7.modules
             return SQliteDataAccess.LoadData<modules.Actions>(sql, parameters);
         }
         #endregion
-        #region ByItem
+
+        #region byItemToTemp
         public static void byItemToTemp(int item_id)
         {
             string sql = "UPDATE actions SET image_status = @image_status, updated_at = @updated_at WHERE item_id = @item_id";

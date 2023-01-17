@@ -1,4 +1,5 @@
-﻿using D92A_Automation_Function_V7.modules;
+﻿using D92A_Automation_Function_V7.forms.ItemList;
+using D92A_Automation_Function_V7.modules;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace D92A_Automation_Function_V7
 {
     public partial class Items : Form
     {
-        private int model_id = -1;
+        public int model_id = -1;
         private int item_id = -1;
         Models model;
         Actions actions;
@@ -88,25 +89,21 @@ namespace D92A_Automation_Function_V7
             dataGridViewActionList.Columns[0].Visible = false;
             dataGridViewActionList.Columns[1].Width = (int)(dataGridViewActionList.Width * 0.1);
         }
-
+        private Add_Item add_item;
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             try
             {
-                if(txtItemName.Text.Trim() == string.Empty)
+                if(add_item != null)
                 {
-                    throw new Exception("Item name is required");
+                    add_item?.Dispose();
+                    add_item = null;
+                    
                 }
-                // Add new item
-                _ItemsList item = new _ItemsList();
-                item.name = txtItemName.Text.Trim();
-                item.model_id = model_id;
-                item.Save();
-                // Load Items from database
-                LoadItemList();
-                item = null;
-                // Clear text
-                txtItemName.Text = string.Empty;
+                add_item = new Add_Item(this);
+                add_item.Name = "Add Item ";
+                add_item.Show(this);
+                
             }
             catch (Exception ex)
             {

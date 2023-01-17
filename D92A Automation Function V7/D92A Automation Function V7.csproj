@@ -159,6 +159,18 @@
     <Compile Include="EditModel.Designer.cs">
       <DependentUpon>EditModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\ItemList\Add_Item.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ItemList\Add_Item.Designer.cs">
+      <DependentUpon>Add_Item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ItemList\Edit_Item.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ItemList\Edit_Item.Designer.cs">
+      <DependentUpon>Edit_Item.cs</DependentUpon>
+    </Compile>
     <Compile Include="Home.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +223,12 @@
     <EmbeddedResource Include="EditModel.resx">
       <DependentUpon>EditModel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\ItemList\Add_Item.resx">
+      <DependentUpon>Add_Item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ItemList\Edit_Item.resx">
+      <DependentUpon>Edit_Item.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Home.resx">
       <DependentUpon>Home.cs</DependentUpon>
     </EmbeddedResource>
@@ -261,6 +279,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Light_Off_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_production_order_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash_can_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_list_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_property_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -63,6 +63,36 @@ namespace D92A_Automation_Function_V7.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap add_list_32 {
+            get {
+                object obj = ResourceManager.GetObject("add_list_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_production_order_16 {
+            get {
+                object obj = ResourceManager.GetObject("edit_production_order_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_property_32 {
+            get {
+                object obj = ResourceManager.GetObject("edit_property_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Light_32 {
             get {
                 object obj = ResourceManager.GetObject("Light_32", resourceCulture);
@@ -76,6 +106,26 @@ namespace D92A_Automation_Function_V7.Properties {
         internal static System.Drawing.Bitmap Light_Off_32 {
             get {
                 object obj = ResourceManager.GetObject("Light_Off_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_16 {
+            get {
+                object obj = ResourceManager.GetObject("settings_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap trash_can_16 {
+            get {
+                object obj = ResourceManager.GetObject("trash_can_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

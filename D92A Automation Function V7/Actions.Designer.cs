@@ -46,8 +46,8 @@
             this.checkBocON = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxIOPort = new System.Windows.Forms.ComboBox();
-            this.btnTypeAuto = new System.Windows.Forms.RadioButton();
-            this.btnTypeManual = new System.Windows.Forms.RadioButton();
+            this.btnIO_TypeAuto = new System.Windows.Forms.RadioButton();
+            this.btnIO_TypeManual = new System.Windows.Forms.RadioButton();
             this.btnLoadImage = new System.Windows.Forms.Button();
             this.txtPercent = new System.Windows.Forms.NumericUpDown();
             this.groupBoxImage = new System.Windows.Forms.GroupBox();
@@ -57,12 +57,18 @@
             this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btnIO_TypeWaitJudgment = new System.Windows.Forms.RadioButton();
+            this.txtTimeOut = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBoxIO.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPercent)).BeginInit();
             this.groupBoxImage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTimeOut)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSaveAction
@@ -104,20 +110,25 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBoxIO.Controls.Add(this.label12);
             this.groupBoxIO.Controls.Add(this.label8);
+            this.groupBoxIO.Controls.Add(this.label13);
             this.groupBoxIO.Controls.Add(this.label7);
             this.groupBoxIO.Controls.Add(this.label3);
             this.groupBoxIO.Controls.Add(this.label5);
+            this.groupBoxIO.Controls.Add(this.label15);
             this.groupBoxIO.Controls.Add(this.label4);
             this.groupBoxIO.Controls.Add(this.label6);
+            this.groupBoxIO.Controls.Add(this.label14);
             this.groupBoxIO.Controls.Add(this.label2);
             this.groupBoxIO.Controls.Add(this.txtDelay);
+            this.groupBoxIO.Controls.Add(this.txtTimeOut);
             this.groupBoxIO.Controls.Add(this.txtAutoDelay);
             this.groupBoxIO.Controls.Add(this.checkBoxOFF);
             this.groupBoxIO.Controls.Add(this.checkBocON);
             this.groupBoxIO.Controls.Add(this.label1);
             this.groupBoxIO.Controls.Add(this.comboBoxIOPort);
-            this.groupBoxIO.Controls.Add(this.btnTypeAuto);
-            this.groupBoxIO.Controls.Add(this.btnTypeManual);
+            this.groupBoxIO.Controls.Add(this.btnIO_TypeWaitJudgment);
+            this.groupBoxIO.Controls.Add(this.btnIO_TypeAuto);
+            this.groupBoxIO.Controls.Add(this.btnIO_TypeManual);
             this.groupBoxIO.Location = new System.Drawing.Point(12, 49);
             this.groupBoxIO.Name = "groupBoxIO";
             this.groupBoxIO.Size = new System.Drawing.Size(205, 461);
@@ -164,7 +175,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(166, 312);
+            this.label5.Location = new System.Drawing.Point(166, 383);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(24, 15);
             this.label5.TabIndex = 5;
@@ -184,7 +195,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(27, 288);
+            this.label6.Location = new System.Drawing.Point(27, 359);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(115, 15);
             this.label6.TabIndex = 5;
@@ -203,7 +214,7 @@
             // txtDelay
             // 
             this.txtDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDelay.Location = new System.Drawing.Point(71, 310);
+            this.txtDelay.Location = new System.Drawing.Point(71, 381);
             this.txtDelay.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -212,6 +223,8 @@
             this.txtDelay.Name = "txtDelay";
             this.txtDelay.Size = new System.Drawing.Size(91, 21);
             this.txtDelay.TabIndex = 4;
+            this.txtDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDelay.ThousandsSeparator = true;
             this.txtDelay.Value = new decimal(new int[] {
             1000,
             0,
@@ -230,6 +243,8 @@
             this.txtAutoDelay.Name = "txtAutoDelay";
             this.txtAutoDelay.Size = new System.Drawing.Size(91, 21);
             this.txtAutoDelay.TabIndex = 4;
+            this.txtAutoDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtAutoDelay.ThousandsSeparator = true;
             this.txtAutoDelay.Value = new decimal(new int[] {
             500,
             0,
@@ -279,29 +294,29 @@
             this.comboBoxIOPort.Size = new System.Drawing.Size(95, 23);
             this.comboBoxIOPort.TabIndex = 1;
             // 
-            // btnTypeAuto
+            // btnIO_TypeAuto
             // 
-            this.btnTypeAuto.AutoSize = true;
-            this.btnTypeAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTypeAuto.Location = new System.Drawing.Point(9, 207);
-            this.btnTypeAuto.Name = "btnTypeAuto";
-            this.btnTypeAuto.Size = new System.Drawing.Size(96, 19);
-            this.btnTypeAuto.TabIndex = 0;
-            this.btnTypeAuto.TabStop = true;
-            this.btnTypeAuto.Text = "Auto ON/OFF";
-            this.btnTypeAuto.UseVisualStyleBackColor = true;
+            this.btnIO_TypeAuto.AutoSize = true;
+            this.btnIO_TypeAuto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIO_TypeAuto.Location = new System.Drawing.Point(9, 207);
+            this.btnIO_TypeAuto.Name = "btnIO_TypeAuto";
+            this.btnIO_TypeAuto.Size = new System.Drawing.Size(96, 19);
+            this.btnIO_TypeAuto.TabIndex = 0;
+            this.btnIO_TypeAuto.TabStop = true;
+            this.btnIO_TypeAuto.Text = "Auto ON/OFF";
+            this.btnIO_TypeAuto.UseVisualStyleBackColor = true;
             // 
-            // btnTypeManual
+            // btnIO_TypeManual
             // 
-            this.btnTypeManual.AutoSize = true;
-            this.btnTypeManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTypeManual.Location = new System.Drawing.Point(7, 116);
-            this.btnTypeManual.Name = "btnTypeManual";
-            this.btnTypeManual.Size = new System.Drawing.Size(67, 19);
-            this.btnTypeManual.TabIndex = 0;
-            this.btnTypeManual.TabStop = true;
-            this.btnTypeManual.Text = "Manual";
-            this.btnTypeManual.UseVisualStyleBackColor = true;
+            this.btnIO_TypeManual.AutoSize = true;
+            this.btnIO_TypeManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIO_TypeManual.Location = new System.Drawing.Point(7, 116);
+            this.btnIO_TypeManual.Name = "btnIO_TypeManual";
+            this.btnIO_TypeManual.Size = new System.Drawing.Size(67, 19);
+            this.btnIO_TypeManual.TabIndex = 0;
+            this.btnIO_TypeManual.TabStop = true;
+            this.btnIO_TypeManual.Text = "Manual";
+            this.btnIO_TypeManual.UseVisualStyleBackColor = true;
             // 
             // btnLoadImage
             // 
@@ -406,6 +421,66 @@
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // label13
+            // 
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label13.Location = new System.Drawing.Point(8, 345);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(190, 10);
+            this.label13.TabIndex = 7;
+            // 
+            // btnIO_TypeWaitJudgment
+            // 
+            this.btnIO_TypeWaitJudgment.AutoSize = true;
+            this.btnIO_TypeWaitJudgment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIO_TypeWaitJudgment.Location = new System.Drawing.Point(9, 284);
+            this.btnIO_TypeWaitJudgment.Name = "btnIO_TypeWaitJudgment";
+            this.btnIO_TypeWaitJudgment.Size = new System.Drawing.Size(107, 19);
+            this.btnIO_TypeWaitJudgment.TabIndex = 0;
+            this.btnIO_TypeWaitJudgment.TabStop = true;
+            this.btnIO_TypeWaitJudgment.Text = "Wait Judgment";
+            this.btnIO_TypeWaitJudgment.UseVisualStyleBackColor = true;
+            // 
+            // txtTimeOut
+            // 
+            this.txtTimeOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimeOut.Location = new System.Drawing.Point(71, 309);
+            this.txtTimeOut.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.txtTimeOut.Name = "txtTimeOut";
+            this.txtTimeOut.Size = new System.Drawing.Size(91, 21);
+            this.txtTimeOut.TabIndex = 4;
+            this.txtTimeOut.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTimeOut.ThousandsSeparator = true;
+            this.txtTimeOut.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(2, 311);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(63, 15);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Time Out :";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(166, 311);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(13, 15);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "s";
+            // 
             // Actions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -429,6 +504,7 @@
             this.groupBoxImage.ResumeLayout(false);
             this.groupBoxImage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTimeOut)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -442,8 +518,8 @@
         private System.Windows.Forms.Button btnLoadImage;
         private System.Windows.Forms.NumericUpDown txtPercent;
         private System.Windows.Forms.GroupBox groupBoxImage;
-        private System.Windows.Forms.RadioButton btnTypeAuto;
-        private System.Windows.Forms.RadioButton btnTypeManual;
+        private System.Windows.Forms.RadioButton btnIO_TypeAuto;
+        private System.Windows.Forms.RadioButton btnIO_TypeManual;
         private System.Windows.Forms.CheckBox checkBoxOFF;
         private System.Windows.Forms.CheckBox checkBocON;
         private System.Windows.Forms.Label label1;
@@ -464,5 +540,10 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown txtTimeOut;
+        private System.Windows.Forms.RadioButton btnIO_TypeWaitJudgment;
     }
 }

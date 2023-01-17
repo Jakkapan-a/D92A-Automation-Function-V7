@@ -393,7 +393,7 @@ namespace D92A_Automation_Function_V7
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 2)
+            if (tabControl1.SelectedIndex == 1)
             {
                 loadModel();
             }
@@ -438,6 +438,7 @@ namespace D92A_Automation_Function_V7
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             modules.Models.Delete(this.modelId);
+            loadModel();
         }
 
         List<_ItemsList> _Items;
