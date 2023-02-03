@@ -61,28 +61,31 @@ TM1637Display display(CLK, DIO);
 
 
 //*********************** Output Control ***********************//
-PINOUT Alarm_Red(54);
-PINOUT Alarm_Yellow(55);
-PINOUT Alarm_Green(56);  // Relay Alarm Green A1-D55 //
-PINOUT Alarm_Sound(57);  // Relay Alarm sound A0-D54 //
 
-PINOUT BAT(58);             // Relay BAT_ONOFF A7-D61 //
-PINOUT ACC(59);             // Relay ACC_ONOFF A6-D60 //
-PINOUT RearCAM_Vplus(60);   // Relay RearCAM_V+ A5-D59 //
-PINOUT RearCAM_Vminus(61);  // Relay RearCAM_V- A4-D58 //
 
-PINOUT SLN45_BT1(50);  // Relay SLN45_BT1 D50 //
-PINOUT SLN45_BT2(51);  // Relay SLN45_BT2 D51 //
-PINOUT SLN45_BT3(52);  // Relay SLN45_BT3 D52 //
-PINOUT SLN45_BT4(53);  // Relay SLN45_BT4 D53 //
 
-PINOUT SLN90_BT1(46);  // Relay SLN90_BT1 D46 //
-PINOUT SLN90_BT2(47);  // Relay SLN90_BT2 D47 //
-PINOUT SLN90_BT3(48);  // Relay SLN90_BT3 D48 //
-PINOUT SLN90_BT4(49);  // Relay SLN90_BT4 D59 //
+PINOUT RearCAM_Vplus(53);   // Relay RearCAM_V+ A5-D59 //
+PINOUT RearCAM_Vminus(51);  // Relay RearCAM_V- A4-D58 //
+PINOUT BAT(49);             // Relay BAT_ONOFF A7-D61 //
+PINOUT ACC(47);             // Relay ACC_ONOFF A6-D60 //
 
-PINOUT PLAY_SOUND_S1(34, true);  // Relay SLN90_BT3 D48 //
-PINOUT PLAY_SOUND_S2(36, true);  // Relay SLN90_BT4 D59 //
+PINOUT Alarm_Red(45);
+PINOUT Alarm_Yellow(43);
+PINOUT Alarm_Green(41);  
+PINOUT Alarm_Sound(39);
+
+PINOUT SLN45_BT1(52);  // Relay SLN45_BT1 D50 //
+PINOUT SLN45_BT2(50);  // Relay SLN45_BT2 D51 //
+PINOUT SLN45_BT3(48);  // Relay SLN45_BT3 D52 //
+PINOUT SLN45_BT4(46);  // Relay SLN45_BT4 D53 //
+
+PINOUT SLN90_BT1(44);  // Relay SLN90_BT1 D46 //
+PINOUT SLN90_BT2(42);  // Relay SLN90_BT2 D47 //
+PINOUT SLN90_BT3(40);  // Relay SLN90_BT3 D48 //
+PINOUT SLN90_BT4(38);  // Relay SLN90_BT4 D59 //
+
+// PINOUT PLAY_SOUND_S1(34, true);  // Relay SLN90_BT3 D48 //
+// PINOUT PLAY_SOUND_S2(36, true);  // Relay SLN90_BT4 D59 //
 
 BUTTON SW_Selector_Auto(23);
 BUTTON SW_Selector_Manual(22);
@@ -301,7 +304,6 @@ void setup() {
   display.setBrightness(5, true);  // on
   display.setSegments(SEG_WAIT);
   delay(TEST_DELAY);
-
   
 }
 bool state_btn_Start,state_btn_OK,state_btn_NG;
