@@ -52,6 +52,8 @@
             this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
             this.dataGridViewHistory = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnCheckBoxAuto = new System.Windows.Forms.RadioButton();
+            this.btnCheckBoxManual = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -78,8 +80,6 @@
             this.toolStripStatusSerialPort = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnCheckBoxManual = new System.Windows.Forms.RadioButton();
-            this.btnCheckBoxAuto = new System.Windows.Forms.RadioButton();
             this.toolStripStatusProcessTesting = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
@@ -193,7 +193,7 @@
             this.tableLayoutPanelHomeHeader.Name = "tableLayoutPanelHomeHeader";
             this.tableLayoutPanelHomeHeader.RowCount = 1;
             this.tableLayoutPanelHomeHeader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHomeHeader.Size = new System.Drawing.Size(834, 84);
+            this.tableLayoutPanelHomeHeader.Size = new System.Drawing.Size(834, 86);
             this.tableLayoutPanelHomeHeader.TabIndex = 5;
             // 
             // lbModelName
@@ -204,7 +204,7 @@
             this.lbModelName.Location = new System.Drawing.Point(116, 8);
             this.lbModelName.Margin = new System.Windows.Forms.Padding(8);
             this.lbModelName.Name = "lbModelName";
-            this.lbModelName.Size = new System.Drawing.Size(569, 68);
+            this.lbModelName.Size = new System.Drawing.Size(569, 70);
             this.lbModelName.TabIndex = 3;
             this.lbModelName.Text = "-----------------------";
             this.lbModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -216,9 +216,9 @@
             this.lbResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbResult.Location = new System.Drawing.Point(703, 10);
-            this.lbResult.Margin = new System.Windows.Forms.Padding(10);
+            this.lbResult.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
             this.lbResult.Name = "lbResult";
-            this.lbResult.Size = new System.Drawing.Size(121, 64);
+            this.lbResult.Size = new System.Drawing.Size(121, 76);
             this.lbResult.TabIndex = 4;
             this.lbResult.Text = "Wait...";
             this.lbResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -230,10 +230,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelHome.BackColor = System.Drawing.Color.Transparent;
             this.panelHome.Controls.Add(this.tabControl);
-            this.panelHome.Location = new System.Drawing.Point(3, 116);
+            this.panelHome.Location = new System.Drawing.Point(3, 113);
             this.panelHome.Margin = new System.Windows.Forms.Padding(5);
             this.panelHome.Name = "panelHome";
-            this.panelHome.Size = new System.Drawing.Size(831, 420);
+            this.panelHome.Size = new System.Drawing.Size(831, 423);
             this.panelHome.TabIndex = 6;
             // 
             // tabControl
@@ -246,7 +246,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(825, 414);
+            this.tabControl.Size = new System.Drawing.Size(825, 417);
             this.tabControl.TabIndex = 0;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -256,7 +256,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(817, 388);
+            this.tabPage1.Size = new System.Drawing.Size(817, 391);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "INSPECTION";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -269,14 +269,14 @@
             this.tableLayoutPanelHome.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome.ColumnCount = 2;
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 501F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 504F));
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
             this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
             this.tableLayoutPanelHome.Name = "tableLayoutPanelHome";
             this.tableLayoutPanelHome.RowCount = 1;
             this.tableLayoutPanelHome.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHome.Size = new System.Drawing.Size(805, 379);
+            this.tableLayoutPanelHome.Size = new System.Drawing.Size(805, 382);
             this.tableLayoutPanelHome.TabIndex = 0;
             // 
             // tableLayoutPanelHome2
@@ -292,12 +292,12 @@
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 1);
             this.tableLayoutPanelHome2.Controls.Add(this.dataGridViewHistory, 1, 0);
             this.tableLayoutPanelHome2.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(306, 4);
+            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(303, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(495, 371);
+            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(498, 374);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
             // txtProcessDetails
@@ -305,9 +305,9 @@
             this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProcessDetails.Location = new System.Drawing.Point(251, 189);
+            this.txtProcessDetails.Location = new System.Drawing.Point(252, 190);
             this.txtProcessDetails.Name = "txtProcessDetails";
-            this.txtProcessDetails.Size = new System.Drawing.Size(240, 178);
+            this.txtProcessDetails.Size = new System.Drawing.Size(242, 180);
             this.txtProcessDetails.TabIndex = 1;
             this.txtProcessDetails.Text = "";
             // 
@@ -316,9 +316,9 @@
             this.pictureBoxDetect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxDetect.Location = new System.Drawing.Point(4, 189);
+            this.pictureBoxDetect.Location = new System.Drawing.Point(4, 190);
             this.pictureBoxDetect.Name = "pictureBoxDetect";
-            this.pictureBoxDetect.Size = new System.Drawing.Size(240, 178);
+            this.pictureBoxDetect.Size = new System.Drawing.Size(241, 180);
             this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxDetect.TabIndex = 0;
             this.pictureBoxDetect.TabStop = false;
@@ -329,9 +329,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewHistory.Location = new System.Drawing.Point(251, 4);
+            this.dataGridViewHistory.Location = new System.Drawing.Point(252, 4);
             this.dataGridViewHistory.Name = "dataGridViewHistory";
-            this.dataGridViewHistory.Size = new System.Drawing.Size(240, 178);
+            this.dataGridViewHistory.Size = new System.Drawing.Size(242, 179);
             this.dataGridViewHistory.TabIndex = 2;
             // 
             // panel1
@@ -348,8 +348,32 @@
             this.panel1.Controls.Add(this.txtName);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(240, 178);
+            this.panel1.Size = new System.Drawing.Size(241, 179);
             this.panel1.TabIndex = 3;
+            // 
+            // btnCheckBoxAuto
+            // 
+            this.btnCheckBoxAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckBoxAuto.AutoSize = true;
+            this.btnCheckBoxAuto.Location = new System.Drawing.Point(190, 149);
+            this.btnCheckBoxAuto.Name = "btnCheckBoxAuto";
+            this.btnCheckBoxAuto.Size = new System.Drawing.Size(47, 17);
+            this.btnCheckBoxAuto.TabIndex = 3;
+            this.btnCheckBoxAuto.TabStop = true;
+            this.btnCheckBoxAuto.Text = "Auto";
+            this.btnCheckBoxAuto.UseVisualStyleBackColor = true;
+            // 
+            // btnCheckBoxManual
+            // 
+            this.btnCheckBoxManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckBoxManual.AutoSize = true;
+            this.btnCheckBoxManual.Location = new System.Drawing.Point(124, 149);
+            this.btnCheckBoxManual.Name = "btnCheckBoxManual";
+            this.btnCheckBoxManual.Size = new System.Drawing.Size(60, 17);
+            this.btnCheckBoxManual.TabIndex = 3;
+            this.btnCheckBoxManual.TabStop = true;
+            this.btnCheckBoxManual.Text = "Manual";
+            this.btnCheckBoxManual.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -406,7 +430,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
             this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(295, 371);
+            this.pictureBoxCamera.Size = new System.Drawing.Size(292, 374);
             this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCamera.TabIndex = 1;
             this.pictureBoxCamera.TabStop = false;
@@ -420,7 +444,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(817, 388);
+            this.tabPage3.Size = new System.Drawing.Size(817, 391);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "SETTING";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -613,30 +637,6 @@
             this.toolStripStatusLabelModelID.Size = new System.Drawing.Size(122, 19);
             this.toolStripStatusLabelModelID.Text = "toolStripStatusLabel1";
             // 
-            // btnCheckBoxManual
-            // 
-            this.btnCheckBoxManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckBoxManual.AutoSize = true;
-            this.btnCheckBoxManual.Location = new System.Drawing.Point(124, 149);
-            this.btnCheckBoxManual.Name = "btnCheckBoxManual";
-            this.btnCheckBoxManual.Size = new System.Drawing.Size(60, 17);
-            this.btnCheckBoxManual.TabIndex = 3;
-            this.btnCheckBoxManual.TabStop = true;
-            this.btnCheckBoxManual.Text = "Manual";
-            this.btnCheckBoxManual.UseVisualStyleBackColor = true;
-            // 
-            // btnCheckBoxAuto
-            // 
-            this.btnCheckBoxAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckBoxAuto.AutoSize = true;
-            this.btnCheckBoxAuto.Location = new System.Drawing.Point(190, 149);
-            this.btnCheckBoxAuto.Name = "btnCheckBoxAuto";
-            this.btnCheckBoxAuto.Size = new System.Drawing.Size(47, 17);
-            this.btnCheckBoxAuto.TabIndex = 3;
-            this.btnCheckBoxAuto.TabStop = true;
-            this.btnCheckBoxAuto.Text = "Auto";
-            this.btnCheckBoxAuto.UseVisualStyleBackColor = true;
-            // 
             // toolStripStatusProcessTesting
             // 
             this.toolStripStatusProcessTesting.Name = "toolStripStatusProcessTesting";
@@ -659,6 +659,7 @@
             this.Text = "D92A Automation Function V7";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Home_FormClosing);
             this.Load += new System.EventHandler(this.Home_Load);
+            this.Resize += new System.EventHandler(this.Home_Resize);
             this.menuStripHome.ResumeLayout(false);
             this.menuStripHome.PerformLayout();
             this.tableLayoutPanelHomeHeader.ResumeLayout(false);

@@ -82,11 +82,12 @@ namespace D92A_Automation_Function_V7
             this.timerVideo = new System.Windows.Forms.Timer();
             this.timerVideo.Interval = 1000 / 20;
             this.timerVideo.Tick += new System.EventHandler(this.timerVideo_Trick);
+
             var drive = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
 
             this._Tcapture = new VideoTCapture.Capture();
             this._Tcapture.OnFrameHeadler += _Tcapture_OnFrameHeadler;
-
+            this._Tcapture.OnVideoStarted += _Tcapture_OnVideoStarted;
             foreach (DsDevice device in drive)
             {
                 comboBoxDriveCamera.Items.Add(device.Name);
@@ -122,6 +123,12 @@ namespace D92A_Automation_Function_V7
             btnCheckBoxManual.Checked = true;
             timerVideo.Stop();
         }
+
+        private void _Tcapture_OnVideoStarted()
+        {
+
+        }
+
         private delegate void FrameVideo(Bitmap bitmap);
         private void _Tcapture_OnFrameHeadler(Bitmap bitmap)
         {
@@ -809,6 +816,38 @@ namespace D92A_Automation_Function_V7
         private void settingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tabControl.SelectTab(1);
+        }
+
+        private void Home_Resize(object sender, EventArgs e)
+        {
+            //Console.WriteLine("Resize");
+            //// Size of Home
+            //int width = this.Width;
+            //int height = this.Height;
+            //Console.WriteLine("Width: " + width + " Height: " + height);
+            if(this.Width > 1390)
+            {
+                tableLayoutPanelHome.ColumnStyles[1].Width = 700;
+            }else if (this.Width > 1500)
+            {
+                tableLayoutPanelHome.ColumnStyles[1].Width = 800;
+            }
+            else if (this.Width > 1600)
+            {
+                tableLayoutPanelHome.ColumnStyles[1].Width = 900;
+            }
+            else if (this.Width > 1700)
+            {
+                tableLayoutPanelHome.ColumnStyles[1].Width = 1100;
+            }
+            else if (this.Width > 1900)
+            {
+                tableLayoutPanelHome.ColumnStyles[1].Width = 1300;
+            }
+            else
+            {
+                tableLayoutPanelHome.ColumnStyles[1].Width = 505;
+            }
         }
     }
 }

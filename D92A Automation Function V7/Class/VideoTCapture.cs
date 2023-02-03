@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace D92A_Automation_Function_V7.VideoTCapture
 {
+
     public class Capture
     {
         private Thread _thread;
@@ -21,6 +22,11 @@ namespace D92A_Automation_Function_V7.VideoTCapture
 
         public delegate void VideoCaptureStop();
         public event VideoCaptureStop OnVideoStop;
+
+        public delegate void VideoCaptureStarted();
+        public event VideoCaptureStarted OnVideoStarted;
+
+        private bool _onStarted = false;
 
         public bool _isRunning { get; set; }
 
@@ -55,7 +61,7 @@ namespace D92A_Automation_Function_V7.VideoTCapture
             _videoCapture.Open(device);
             SetResolution(1280, 720);
             _isRunning = true;
-
+            _onStarted = true;
             if (_thread != null)
             {
                 _thread.Abort();
@@ -70,20 +76,26 @@ namespace D92A_Automation_Function_V7.VideoTCapture
             {
                 try
                 {
-                    using (OpenCvSharp.Mat frame = _videoCapture.RetrieveMat())
+                    if (_videoCapture.IsOpened())
                     {
-                        if (frame.Empty())
+                        using (OpenCvSharp.Mat frame = _videoCapture.RetrieveMat())
                         {
-                            OnError?.Invoke("Frame is empty");
-                            continue;
+                            if (frame.Empty())
+                            {
+                                OnError?.Invoke("Frame is empty");
+                                continue;
+                            }
+                            using (Bitmap bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame))
+                            {
+                                OnFrameHeadler?.Invoke(bitmap);
+                            }
                         }
-                        using (Bitmap bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame))
+                        if(_onStarted)
                         {
-                            OnFrameHeadler?.Invoke(bitmap);
+                            OnVideoStarted?.Invoke();
+                            _onStarted = false;
                         }
-                        //Console.WriteLine("Frame {0}", frame);
-                    }
-
+                    }                    
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +114,10 @@ namespace D92A_Automation_Function_V7.VideoTCapture
         public void Stop()
         {
             _isRunning = false;
-            _videoCapture.Release();
+            if(_videoCapture != null )
+            {
+                _videoCapture.Release();
+            }
             OnVideoStop?.Invoke();
         }
 
