@@ -17,6 +17,8 @@ using System.Windows.Forms;
 using System.Windows.Markup;
 using OpenCvSharp.Extensions;
 using System.Runtime.InteropServices;
+//using VideoTCapture;
+using D92A_Automation_Function_V7.VideoTCapture;
 
 namespace D92A_Automation_Function_V7
 {
@@ -70,6 +72,8 @@ namespace D92A_Automation_Function_V7
         private bool stateReceivedData = false;
         private string btnReceivedData = string.Empty;
 
+        private VideoTCapture.Capture _Tcapture;
+
         #endregion
 
         #region Form Home Load
@@ -79,6 +83,9 @@ namespace D92A_Automation_Function_V7
             this.timerVideo.Interval = 1000 / 20;
             this.timerVideo.Tick += new System.EventHandler(this.timerVideo_Trick);
             var drive = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
+
+            this._Tcapture = new VideoTCapture.Capture();
+            this._Tcapture.OnFrameHeadler += _Tcapture_OnFrameHeadler;
 
             foreach (DsDevice device in drive)
             {
@@ -113,10 +120,27 @@ namespace D92A_Automation_Function_V7
             modules.Actions.DeleteTemp();
 
             btnCheckBoxManual.Checked = true;
+            timerVideo.Stop();
+        }
+        private delegate void FrameVideo(Bitmap bitmap);
+        private void _Tcapture_OnFrameHeadler(Bitmap bitmap)
+        {
+            // If invoke is required, invoke it
+            if (pictureBoxCamera.InvokeRequired)
+            {
+                pictureBoxCamera.Invoke(new FrameVideo(_Tcapture_OnFrameHeadler), bitmap);
+                return;
+            }
+            else
+            {
+                pictureBoxCamera.SuspendLayout();
+                pictureBoxCamera.Image = new Bitmap(bitmap);
+                pictureBoxCamera.ResumeLayout();
+            }
         }
         #endregion
-        
-        
+
+
         private void timerVideo_Trick(object sender, EventArgs e)
         {
             try
@@ -145,18 +169,19 @@ namespace D92A_Automation_Function_V7
 
         private void btnStartStop_Click(object sender, EventArgs e)
         {
-            isCapturing = !isCapturing;
             try
             {
+                isCapturing = !isCapturing;
                 if (isCapturing)
                 {
                     if (_indexDriverCamera == -1)
                         throw new Exception("Please select a camera drive!");
-
-                    capture = new OpenCvSharp.VideoCapture(_indexDriverCamera);
-                    capture.Open(_indexDriverCamera);
-                    btnStartStop.Text = "STOP";
-                    timerVideo.Start();
+                    if (_Tcapture != null && _Tcapture.IsOpened)
+                    {
+                        _Tcapture.Stop();
+                    }
+                    Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
+                    //_Tcapture.Start(_indexDriverCamera);
 
                     _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
                     _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
@@ -164,15 +189,16 @@ namespace D92A_Automation_Function_V7
                     toolStripStatusSerialPort.Text = "Serial Port : Connected";
                     toolStripStatusSerialPort.ForeColor = Color.Green;
                     sendSerialCommand("conn");
-                        Task.Delay(500); 
+                    Task.Delay(10);
                     sendSerialCommand("conn");
-
+                    btnStartStop.Text = "Stop";
                 }
                 else
                 {
-                    capture.Dispose();
-                    timerVideo.Stop();
-                    btnStartStop.Text = "START";
+                    if (_Tcapture != null && _Tcapture.IsOpened)
+                    {
+                        _Tcapture.Stop();
+                    }
 
                     if (_SerialPort != null || _SerialPort.IsOpen)
                     {
@@ -185,14 +211,62 @@ namespace D92A_Automation_Function_V7
 
                     toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
                     toolStripStatusSerialPort.ForeColor = Color.Red;
+                    btnStartStop.Text = "Start";
                 }
-            }
-            catch(Exception ex)
+            }catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+               MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-        }
 
+            /*
+             isCapturing = !isCapturing;
+             try
+             {
+                 if (isCapturing)
+                 {
+                     if (_indexDriverCamera == -1)
+                         throw new Exception("Please select a camera drive!");
+
+                     capture = new OpenCvSharp.VideoCapture(_indexDriverCamera);
+                     capture.Open(_indexDriverCamera);
+                     btnStartStop.Text = "STOP";
+                     timerVideo.Start();
+
+                     _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
+                     _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
+                     _SerialPort.Open();
+                     toolStripStatusSerialPort.Text = "Serial Port : Connected";
+                     toolStripStatusSerialPort.ForeColor = Color.Green;
+                     sendSerialCommand("conn");
+                         Task.Delay(500); 
+                     sendSerialCommand("conn");
+
+                 }
+                 else
+                 {
+                     capture.Dispose();
+                     timerVideo.Stop();
+                     btnStartStop.Text = "START";
+
+                     if (_SerialPort != null || _SerialPort.IsOpen)
+                     {
+                         _SerialPort.DataReceived -= serialPort_DataReceived;
+                         sendSerialCommand("close");
+                         _SerialPort.Close();
+                         _SerialPort.Dispose();
+                     }
+                     _SerialPort = null;
+
+                     toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
+                     toolStripStatusSerialPort.ForeColor = Color.Red;
+                 }
+             }
+             catch(Exception ex)
+             {
+                 MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+             }
+            */
+        }
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -224,6 +298,7 @@ namespace D92A_Automation_Function_V7
                     int indexEnd = data.IndexOf("<");
                     data = data.Substring(indexStart, indexEnd - indexStart);
                     Console.WriteLine("Received : "+data);
+                    data = data.Replace(">", string.Empty).Replace("<", string.Empty);
                     if (data == "start")
                     {
                         TestingToolStripMenuItem.PerformClick();
@@ -238,9 +313,11 @@ namespace D92A_Automation_Function_V7
                     {
                         switch (findKeyValue[0])
                         {
-                            case "P":
+                            case "C1":
                                 break;
-                           
+                            case "C2":
+                                break;
+
                         }
                     }
                     ReadDataSerial = "";
@@ -345,6 +422,11 @@ namespace D92A_Automation_Function_V7
                 sendSerialCommand("close");
                 _SerialPort.Close();
                 _SerialPort.Dispose();
+            }
+            if (_Tcapture != null)
+            {
+                _Tcapture.Stop();
+                _Tcapture.Dispose();
             }
         }
         

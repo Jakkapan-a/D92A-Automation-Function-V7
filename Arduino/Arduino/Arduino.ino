@@ -13,8 +13,8 @@
 #include <BUTTON.h>
 
 // Display TM1637
-#define CLK 41
-#define DIO 40
+#define CLK 10
+#define DIO 11
 #define TEST_DELAY 1000
 
 //*********************** INPUT Sensor ***********************//
@@ -58,11 +58,7 @@ const uint8_t SEG_WAIT[] = {
 
 };
 TM1637Display display(CLK, DIO);
-
-
 //*********************** Output Control ***********************//
-
-
 
 PINOUT RearCAM_Vplus(53);   // Relay RearCAM_V+ A5-D59 //
 PINOUT RearCAM_Vminus(51);  // Relay RearCAM_V- A4-D58 //
@@ -87,13 +83,12 @@ PINOUT SLN90_BT4(38);  // Relay SLN90_BT4 D59 //
 // PINOUT PLAY_SOUND_S1(34, true);  // Relay SLN90_BT3 D48 //
 // PINOUT PLAY_SOUND_S2(36, true);  // Relay SLN90_BT4 D59 //
 
-BUTTON SW_Selector_Auto(23);
-BUTTON SW_Selector_Manual(22);
-BUTTON SW_Button_Wait(29);
+BUTTON SW_Selector_Auto(9);
+BUTTON SW_Selector_Manual(8);
 
-BUTTON SW_Button_JudgeNG(27);
-BUTTON SW_Button_JudgeOK(26);
-BUTTON SW_Button_Start(24);
+BUTTON SW_Button_Start(22);
+BUTTON SW_Button_JudgeOK(23);
+BUTTON SW_Button_JudgeNG(24);
 
 //-- Variable Serial Read --//
 String inputString = "";      // String to hold incoming data
@@ -107,6 +102,7 @@ int period_overspend = -1000;                                          //ระ�
 unsigned long last_time_cs = 0, last_time_ms = 0, last_time_wait = 0;  //ประกาศตัวแปรเป็น global เพื่อเก็บค่าไว้ไม่ให้ reset จากการวนloop
 int timer_count = 0;
 bool isConnectChange = false;
+
 void output_Alarm_off() {
   Alarm_Sound.off();
   Alarm_Green.off();
@@ -216,6 +212,7 @@ void func_control(String _data) {
     sendSerialCommand(_data);
 }
 bool isControlKeys(String _data) {
+
   String data[] = {
     "0R01","1R01",
     "0R02","1R02",
@@ -244,6 +241,7 @@ bool isControlKeys(String _data) {
   return false;
 }
 bool toggleBrightness = true;
+
 void timeCount() {
   if (millis() - last_time_cs >= period) {
 
@@ -256,6 +254,7 @@ void timeCount() {
       display.setBrightness(5, true);  // on
     }
 
+    //  ina219_A.getCurrent_mA();
     timer_count++;
     if (timer_count > 3600) {
       timer_count = 0;
@@ -304,34 +303,35 @@ void setup() {
   display.setBrightness(5, true);  // on
   display.setSegments(SEG_WAIT);
   delay(TEST_DELAY);
-  
+
+  // SLN90_BT4.on();
 }
 bool state_btn_Start,state_btn_OK,state_btn_NG;
 void func_button(){
 
-  if(SW_Button_Start.isPressed() && state_btn_Start){
+  if(SW_Button_Start.getState() && state_btn_Start){
     IsRunning = true;
     judgement = -1;
     state_btn_Start = false;
     sendSerialCommand("start");
-  } else if(!SW_Button_Start.isPressed())
+  } else if(!SW_Button_Start.getState())
   {
     state_btn_Start = true;
   } 
 
-  if(SW_Button_JudgeNG.isPressed() && state_btn_NG){
+  if(SW_Button_JudgeNG.getState() && state_btn_NG){
     judgement = 0;
     state_btn_NG = false;
     sendSerialCommand("NG");
-  }else if(!SW_Button_JudgeNG.isPressed()){
+  }else if(!SW_Button_JudgeNG.getState()){
      state_btn_NG = true;
   }
 
-  if(SW_Button_JudgeOK.isPressed() && state_btn_OK){
+  if(SW_Button_JudgeOK.getState() && state_btn_OK){
     judgement = 1;
     state_btn_OK = false;
     sendSerialCommand("OK");
-  }else if(!SW_Button_JudgeOK.isPressed()){
+  }else if(!SW_Button_JudgeOK.getState()){
     state_btn_OK = true;
   }
 }

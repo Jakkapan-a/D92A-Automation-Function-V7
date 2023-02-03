@@ -153,6 +153,7 @@
     <Compile Include="AddModel.Designer.cs">
       <DependentUpon>AddModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Class\VideoTCapture.cs" />
     <Compile Include="EditModel.cs">
       <SubType>Form</SubType>
     </Compile>
