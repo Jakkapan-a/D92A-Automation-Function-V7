@@ -202,6 +202,7 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="modules\Actions.cs" />
+    <Compile Include="modules\History.cs" />
     <Compile Include="modules\Itemslist.cs" />
     <Compile Include="modules\Models.cs" />
     <Compile Include="modules\Process.cs" />

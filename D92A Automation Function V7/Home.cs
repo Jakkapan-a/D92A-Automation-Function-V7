@@ -24,28 +24,8 @@ namespace D92A_Automation_Function_V7
     {
         public Home() => InitializeComponent();
 
-        //public string[,] keys = {
-        //    { "0R01", "1R01" }, // BAT + ON OFF
-        //    { "0R02", "1R02" }, // ACC + ON OFF
-        //    { "0R03", "1R03" }, // V+ REAR CAMERA
-        //    { "0R04", "1R04" }, // V- REAR CAMERA
-        //    { "0R05", "1R05" }, // ALRAM RED
-        //    { "0R06", "1R06" }, // ALRAM YOLLOW
-        //    { "0R07", "1R07" }, // ALRAM GREEN
-        //    { "0R08", "1R08" }, // ALRAM SOUND
-        //};
-
-        //public string[,] keysSLD = {
-        //    { "0R09", "1R09" }, // SLD 45° 1
-        //    { "0R10", "1R10" }, // SLD 45° 2
-        //    { "0R11", "1R11" }, // SLD 45° 3
-        //    { "0R12", "1R12" }, // SLD 45° 4
-        //    { "0R13", "1R13" }, // SLD 90° 1
-        //    { "0R14", "1R14" }, // SLD 90° 2
-        //    { "0R15", "1R15" }, // SLD 90° 3
-        //    { "0R16", "1R16" }, // SLD 90° 4
-        //};
         #region Global Variable
+        private string[] type_items = { "Normal", "Manual", "Auto" };
         public string[] masterNameKeys =
         {
             "BAT+",
@@ -85,6 +65,11 @@ namespace D92A_Automation_Function_V7
 
 
         private Bitmap bitmapCamera;
+        private string ReadDataSerial;
+        private string dataSerialReceived;
+        private bool stateReceivedData = false;
+        private string btnReceivedData = string.Empty;
+
         #endregion
 
         #region Form Home Load
@@ -126,6 +111,8 @@ namespace D92A_Automation_Function_V7
             };
             // Delete file
             modules.Actions.DeleteTemp();
+
+            btnCheckBoxManual.Checked = true;
         }
         #endregion
         
@@ -205,8 +192,7 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-        string ReadDataSerial;
-        string dataSerialReceived;
+
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -285,6 +271,7 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
+
         private void btnConnectionSave_Click(object sender, EventArgs e)
         {
 
@@ -302,7 +289,7 @@ namespace D92A_Automation_Function_V7
                     throw new Exception("Please select a serial port!");
                 _serialPortName = comboBoxSerialPort.SelectedItem.ToString();
                 // Update to toolStripStatusConection status
-                toolStripStatusConection.Text = $"Camera: {_indexDriverCamera} | Baud Rate: {_baudRate} | Serial Port: {_serialPortName}";
+                toolStripStatusConection.Text = $"Camera : {_indexDriverCamera} | Baud Rate : {_baudRate} | Serial Port : {_serialPortName}";
 
                 MessageBox.Show("Save connection success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -456,7 +443,6 @@ namespace D92A_Automation_Function_V7
             for (int i = 0; i < 16; i++)
             {
                 sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
-                Console.WriteLine("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
                 Thread.Sleep(50);
             }
 
@@ -467,9 +453,15 @@ namespace D92A_Automation_Function_V7
             
             foreach (_ItemsList item in _Items)
             {
-                Console.WriteLine($"Item : {item.name}");
                 txtProcessDetailsAppendText($"Item : {item.name} ");
-
+                toolStripStatusProcessTesting.Text = $"Type : {type_items[item._type]}";
+                if (btnCheckBoxAuto.Checked && item._type == 1)
+                {
+                    continue;
+                }else if (btnCheckBoxManual.Checked && item._type == 2)
+                {
+                    continue;
+                }
                 actions = null;
                 actions = modules.Actions.LoadActions(item.id);
                 foreach(modules.Actions action in actions)
@@ -511,17 +503,51 @@ namespace D92A_Automation_Function_V7
                             }
                             // Test 
                             txtProcessDetailsAppendText("Judement NG");
-                            Console.WriteLine("Judement NG");
+                            //Console.WriteLine("Judement NG");
                             // End process
                         }
                         else
                         {
                             txtProcessDetailsAppendText("Judement OK");
-                            Console.WriteLine("Judement OK");
-                        }                        
-                        //Console.WriteLine("Test Image Process...");
+                            //Console.WriteLine("Judement OK");
+                        }                      
                     }
-                    
+                    else if (action._type == 2)
+                    {
+                        stateReceivedData = false;
+                        btnReceivedData = string.Empty;
+                        // 1 se
+                        int timeOut = action.io_timeout * 1000;
+                        int counter = 0;
+                        int countTime = 0;
+                        while (counter<=timeOut)
+                        {
+                            if (stateReceivedData == true)
+                            {
+                                break;
+                            }
+                            Thread.Sleep(50);
+                            counter++;
+                            countTime ++;
+                            if(countTime > 10)
+                            {
+                                txtProcessDetailsAppendText(".",true);
+                            }
+                        }
+                        if(stateReceivedData && btnReceivedData != string.Empty)
+                        {
+                            txtProcessDetailsAppendText("Pressed button OK");
+                        }
+                        else if(stateReceivedData && btnReceivedData != string.Empty)
+                        {
+                            txtProcessDetailsAppendText("Pressed button NG");
+                        }
+                        else
+                        {
+                            txtProcessDetailsAppendText("Time Out!!");
+                        }
+                    }
+
                     Thread.Sleep(action.delay);
                 }
             }
@@ -530,13 +556,14 @@ namespace D92A_Automation_Function_V7
             sendSerialCommand("end");
         }
 
-        public void txtProcessDetailsAppendText(string data)
+        public void txtProcessDetailsAppendText(string data,bool noNewLine = false)
         {
             if (txtProcessDetails.InvokeRequired)
             {
                 txtProcessDetails.Invoke((MethodInvoker)delegate
                 {
-                txtProcessDetails.AppendText($"{data} {Environment.NewLine}");
+                    string newLine = noNewLine ? "" : Environment.NewLine;
+                txtProcessDetails.AppendText($"{data} {newLine}");
                     txtProcessDetails.ScrollToCaret();
                 });
             }
@@ -666,8 +693,23 @@ namespace D92A_Automation_Function_V7
         private void TestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Vavidate
-            
+            if (string.IsNullOrEmpty(_path))
+            {
+                MessageBox.Show("Please select path to save image", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            if(txtName.Text == "")
+            {
+                MessageBox.Show("Please enter name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtSerialProduct.Text == "")
+            {
+                MessageBox.Show("Please enter ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             // 
             sendSerialCommand("run");
             //ProcessTesting();

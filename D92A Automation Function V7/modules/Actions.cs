@@ -18,7 +18,7 @@ namespace D92A_Automation_Function_V7.modules
         public int image_status { get; set; }
         public string io_port { get; set; }
         public string io_name { get; set; }
-        public int io_type { get; set; }        // 0 = Manual, 1 = Auto
+        public int io_type { get; set; }        // 0 = Manual, 1 = Auto, 2 = Wait judment
         public int io_state { get; set; }       // Active in io_type = 0;
         public int io_timeout { get; set; }     // Second
         public int delay { get; set; }          // Active after end process = 0;
