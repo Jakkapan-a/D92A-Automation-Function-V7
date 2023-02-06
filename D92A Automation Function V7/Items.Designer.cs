@@ -46,11 +46,13 @@
             this.editModelNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbModelName = new System.Windows.Forms.Label();
+            this.btnTest = new System.Windows.Forms.Button();
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
             this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.addAction = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripProgressLoader = new System.Windows.Forms.ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -118,7 +120,7 @@
             this.dataGridViewItemList.Name = "dataGridViewItemList";
             this.dataGridViewItemList.RowHeadersVisible = false;
             this.dataGridViewItemList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewItemList.Size = new System.Drawing.Size(245, 271);
+            this.dataGridViewItemList.Size = new System.Drawing.Size(245, 286);
             this.dataGridViewItemList.TabIndex = 2;
             this.dataGridViewItemList.SelectionChanged += new System.EventHandler(this.dataGridViewItemList_SelectionChanged);
             // 
@@ -128,7 +130,7 @@
             this.editItemToolStripMenuItem,
             this.deleteItemList});
             this.contextMenuStripItenList.Name = "contextMenuStripItenList";
-            this.contextMenuStripItenList.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStripItenList.Size = new System.Drawing.Size(122, 48);
             // 
             // btnAddItem
             // 
@@ -146,6 +148,7 @@
             this.groupBoxActions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxActions.Controls.Add(this.btnTest);
             this.groupBoxActions.Controls.Add(this.dataGridViewActionList);
             this.groupBoxActions.Controls.Add(this.btnAddActions);
             this.groupBoxActions.Location = new System.Drawing.Point(3, 3);
@@ -167,7 +170,7 @@
             this.dataGridViewActionList.Name = "dataGridViewActionList";
             this.dataGridViewActionList.RowHeadersVisible = false;
             this.dataGridViewActionList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewActionList.Size = new System.Drawing.Size(503, 271);
+            this.dataGridViewActionList.Size = new System.Drawing.Size(503, 287);
             this.dataGridViewActionList.TabIndex = 1;
             this.dataGridViewActionList.SelectionChanged += new System.EventHandler(this.dataGridViewActionList_SelectionChanged);
             // 
@@ -195,7 +198,8 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusItemId,
-            this.toolStripStatusActionId});
+            this.toolStripStatusActionId,
+            this.toolStripProgressLoader});
             this.statusStrip.Location = new System.Drawing.Point(0, 426);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(800, 24);
@@ -260,11 +264,21 @@
             this.lbModelName.Text = "-------------------";
             this.lbModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnTest
+            // 
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnTest.Location = new System.Drawing.Point(6, 312);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 2;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            // 
             // editItemToolStripMenuItem
             // 
             this.editItemToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.edit_property_32;
             this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
-            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.editItemToolStripMenuItem.Text = "Edit Item";
             this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
             // 
@@ -272,7 +286,7 @@
             // 
             this.deleteItemList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
             this.deleteItemList.Name = "deleteItemList";
-            this.deleteItemList.Size = new System.Drawing.Size(180, 22);
+            this.deleteItemList.Size = new System.Drawing.Size(121, 22);
             this.deleteItemList.Text = "Delete";
             this.deleteItemList.Click += new System.EventHandler(this.deleteItemList_Click);
             // 
@@ -299,6 +313,12 @@
             this.deleteActionList.Size = new System.Drawing.Size(134, 22);
             this.deleteActionList.Text = "Delete";
             this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
+            // 
+            // toolStripProgressLoader
+            // 
+            this.toolStripProgressLoader.Name = "toolStripProgressLoader";
+            this.toolStripProgressLoader.Size = new System.Drawing.Size(100, 18);
+            this.toolStripProgressLoader.Visible = false;
             // 
             // Items
             // 
@@ -357,5 +377,7 @@
         private System.Windows.Forms.ToolStripMenuItem addAction;
         public System.Windows.Forms.Label lbModelName;
         private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
+        private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressLoader;
     }
 }

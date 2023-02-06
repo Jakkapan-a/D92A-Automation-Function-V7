@@ -111,6 +111,43 @@ namespace D92A_Automation_Function_V7.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ./system.
+        /// </summary>
+        internal static string path {
+            get {
+                return ResourceManager.GetString("path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ./system/images.
+        /// </summary>
+        internal static string path_image {
+            get {
+                return ResourceManager.GetString("path_image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ./system/logs.
+        /// </summary>
+        internal static string path_log {
+            get {
+                return ResourceManager.GetString("path_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PD {
+            get {
+                object obj = ResourceManager.GetObject("PD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap settings_16 {

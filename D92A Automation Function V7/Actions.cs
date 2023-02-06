@@ -116,6 +116,7 @@ namespace D92A_Automation_Function_V7
 
                 if (TypeActionOfIO() == -1 && btnSelectedIOFunction.Checked)
                     throw new Exception("Type of IO is invalid!.");
+
                 actions.io_type = TypeActionOfIO();     // 0 = Manual, 1 = Auto, 2 = Wait judment
                 actions.io_state = checkBocON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
                 actions.io_port = (comboBoxIOPort.SelectedIndex+1 < 10) ? "R0" + (comboBoxIOPort.SelectedIndex + 1).ToString() : "R" + (comboBoxIOPort.SelectedIndex + 1).ToString();

@@ -55,6 +55,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="LogWriter">
+      <HintPath>..\LogWriter\bin\Debug\net7.0\LogWriter.dll</HintPath>
+    </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenCvSharp4.4.6.0.20220608\lib\net48\OpenCvSharp.dll</HintPath>
     </Reference>
@@ -299,6 +302,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\view_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\product_01.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PD.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

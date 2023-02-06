@@ -6,9 +6,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Emgu.CV.DISOpticalFlow;
 
 namespace D92A_Automation_Function_V7
 {
@@ -20,6 +23,9 @@ namespace D92A_Automation_Function_V7
         Models model;
         Actions actions;
         private string path_image = string.Empty;
+        private Home home;
+        private Dictionary<string, bool> stateBtn = new Dictionary<string, bool>();
+
         public Items(int model_id)
         {
             InitializeComponent();
@@ -28,7 +34,16 @@ namespace D92A_Automation_Function_V7
             model = Models.GetModelById(model_id);
             lbModelName.Text = model.name;
         }
-       
+        public Items(Home home)
+        {
+            InitializeComponent();
+            this.model_id = home.modelId;
+            this.home = home;
+            model = new Models();
+            model = Models.GetModelById(model_id);
+            lbModelName.Text = model.name;
+        }
+
         private void btnAddActions_Click(object sender, EventArgs e)
         {
             if (actions != null)
@@ -47,8 +62,24 @@ namespace D92A_Automation_Function_V7
             {
                 item.Text = string.Empty;
             }
+
+            ProgressLoader();
         }
 
+        public async void ProgressLoader()
+        {
+            this.toolStripProgressLoader.Visible = true;
+            int total = 16;
+            for (int i = 0; i < total; i++)
+            {
+                int persent = (Int32)Math.Round((double)(i * 100) / total); // 
+
+                toolStripProgressLoader.Value = persent;
+                this.home.sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                await Task.Delay(100);
+            }
+            this.toolStripProgressLoader.Visible = false;
+        }
         public void LoadItemList()
         {
             if (model_id == -1)
@@ -82,6 +113,7 @@ namespace D92A_Automation_Function_V7
                             No = ++i,
                             Type = x.name,
                             IO_Name = (x._type == 0) ? x.io_name : "-",
+                            Action = getIOAction(x), 
                             IO_PORT = (x._type == 0) ? x.io_port : "-",
                             Image = (x._type == 1) ? x.image_path : "-",
                             Delay = x.delay,
@@ -91,7 +123,33 @@ namespace D92A_Automation_Function_V7
             dataGridViewActionList.Columns[0].Visible = false;
             dataGridViewActionList.Columns[1].Width = (int)(dataGridViewActionList.Width * 0.1);
         }
-        
+        private string getIOAction(modules.Actions actions)
+        {
+            // Number Type --> 0 = Manual, 1 = Auto, 2 = Wait judment
+            string str = string.Empty;
+            switch (actions.io_type)
+            {
+                case 0:
+                    // Manual
+                    // 0 = OFF,1 = ON
+                    if (actions.io_state == 1)
+                    {
+                        str = "On";
+                    }
+                    else
+                    {
+                        str = "Off";
+                    }
+                  break;
+                case 1:
+                    str = "Auto";
+                    break;
+                case 2:
+                    str = "Wait judment";
+                    break;
+            }
+            return str;
+        }
         private Add_Item add_item;
 
         private void btnAddItem_Click(object sender, EventArgs e)
@@ -130,7 +188,7 @@ namespace D92A_Automation_Function_V7
                         LoadActionsList();
                     }
                   
-                    Console.WriteLine(item_id);
+                    //Console.WriteLine(item_id);
                 }
             }
             catch(Exception ex)

@@ -47,7 +47,7 @@ namespace D92A_Automation_Function_V7
             "SLD 90° 3",
             "SLD 90° 4",
         };
-        int modelId = -1;
+        public int modelId = -1;
         public Dictionary<string, string[,]> keysSLD = new Dictionary<string, string[,]>();
 
         private OpenCvSharp.VideoCapture capture;
@@ -352,7 +352,8 @@ namespace D92A_Automation_Function_V7
                 }
             }catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -395,7 +396,7 @@ namespace D92A_Automation_Function_V7
             {
                 items.Dispose();
             }
-            items = new Items(modelId);
+            items = new Items(this);
             items.ShowDialog();
         }
 
@@ -820,11 +821,11 @@ namespace D92A_Automation_Function_V7
 
         private void Home_Resize(object sender, EventArgs e)
         {
-            //Console.WriteLine("Resize");
-            //// Size of Home
-            //int width = this.Width;
-            //int height = this.Height;
-            //Console.WriteLine("Width: " + width + " Height: " + height);
+            // Size of Home
+            // int width = this.Width;
+            // int height = this.Height;
+            // Console.WriteLine("Width: " + width + " Height: " + height);
+
             if(this.Width > 1390)
             {
                 tableLayoutPanelHome.ColumnStyles[1].Width = 700;
