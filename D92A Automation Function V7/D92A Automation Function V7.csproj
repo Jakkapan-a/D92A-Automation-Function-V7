@@ -55,9 +55,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="LogWriter">
-      <HintPath>..\LogWriter\bin\Debug\net7.0\LogWriter.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenCvSharp4.4.6.0.20220608\lib\net48\OpenCvSharp.dll</HintPath>
     </Reference>
@@ -156,7 +153,17 @@
     <Compile Include="AddModel.Designer.cs">
       <DependentUpon>AddModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Class\LogWriter.cs" />
     <Compile Include="Class\VideoTCapture.cs" />
+    <Compile Include="Controls\ListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScrollablePictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScrollablePictureBox.Designer.cs">
+      <DependentUpon>ScrollablePictureBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +205,12 @@
     </Compile>
     <Compile Include="LoadImage.Designer.cs">
       <DependentUpon>LoadImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadImage_2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadImage_2.Designer.cs">
+      <DependentUpon>LoadImage_2.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -245,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoadImage.resx">
       <DependentUpon>LoadImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadImage_2.resx">
+      <DependentUpon>LoadImage_2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

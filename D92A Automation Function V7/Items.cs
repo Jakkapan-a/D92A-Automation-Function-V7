@@ -1,4 +1,5 @@
-﻿using D92A_Automation_Function_V7.forms.ItemList;
+﻿using D92A_Automation_Function_V7.Class;
+using D92A_Automation_Function_V7.forms.ItemList;
 using D92A_Automation_Function_V7.modules;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,10 @@ namespace D92A_Automation_Function_V7
         Models model;
         Actions actions;
         private string path_image = string.Empty;
-        private Home home;
+        public Home home;
         private Dictionary<string, bool> stateBtn = new Dictionary<string, bool>();
+        private LogWriter log;
+        private bool stateTesting = false;
 
         public Items(int model_id)
         {
@@ -56,6 +59,8 @@ namespace D92A_Automation_Function_V7
 
         private void Items_Load(object sender, EventArgs e)
         {
+            log = new LogWriter(Properties.Resources.path_log);
+            log.Save("Items Starting....");
             LoadItemList();
             // Loop set default text are empty of statusStripHome
             foreach (ToolStripItem item in statusStrip.Items)
@@ -68,6 +73,7 @@ namespace D92A_Automation_Function_V7
 
         public async void ProgressLoader()
         {
+            log.Save("Close all IO");
             this.toolStripProgressLoader.Visible = true;
             int total = 16;
             for (int i = 0; i < total; i++)
@@ -268,6 +274,298 @@ namespace D92A_Automation_Function_V7
             }
             edit_Item = new Edit_Item(this,item_id);
             edit_Item.Show(this);
+        }
+        Thread thread;
+        BackgroundWorker _worker;
+        
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            if (item_id != -1)
+            {
+                if(thread != null && thread.ThreadState == ThreadState.Running)
+                {
+                    thread.Abort();
+                }
+                //thread = new Thread(new ThreadStart(processTesting));
+                //thread.Start();
+                //stateTesting = true;
+                if(_worker == null)
+                {
+                    _worker = new BackgroundWorker();
+                    _worker.WorkerReportsProgress= true;
+                    _worker.WorkerSupportsCancellation= true;
+                    _worker.DoWork += _worker_DoWork;
+                    _worker.ProgressChanged += _worker_ProgressChanged;
+                    _worker.RunWorkerCompleted += _worker_RunWorkerCompleted;
+                }
+  
+
+    
+
+                toolStripStatusTestting.Text = string.Empty;
+                toolStripStatusTestting.Visible = true;
+                toolStripProgressLoader.Visible = true;
+                toolStripProgressLoader.Value = 0;
+
+                stateTesting = !stateTesting;
+                if (stateTesting == true)
+                {
+                    if (_worker.IsBusy == true && _worker.WorkerSupportsCancellation == true)
+                    {
+                        _worker.CancelAsync();
+                    }
+                    if (_worker.IsBusy != true)
+                    {
+                        // Start the asynchronous operation.
+                        _worker.RunWorkerAsync(this);
+                    }
+                    btnTest.Text = "Stop";
+                }
+                else
+                {
+                    if (_worker.IsBusy == true && _worker.WorkerSupportsCancellation == true)
+                    {
+                        _worker.CancelAsync();
+                    }
+                    btnTest.Text = "Test";
+                }
+            }
+        }
+
+        private void _worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            log.Save("Testing Start");
+            List<modules.Actions> actions = modules.Actions.LoadActions(item_id);
+            Int32 counter = 0;
+            foreach (modules.Actions action in actions)
+            {
+                string str = string.Empty;
+                counter += 1;
+                if (worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    //// Perform a time consuming operation and report progress.
+                    if (action._type == 0)
+                    {
+                        // Mode IO Function
+                        if (action.io_type == 0)
+                        {
+                            //Console.WriteLine($"{action.io_state}{action.io_port}");
+                            str = $"{action.io_state}{action.io_port}";
+                            this.home.sendSerialCommand(str);
+
+                            toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ";
+                        }
+                        else if (action.io_type == 1)
+                        {
+                            str = $"1{action.io_port}";
+                            this.home.sendSerialCommand(str);
+                            toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ";
+                            Thread.Sleep(action.auto_delay);
+                            str = $"0{action.io_port}";
+                            this.home.sendSerialCommand(str);
+                            toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ";
+                        }
+                    }
+                    else if (action._type == 1)
+                    {
+                        int ngCount = 0;
+                        process_compare:
+                        var result = this.home.ProcessCompare(action.image_path);
+                        //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Image Comapre result : {result}%, config :{action.image_percent} ");
+                        toolStripStatusTestting.Text = result.ToString();
+                        if (result < action.image_percent)
+                        {
+                            // Test Again
+                            ngCount++;
+                            if (ngCount < 10)
+                            {
+                                //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Test again : ---{ngCount}--- ");
+                                Thread.Sleep(100);
+                                goto process_compare;
+                            }
+                            // Test 
+                            //txtProcessDetailsAppendText("Judement NG");
+                            //Console.WriteLine("Judement NG");
+                            // End process
+                        }
+                        else
+                        {
+                            //txtProcessDetailsAppendText("Judement OK");
+                            //Console.WriteLine("Judement OK");
+                            toolStripStatusTestting.Text = "Judement OK";
+                        }
+                    }
+                    else if (action._type == 2)
+                    {
+                        // Wait test 
+
+                        this.home.stateReceivedData = false;
+                        this.home.btnReceivedData = string.Empty;
+                        // 1 se
+                        int timeOut = action.io_timeout * 1000;
+                        int _counter = 0;
+                        int _countTime = 0;
+                        while (counter <= timeOut)
+                        {
+                            if (this.home.stateReceivedData == true)
+                            {
+                                break;
+                            }
+                            Thread.Sleep(50);
+                            _counter++;
+                            _countTime++;
+                            if (_countTime > 10)
+                            {
+                                //txtProcessDetailsAppendText(".", true);
+                                log.Save(".",false);
+                            }
+                        }
+                        if (this.home.stateReceivedData && this.home.btnReceivedData != string.Empty)
+                        {
+                            toolStripStatusTestting.Text = "Pressed button OK";
+                            log.Save("Pressed button OK");
+                        }
+                        else if (this.home.stateReceivedData && this.home.btnReceivedData != string.Empty)
+                        {
+                            //txtProcessDetailsAppendText("Pressed button NG");
+                            toolStripStatusTestting.Text = "Pressed button NG";
+                            log.Save("Pressed button NG");
+                        }
+                        else
+                        {
+                            //txtProcessDetailsAppendText("Time Out!!");
+                            toolStripStatusTestting.Text = "Time Out!!";
+                            log.Save("Time Out!!");
+                            break;
+                        }
+                    }
+
+                    Thread.Sleep(action.delay);
+
+                    int persent = (Int32)Math.Round((double)(counter * 100) / actions.Count); // 
+                    worker.ReportProgress(persent);
+                }
+                stateTesting = false;
+            }
+         }
+
+        private void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            toolStripProgressLoader.Value = e.ProgressPercentage;
+        }
+
+        private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            toolStripStatusTestting.Text = string.Empty;
+            toolStripStatusTestting.Visible = false;
+            toolStripProgressLoader.Visible = false;
+            log.Save("Testing End");
+            btnTest.Text = "Test";
+        }
+        private void processTesting()
+        {
+            List<modules.Actions> actions = modules.Actions.LoadActions(item_id);
+            Int32 counter = 0;
+            toolStripStatusTestting.Text = string.Empty;
+            toolStripStatusTestting.Visible = true;
+            foreach (modules.Actions action in actions)
+            {
+                counter+=1;
+                //Console.WriteLine(action._type);
+                if (action._type == 0)
+                {
+                    // Mode IO Function
+                    if (action.io_type == 0)
+                    {
+                        //Console.WriteLine($"{action.io_state}{action.io_port}");
+                        this.home.sendSerialCommand($"{action.io_state}{action.io_port}");
+                        //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ");
+                    }
+                    else if (action.io_type == 1)
+                    {
+                        this.home.sendSerialCommand($"1{action.io_port}");
+                        //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ");
+                        Thread.Sleep(action.auto_delay);
+                        this.home.sendSerialCommand($"0{action.io_port}");
+                        //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ");
+                    }
+
+                }
+
+                else if (action._type == 1)
+                {
+                     int ngCount = 0;
+                      process_compare:
+                    var result = this.home.ProcessCompare(action.image_path);
+                    //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Image Comapre result : {result}%, config :{action.image_percent} ");
+                    if (result < action.image_percent)
+                    {
+                        // Test Again
+                        ngCount++;
+                        if (ngCount < 10)
+                        {
+                            //txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Test again : ---{ngCount}--- ");
+                            Thread.Sleep(100);
+                            goto process_compare;
+                        }
+                        // Test 
+                        //txtProcessDetailsAppendText("Judement NG");
+                        //Console.WriteLine("Judement NG");
+                        // End process
+                    }
+                    else
+                    {
+                        //txtProcessDetailsAppendText("Judement OK");
+                        //Console.WriteLine("Judement OK");
+                    }
+                }
+                else if (action._type == 2)
+                {
+                    // Wait test 
+
+                    this.home.stateReceivedData = false;
+                    this.home.btnReceivedData = string.Empty;
+                    // 1 se
+                    int timeOut = action.io_timeout * 1000;
+                    int _counter = 0;
+                    int _countTime = 0;
+                    while (counter <= timeOut)
+                    {
+                        if (this.home.stateReceivedData == true)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(50);
+                        _counter++;
+                        _countTime++;
+                        if (_countTime > 10)
+                        {
+                            //txtProcessDetailsAppendText(".", true);
+                        }
+                    }
+                    if (this.home.stateReceivedData && this.home.btnReceivedData != string.Empty)
+                    {
+                        //txtProcessDetailsAppendText("Pressed button OK");
+                    }
+                    else if (this.home.stateReceivedData && this.home.btnReceivedData != string.Empty)
+                    {
+                        //txtProcessDetailsAppendText("Pressed button NG");
+                    }
+                    else
+                    {
+                        //txtProcessDetailsAppendText("Time Out!!");
+                    }
+                }
+
+                Thread.Sleep(action.delay);
+            }
+            stateTesting = false;
         }
     }
 }

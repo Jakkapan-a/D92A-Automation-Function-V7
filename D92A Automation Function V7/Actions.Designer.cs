@@ -57,8 +57,6 @@
             this.txtPercent = new System.Windows.Forms.NumericUpDown();
             this.groupBoxImage = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.comboBoxDriveCamera = new System.Windows.Forms.ComboBox();
             this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -384,7 +382,7 @@
             // btnLoadImage
             // 
             this.btnLoadImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadImage.Location = new System.Drawing.Point(498, 431);
+            this.btnLoadImage.Location = new System.Drawing.Point(498, 429);
             this.btnLoadImage.Name = "btnLoadImage";
             this.btnLoadImage.Size = new System.Drawing.Size(93, 23);
             this.btnLoadImage.TabIndex = 3;
@@ -395,7 +393,7 @@
             // txtPercent
             // 
             this.txtPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtPercent.Location = new System.Drawing.Point(88, 408);
+            this.txtPercent.Location = new System.Drawing.Point(87, 432);
             this.txtPercent.Name = "txtPercent";
             this.txtPercent.Size = new System.Drawing.Size(106, 20);
             this.txtPercent.TabIndex = 4;
@@ -411,8 +409,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxImage.Controls.Add(this.label11);
-            this.groupBoxImage.Controls.Add(this.label10);
-            this.groupBoxImage.Controls.Add(this.comboBoxDriveCamera);
             this.groupBoxImage.Controls.Add(this.pictureBoxCamera);
             this.groupBoxImage.Controls.Add(this.txtPercent);
             this.groupBoxImage.Controls.Add(this.label9);
@@ -427,30 +423,11 @@
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(21, 410);
+            this.label11.Location = new System.Drawing.Point(20, 434);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(61, 13);
             this.label11.TabIndex = 8;
             this.label11.Text = "Percent % :";
-            // 
-            // label10
-            // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(415, 411);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(77, 13);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "Drive Camera :";
-            // 
-            // comboBoxDriveCamera
-            // 
-            this.comboBoxDriveCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxDriveCamera.FormattingEnabled = true;
-            this.comboBoxDriveCamera.Location = new System.Drawing.Point(498, 408);
-            this.comboBoxDriveCamera.Name = "comboBoxDriveCamera";
-            this.comboBoxDriveCamera.Size = new System.Drawing.Size(93, 21);
-            this.comboBoxDriveCamera.TabIndex = 7;
             // 
             // pictureBoxCamera
             // 
@@ -459,7 +436,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxCamera.Location = new System.Drawing.Point(20, 59);
             this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(571, 343);
+            this.pictureBoxCamera.Size = new System.Drawing.Size(571, 364);
             this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCamera.TabIndex = 5;
             this.pictureBoxCamera.TabStop = false;
@@ -539,9 +516,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Label label9;
         internal System.Windows.Forms.PictureBox pictureBoxCamera;
-        private System.Windows.Forms.ComboBox comboBoxDriveCamera;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lbButtom;
         private System.Windows.Forms.Label lbTimeOutS;

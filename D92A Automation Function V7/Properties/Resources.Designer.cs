@@ -138,6 +138,15 @@ namespace D92A_Automation_Function_V7.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ./system/temp/.
+        /// </summary>
+        internal static string path_temp {
+            get {
+                return ResourceManager.GetString("path_temp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap PD {

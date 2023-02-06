@@ -47,12 +47,13 @@
             this.deleteModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbModelName = new System.Windows.Forms.Label();
             this.btnTest = new System.Windows.Forms.Button();
+            this.toolStripProgressLoader = new System.Windows.Forms.ToolStripProgressBar();
             this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
             this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.addAction = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripProgressLoader = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusTestting = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -199,7 +200,8 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusItemId,
             this.toolStripStatusActionId,
-            this.toolStripProgressLoader});
+            this.toolStripProgressLoader,
+            this.toolStripStatusTestting});
             this.statusStrip.Location = new System.Drawing.Point(0, 426);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(800, 24);
@@ -273,6 +275,13 @@
             this.btnTest.TabIndex = 2;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // toolStripProgressLoader
+            // 
+            this.toolStripProgressLoader.Name = "toolStripProgressLoader";
+            this.toolStripProgressLoader.Size = new System.Drawing.Size(100, 18);
+            this.toolStripProgressLoader.Visible = false;
             // 
             // editItemToolStripMenuItem
             // 
@@ -314,11 +323,12 @@
             this.deleteActionList.Text = "Delete";
             this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
             // 
-            // toolStripProgressLoader
+            // toolStripStatusTestting
             // 
-            this.toolStripProgressLoader.Name = "toolStripProgressLoader";
-            this.toolStripProgressLoader.Size = new System.Drawing.Size(100, 18);
-            this.toolStripProgressLoader.Visible = false;
+            this.toolStripStatusTestting.Name = "toolStripStatusTestting";
+            this.toolStripStatusTestting.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusTestting.Text = "toolStripStatusLabel1";
+            this.toolStripStatusTestting.Visible = false;
             // 
             // Items
             // 
@@ -379,5 +389,6 @@
         private System.Windows.Forms.ToolStripMenuItem editItemToolStripMenuItem;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressLoader;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusTestting;
     }
 }

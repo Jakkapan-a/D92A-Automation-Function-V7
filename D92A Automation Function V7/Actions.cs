@@ -59,13 +59,13 @@ namespace D92A_Automation_Function_V7
         }
         private void Actions_Load(object sender, EventArgs e)
         {
-            var videoDevices = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
-            foreach (var device in videoDevices)
-            {
-                comboBoxDriveCamera.Items.Add(device.Name);
-            }
-            if (comboBoxDriveCamera.Items.Count > 0)
-                comboBoxDriveCamera.SelectedIndex = 0;
+            //var videoDevices = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
+            //foreach (var device in videoDevices)
+            //{
+            //    comboBoxDriveCamera.Items.Add(device.Name);
+            //}
+            //if (comboBoxDriveCamera.Items.Count > 0)
+            //    comboBoxDriveCamera.SelectedIndex = 0;
 
             comboBoxIOPort.Items.AddRange(masterNameKeys);
             comboBoxIOPort.SelectedIndex = 0;
@@ -73,15 +73,15 @@ namespace D92A_Automation_Function_V7
             btnSelectedIOFunction.Select();
         }
 
-        LoadImage loadImage;
+        LoadImage_2 loadImage;
         private void btnLoadImage_Click(object sender, EventArgs e)
         {
-            if(loadImage != null)
+            if (loadImage != null)
             {
                 pictureBoxCamera.Image = null;
-                loadImage.Dispose();                
+                loadImage.Dispose();
             }
-            loadImage = new LoadImage(this,comboBoxDriveCamera.SelectedIndex);
+            loadImage = new LoadImage_2(this.Items.home,this);
             loadImage.Show(this);
         }
         

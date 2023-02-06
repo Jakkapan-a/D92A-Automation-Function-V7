@@ -19,6 +19,7 @@ using OpenCvSharp.Extensions;
 using System.Runtime.InteropServices;
 //using VideoTCapture;
 using D92A_Automation_Function_V7.VideoTCapture;
+using D92A_Automation_Function_V7.Class;
 
 namespace D92A_Automation_Function_V7
 {
@@ -66,19 +67,23 @@ namespace D92A_Automation_Function_V7
         private int _indexDriverCamera = -1;
 
 
-        private Bitmap bitmapCamera;
-        private string ReadDataSerial;
-        private string dataSerialReceived;
-        private bool stateReceivedData = false;
-        private string btnReceivedData = string.Empty;
+        public Bitmap bitmapCamera;
+        public string ReadDataSerial;
+        public string dataSerialReceived;
+        public bool stateReceivedData = false;
+        public string btnReceivedData = string.Empty;
 
         private VideoTCapture.Capture _Tcapture;
 
+        private LogWriter log;
         #endregion
 
         #region Form Home Load
         private void Home_Load(object sender, EventArgs e)
         {
+            log = new LogWriter(Properties.Resources.path_log);
+            log.Save("From loading");
+
             this.timerVideo = new System.Windows.Forms.Timer();
             this.timerVideo.Interval = 1000 / 20;
             this.timerVideo.Tick += new System.EventHandler(this.timerVideo_Trick);
@@ -126,10 +131,11 @@ namespace D92A_Automation_Function_V7
 
         private void _Tcapture_OnVideoStarted()
         {
-
+            log.Save("Cam Started");
         }
 
         private delegate void FrameVideo(Bitmap bitmap);
+        
         private void _Tcapture_OnFrameHeadler(Bitmap bitmap)
         {
             // If invoke is required, invoke it
@@ -142,6 +148,7 @@ namespace D92A_Automation_Function_V7
             {
                 pictureBoxCamera.SuspendLayout();
                 pictureBoxCamera.Image = new Bitmap(bitmap);
+                bitmapCamera = (Bitmap)pictureBoxCamera.Image;
                 pictureBoxCamera.ResumeLayout();
             }
         }
@@ -178,11 +185,14 @@ namespace D92A_Automation_Function_V7
         {
             try
             {
+                log.Save("bt Start camera!");
                 isCapturing = !isCapturing;
+
                 if (isCapturing)
                 {
                     if (_indexDriverCamera == -1)
                         throw new Exception("Please select a camera drive!");
+
                     if (_Tcapture != null && _Tcapture.IsOpened)
                     {
                         _Tcapture.Stop();
@@ -198,7 +208,7 @@ namespace D92A_Automation_Function_V7
                     sendSerialCommand("conn");
                     Task.Delay(10);
                     sendSerialCommand("conn");
-                    btnStartStop.Text = "Stop";
+                    btnStartStop.Text = "STOP";
                 }
                 else
                 {
@@ -218,61 +228,12 @@ namespace D92A_Automation_Function_V7
 
                     toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
                     toolStripStatusSerialPort.ForeColor = Color.Red;
-                    btnStartStop.Text = "Start";
+                    btnStartStop.Text = "START";
                 }
             }catch(Exception ex)
             {
                MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
-            /*
-             isCapturing = !isCapturing;
-             try
-             {
-                 if (isCapturing)
-                 {
-                     if (_indexDriverCamera == -1)
-                         throw new Exception("Please select a camera drive!");
-
-                     capture = new OpenCvSharp.VideoCapture(_indexDriverCamera);
-                     capture.Open(_indexDriverCamera);
-                     btnStartStop.Text = "STOP";
-                     timerVideo.Start();
-
-                     _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
-                     _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
-                     _SerialPort.Open();
-                     toolStripStatusSerialPort.Text = "Serial Port : Connected";
-                     toolStripStatusSerialPort.ForeColor = Color.Green;
-                     sendSerialCommand("conn");
-                         Task.Delay(500); 
-                     sendSerialCommand("conn");
-
-                 }
-                 else
-                 {
-                     capture.Dispose();
-                     timerVideo.Stop();
-                     btnStartStop.Text = "START";
-
-                     if (_SerialPort != null || _SerialPort.IsOpen)
-                     {
-                         _SerialPort.DataReceived -= serialPort_DataReceived;
-                         sendSerialCommand("close");
-                         _SerialPort.Close();
-                         _SerialPort.Dispose();
-                     }
-                     _SerialPort = null;
-
-                     toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
-                     toolStripStatusSerialPort.ForeColor = Color.Red;
-                 }
-             }
-             catch(Exception ex)
-             {
-                 MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-             }
-            */
         }
 
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -296,7 +257,6 @@ namespace D92A_Automation_Function_V7
                 dataSerialReceived += ReadDataSerial;
                 if (dataSerialReceived.Contains(">") && dataSerialReceived.Contains("<"))
                 {
-                    // Remove \r\n
                     string data = dataSerialReceived.Replace("\r\n", string.Empty);
                     dataSerialReceived = string.Empty;
                     // [1][2][3][4][5][6][7]
@@ -306,6 +266,7 @@ namespace D92A_Automation_Function_V7
                     data = data.Substring(indexStart, indexEnd - indexStart);
                     Console.WriteLine("Received : "+data);
                     data = data.Replace(">", string.Empty).Replace("<", string.Empty);
+                    log.Save("Serial Received :"+data);
                     if (data == "start")
                     {
                         TestingToolStripMenuItem.PerformClick();

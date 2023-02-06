@@ -47,7 +47,7 @@ namespace D92A_Automation_Function_V7
                         g.DrawImage(bitmap, 0, 0, Rect, GraphicsUnit.Pixel);
                     }
                     // Set path
-                    string path = @"./system/temp/";
+                    string path = Properties.Resources.path_temp;
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);

@@ -1,4 +1,11 @@
-﻿namespace Log
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace D92A_Automation_Function_V7.Class
 {
     public class LogWriter
     {
@@ -32,7 +39,7 @@
                 Console.WriteLine(ex.ToString());
             }
         }
-        public void Save(string log)
+        public void Save(string log,bool newline = true)
         {
             try
             {
@@ -44,11 +51,22 @@
                 {
                     File.Create(file);
                 }
-                // Write the log to the file
-                using (StreamWriter writer = File.AppendText(file))
+                if(newline )
                 {
-                    writer.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy hh:mm:ss") + "] --> " + log);
+                    // Write the log to the file
+                    using (StreamWriter writer = File.AppendText(file))
+                    {
+                        writer.WriteLine("[" + DateTime.Now.ToString("dd-MM-yy hh:mm:ss") + "] --> " + log);
+                    }
                 }
+                else
+                {
+                    using (StreamWriter writer = File.AppendText(file))
+                    {
+                        writer.Write("[" + DateTime.Now.ToString("dd-MM-yy hh:mm:ss") + "] --> " + log);
+                    }
+                }
+               
             }
             catch (Exception ex)
             {
