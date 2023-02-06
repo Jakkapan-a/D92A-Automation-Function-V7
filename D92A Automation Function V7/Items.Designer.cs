@@ -33,27 +33,27 @@
             this.groupBoxItem = new System.Windows.Forms.GroupBox();
             this.dataGridViewItemList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripItenList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddItem = new System.Windows.Forms.Button();
             this.groupBoxActions = new System.Windows.Forms.GroupBox();
+            this.btnTest = new System.Windows.Forms.Button();
             this.dataGridViewActionList = new System.Windows.Forms.DataGridView();
             this.contextMenuStripActionList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
+            this.addAction = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddActions = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusItemId = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusActionId = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressLoader = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusTestting = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.maToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editModelNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbModelName = new System.Windows.Forms.Label();
-            this.btnTest = new System.Windows.Forms.Button();
-            this.toolStripProgressLoader = new System.Windows.Forms.ToolStripProgressBar();
-            this.editItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteItemList = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
-            this.addAction = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusTestting = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -133,6 +133,22 @@
             this.contextMenuStripItenList.Name = "contextMenuStripItenList";
             this.contextMenuStripItenList.Size = new System.Drawing.Size(122, 48);
             // 
+            // editItemToolStripMenuItem
+            // 
+            this.editItemToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.edit_property_32;
+            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
+            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.editItemToolStripMenuItem.Text = "Edit Item";
+            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
+            // 
+            // deleteItemList
+            // 
+            this.deleteItemList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
+            this.deleteItemList.Name = "deleteItemList";
+            this.deleteItemList.Size = new System.Drawing.Size(121, 22);
+            this.deleteItemList.Text = "Delete";
+            this.deleteItemList.Click += new System.EventHandler(this.deleteItemList_Click);
+            // 
             // btnAddItem
             // 
             this.btnAddItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -159,6 +175,17 @@
             this.groupBoxActions.TabStop = false;
             this.groupBoxActions.Text = "Actions List";
             // 
+            // btnTest
+            // 
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnTest.Location = new System.Drawing.Point(6, 312);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 2;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // dataGridViewActionList
             // 
             this.dataGridViewActionList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -183,6 +210,30 @@
             this.deleteActionList});
             this.contextMenuStripActionList.Name = "contextMenuStripActionList";
             this.contextMenuStripActionList.Size = new System.Drawing.Size(135, 70);
+            // 
+            // viewActionList
+            // 
+            this.viewActionList.Image = global::D92A_Automation_Function_V7.Properties.Resources.view_32;
+            this.viewActionList.Name = "viewActionList";
+            this.viewActionList.Size = new System.Drawing.Size(134, 22);
+            this.viewActionList.Text = "View";
+            this.viewActionList.Click += new System.EventHandler(this.viewActionList_Click);
+            // 
+            // addAction
+            // 
+            this.addAction.Image = global::D92A_Automation_Function_V7.Properties.Resources.add_list_32;
+            this.addAction.Name = "addAction";
+            this.addAction.Size = new System.Drawing.Size(134, 22);
+            this.addAction.Text = "Add Action";
+            this.addAction.Click += new System.EventHandler(this.btnAddActions_Click);
+            // 
+            // deleteActionList
+            // 
+            this.deleteActionList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
+            this.deleteActionList.Name = "deleteActionList";
+            this.deleteActionList.Size = new System.Drawing.Size(134, 22);
+            this.deleteActionList.Text = "Delete";
+            this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
             // 
             // btnAddActions
             // 
@@ -221,6 +272,19 @@
             this.toolStripStatusActionId.Size = new System.Drawing.Size(122, 19);
             this.toolStripStatusActionId.Text = "toolStripStatusLabel1";
             // 
+            // toolStripProgressLoader
+            // 
+            this.toolStripProgressLoader.Name = "toolStripProgressLoader";
+            this.toolStripProgressLoader.Size = new System.Drawing.Size(100, 18);
+            this.toolStripProgressLoader.Visible = false;
+            // 
+            // toolStripStatusTestting
+            // 
+            this.toolStripStatusTestting.Name = "toolStripStatusTestting";
+            this.toolStripStatusTestting.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusTestting.Text = "toolStripStatusLabel1";
+            this.toolStripStatusTestting.Visible = false;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -255,8 +319,7 @@
             // 
             // lbModelName
             // 
-            this.lbModelName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbModelName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbModelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbModelName.Location = new System.Drawing.Point(3, 24);
@@ -265,70 +328,6 @@
             this.lbModelName.TabIndex = 4;
             this.lbModelName.Text = "-------------------";
             this.lbModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnTest
-            // 
-            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnTest.Location = new System.Drawing.Point(6, 312);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 2;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // toolStripProgressLoader
-            // 
-            this.toolStripProgressLoader.Name = "toolStripProgressLoader";
-            this.toolStripProgressLoader.Size = new System.Drawing.Size(100, 18);
-            this.toolStripProgressLoader.Visible = false;
-            // 
-            // editItemToolStripMenuItem
-            // 
-            this.editItemToolStripMenuItem.Image = global::D92A_Automation_Function_V7.Properties.Resources.edit_property_32;
-            this.editItemToolStripMenuItem.Name = "editItemToolStripMenuItem";
-            this.editItemToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.editItemToolStripMenuItem.Text = "Edit Item";
-            this.editItemToolStripMenuItem.Click += new System.EventHandler(this.editItemToolStripMenuItem_Click);
-            // 
-            // deleteItemList
-            // 
-            this.deleteItemList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
-            this.deleteItemList.Name = "deleteItemList";
-            this.deleteItemList.Size = new System.Drawing.Size(121, 22);
-            this.deleteItemList.Text = "Delete";
-            this.deleteItemList.Click += new System.EventHandler(this.deleteItemList_Click);
-            // 
-            // viewActionList
-            // 
-            this.viewActionList.Image = global::D92A_Automation_Function_V7.Properties.Resources.view_32;
-            this.viewActionList.Name = "viewActionList";
-            this.viewActionList.Size = new System.Drawing.Size(134, 22);
-            this.viewActionList.Text = "View";
-            this.viewActionList.Click += new System.EventHandler(this.viewActionList_Click);
-            // 
-            // addAction
-            // 
-            this.addAction.Image = global::D92A_Automation_Function_V7.Properties.Resources.add_list_32;
-            this.addAction.Name = "addAction";
-            this.addAction.Size = new System.Drawing.Size(134, 22);
-            this.addAction.Text = "Add Action";
-            this.addAction.Click += new System.EventHandler(this.btnAddActions_Click);
-            // 
-            // deleteActionList
-            // 
-            this.deleteActionList.Image = global::D92A_Automation_Function_V7.Properties.Resources.trash_can_16;
-            this.deleteActionList.Name = "deleteActionList";
-            this.deleteActionList.Size = new System.Drawing.Size(134, 22);
-            this.deleteActionList.Text = "Delete";
-            this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
-            // 
-            // toolStripStatusTestting
-            // 
-            this.toolStripStatusTestting.Name = "toolStripStatusTestting";
-            this.toolStripStatusTestting.Size = new System.Drawing.Size(118, 19);
-            this.toolStripStatusTestting.Text = "toolStripStatusLabel1";
-            this.toolStripStatusTestting.Visible = false;
             // 
             // Items
             // 

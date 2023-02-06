@@ -366,16 +366,16 @@ namespace D92A_Automation_Function_V7
             AddModel model = new AddModel(this);
             model.ShowDialog();
         }
-        IO_Testing io;
+        Test_IO io;
         private void iOTestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_SerialPort != null && _SerialPort.IsOpen)
-            {               
+            {
                 if (io != null)
                 {
                     io.Dispose();
                 }
-                io = new IO_Testing(this);
+                io = new Test_IO(this);
                 io.ShowDialog();
             }
             else
