@@ -265,6 +265,7 @@ namespace D92A_Automation_Function_V7
         }
 
         Edit_Item edit_Item;
+
         private void editItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (edit_Item != null)
@@ -568,6 +569,18 @@ namespace D92A_Automation_Function_V7
                 e.Cancel = true;
                 MessageBox.Show(Properties.Resources.process_is_runing, "Warning", MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
+        }
+        ActionIO actionIO;
+        private void btnAdd_IO_Click(object sender, EventArgs e)
+        {
+            if(actionIO != null)
+            {
+                actionIO.Close();
+                actionIO.Dispose();
+            }
+
+            actionIO = new ActionIO(this);
+            actionIO.Show();
         }
     }
 }

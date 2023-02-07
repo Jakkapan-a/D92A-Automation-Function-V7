@@ -141,6 +141,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionIO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionIO.Designer.cs">
+      <DependentUpon>ActionIO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Actions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,6 +244,9 @@
     <Compile Include="View.Designer.cs">
       <DependentUpon>View.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ActionIO.resx">
+      <DependentUpon>ActionIO.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Actions.resx">
       <DependentUpon>Actions.cs</DependentUpon>
     </EmbeddedResource>

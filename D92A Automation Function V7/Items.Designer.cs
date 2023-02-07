@@ -43,7 +43,7 @@
             this.viewActionList = new System.Windows.Forms.ToolStripMenuItem();
             this.addAction = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteActionList = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddActions = new System.Windows.Forms.Button();
+            this.btnAdd_Image = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusItemId = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusActionId = new System.Windows.Forms.ToolStripStatusLabel();
@@ -54,6 +54,7 @@
             this.editModelNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbModelName = new System.Windows.Forms.Label();
+            this.btnAdd_IO = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -167,7 +168,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxActions.Controls.Add(this.btnTest);
             this.groupBoxActions.Controls.Add(this.dataGridViewActionList);
-            this.groupBoxActions.Controls.Add(this.btnAddActions);
+            this.groupBoxActions.Controls.Add(this.btnAdd_IO);
+            this.groupBoxActions.Controls.Add(this.btnAdd_Image);
             this.groupBoxActions.Location = new System.Drawing.Point(3, 3);
             this.groupBoxActions.Name = "groupBoxActions";
             this.groupBoxActions.Size = new System.Drawing.Size(515, 340);
@@ -235,16 +237,16 @@
             this.deleteActionList.Text = "Delete";
             this.deleteActionList.Click += new System.EventHandler(this.deleteActinList_Click);
             // 
-            // btnAddActions
+            // btnAdd_Image
             // 
-            this.btnAddActions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddActions.Location = new System.Drawing.Point(434, 312);
-            this.btnAddActions.Name = "btnAddActions";
-            this.btnAddActions.Size = new System.Drawing.Size(75, 23);
-            this.btnAddActions.TabIndex = 0;
-            this.btnAddActions.Text = "Add Action";
-            this.btnAddActions.UseVisualStyleBackColor = true;
-            this.btnAddActions.Click += new System.EventHandler(this.btnAddActions_Click);
+            this.btnAdd_Image.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd_Image.Location = new System.Drawing.Point(417, 312);
+            this.btnAdd_Image.Name = "btnAdd_Image";
+            this.btnAdd_Image.Size = new System.Drawing.Size(92, 23);
+            this.btnAdd_Image.TabIndex = 0;
+            this.btnAdd_Image.Text = "Add Image";
+            this.btnAdd_Image.UseVisualStyleBackColor = true;
+            this.btnAdd_Image.Click += new System.EventHandler(this.btnAddActions_Click);
             // 
             // statusStrip
             // 
@@ -329,6 +331,17 @@
             this.lbModelName.Text = "-------------------";
             this.lbModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnAdd_IO
+            // 
+            this.btnAdd_IO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd_IO.Location = new System.Drawing.Point(319, 311);
+            this.btnAdd_IO.Name = "btnAdd_IO";
+            this.btnAdd_IO.Size = new System.Drawing.Size(92, 23);
+            this.btnAdd_IO.TabIndex = 0;
+            this.btnAdd_IO.Text = "Add IO";
+            this.btnAdd_IO.UseVisualStyleBackColor = true;
+            this.btnAdd_IO.Click += new System.EventHandler(this.btnAdd_IO_Click);
+            // 
             // Items
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,7 +380,7 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnAddItem;
-        private System.Windows.Forms.Button btnAddActions;
+        private System.Windows.Forms.Button btnAdd_Image;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusItemId;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -390,5 +403,6 @@
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressLoader;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusTestting;
+        private System.Windows.Forms.Button btnAdd_IO;
     }
 }
