@@ -157,4 +157,7 @@
   <data name="path_temp" xml:space="preserve">
     <value>./system/temp/</value>
   </data>
+  <data name="process_is_runing" xml:space="preserve">
+    <value>Process is running</value>
+  </data>
 </root>

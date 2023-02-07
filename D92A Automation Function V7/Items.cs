@@ -194,8 +194,6 @@ namespace D92A_Automation_Function_V7
                     {
                         LoadActionsList();
                     }
-                  
-                    //Console.WriteLine(item_id);
                 }
             }
             catch(Exception ex)
@@ -286,9 +284,6 @@ namespace D92A_Automation_Function_V7
                 {
                     thread.Abort();
                 }
-                //thread = new Thread(new ThreadStart(processTesting));
-                //thread.Start();
-                //stateTesting = true;
                 if(_worker == null)
                 {
                     _worker = new BackgroundWorker();

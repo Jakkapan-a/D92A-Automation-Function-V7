@@ -157,6 +157,15 @@ namespace D92A_Automation_Function_V7.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Process is running.
+        /// </summary>
+        internal static string process_is_runing {
+            get {
+                return ResourceManager.GetString("process_is_runing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap settings_16 {

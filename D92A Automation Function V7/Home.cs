@@ -20,6 +20,9 @@ using System.Runtime.InteropServices;
 //using VideoTCapture;
 using D92A_Automation_Function_V7.VideoTCapture;
 using D92A_Automation_Function_V7.Class;
+using System.Timers;
+using System.Reflection;
+using static Emgu.CV.DISOpticalFlow;
 
 namespace D92A_Automation_Function_V7
 {
@@ -77,9 +80,14 @@ namespace D92A_Automation_Function_V7
         private VideoTCapture.Capture _Tcapture;
 
         private LogWriter log;
+
+        private bool blink = false;
+        private bool blinkRuning = false;
+
         #endregion
 
         #region Form Home Load
+
         private void Home_Load(object sender, EventArgs e)
         {
             log = new LogWriter(Properties.Resources.path_log);
@@ -126,7 +134,7 @@ namespace D92A_Automation_Function_V7
             // Delete file
             modules.Actions.DeleteTemp();
 
-            btnCheckBoxManual.Checked = true;
+            btnCheckBoxAuto.Checked = true;
             timerVideo.Stop();
 
             if (_worker == null)
@@ -136,20 +144,17 @@ namespace D92A_Automation_Function_V7
                 _worker.WorkerSupportsCancellation = true;
                 _worker.DoWork += _workerTesting_DoWork;
                 _worker.ProgressChanged += _workerTesting_ProgressChanged;
-                _worker.RunWorkerCompleted +=_workerTesting_RunWorkerCompleted;
+                _worker.RunWorkerCompleted += _workerTesting_RunWorkerCompleted;
             }
         }
-
-       
-
-
+        #endregion
         private void _Tcapture_OnVideoStarted()
         {
             log.Save("Cam Started");
         }
 
         private delegate void FrameVideo(Bitmap bitmap);
-        
+
         private void _Tcapture_OnFrameHeadler(Bitmap bitmap)
         {
             // If invoke is required, invoke it
@@ -166,90 +171,35 @@ namespace D92A_Automation_Function_V7
                 pictureBoxCamera.ResumeLayout();
             }
         }
-        #endregion
-
 
         private void timerVideo_Trick(object sender, EventArgs e)
         {
             try
             {
-                if(capture != null && capture.IsOpened())
+                if (capture != null && capture.IsOpened())
                 {
-                    using(OpenCvSharp.Mat frame = new OpenCvSharp.Mat())
+                    using (OpenCvSharp.Mat frame = new OpenCvSharp.Mat())
                     {
-                        
+
                         capture.Read(frame);
-                        if(frame != null)
+                        if (frame != null)
                         {
                             pictureBoxCamera.SuspendLayout();
                             pictureBoxCamera.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
                             bitmapCamera = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
                             pictureBoxCamera.ResumeLayout();
-                        }                       
+                        }
                     }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 timerVideo.Stop();
-                MessageBox.Show(ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnStartStop_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                log.Save("bt Start camera!");
-                isCapturing = !isCapturing;
-
-                if (isCapturing)
-                {
-                    if (_indexDriverCamera == -1)
-                        throw new Exception("Please select a camera drive!");
-
-                    if (_Tcapture != null && _Tcapture.IsOpened)
-                    {
-                        _Tcapture.Stop();
-                    }
-                    Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
-
-                    _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
-                    _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
-                    _SerialPort.Open();
-                    toolStripStatusSerialPort.Text = "Serial Port : Connected";
-                    toolStripStatusSerialPort.ForeColor = Color.Green;
-                    sendSerialCommand("conn");
-                    Task.Delay(100);
-                    sendSerialCommand("conn");
-                    btnStartStop.Text = "STOP";
-                }
-                else
-                {
-                    if (_Tcapture != null && _Tcapture.IsOpened)
-                    {
-                        _Tcapture.Stop();
-                    }
-
-                    if (_SerialPort != null || _SerialPort.IsOpen)
-                    {
-                        _SerialPort.DataReceived -= serialPort_DataReceived;
-                        sendSerialCommand("close");
-                        _SerialPort.Close();
-                        _SerialPort.Dispose();
-                    }
-                    _SerialPort = null;
-
-                    toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
-                    toolStripStatusSerialPort.ForeColor = Color.Red;
-                    btnStartStop.Text = "START";
-                    pictureBoxCamera.Image = null;
-                }
-            }catch(Exception ex)
-            {
-               MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
-
+        #region Serial port
         private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
@@ -278,15 +228,16 @@ namespace D92A_Automation_Function_V7
                     int indexStart = data.IndexOf(">") + ">".Length;
                     int indexEnd = data.IndexOf("<");
                     data = data.Substring(indexStart, indexEnd - indexStart);
-                    Console.WriteLine("Received : "+data);
+                    Console.WriteLine("Received : " + data);
                     data = data.Replace(">", string.Empty).Replace("<", string.Empty);
-                    log.Save("Serial Received :"+data);
+                    log.Save("Serial Received :" + data);
                     if (data == "start")
                     {
+                        blinkRuning = false;
                         pictureBoxDetect.Visible = false;
                         TestingToolStripMenuItem.PerformClick();
                     }
-                    else if(data == "end")
+                    else if (data == "end")
                     {
 
                     }
@@ -307,12 +258,12 @@ namespace D92A_Automation_Function_V7
                     }
                     ReadDataSerial = "";
                 }
-                else if(!dataSerialReceived.Contains(">"))
+                else if (!dataSerialReceived.Contains(">"))
                 {
                     dataSerialReceived = string.Empty;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -324,13 +275,92 @@ namespace D92A_Automation_Function_V7
             {
                 if (_SerialPort != null && _SerialPort.IsOpen)
                 {
-                    
+
                     _SerialPort.Write(">" + command + "<#");
                     toolStripStatusSerialDetails.Text = "Send : " + command;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+
+        private void btnStartStop_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                log.Save("bt Start camera!");
+                isCapturing = !isCapturing;
+
+                if (isCapturing)
+                {
+                    if (_indexDriverCamera == -1)
+                        throw new Exception("Please select a camera drive!");
+
+                    if (_Tcapture != null && _Tcapture.IsOpened)
+                    {
+                        _Tcapture.Stop();
+                    }
+                    Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
+
+                    _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
+                    _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
+                    _SerialPort.Open();
+                    sendSerialCommand("conn");
+                    Task.Delay(100);
+                    sendSerialCommand("conn");
+                    btnStartStop.Text = "STOP";
+                }
+                else
+                {
+                    if (_Tcapture != null && _Tcapture.IsOpened)
+                    {
+                        _Tcapture.Stop();
+                    }
+
+                    if (_SerialPort != null || _SerialPort.IsOpen)
+                    {
+                        sendSerialCommand("close");
+                        _SerialPort.DataReceived -= serialPort_DataReceived;
+                        _SerialPort.Close();
+                        _SerialPort.Dispose();
+                    }
+
+                    _SerialPort = null;
+
+                    btnStartStop.Text = "START";
+                    pictureBoxCamera.Image = null;
+                }
+                update_status();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (_Tcapture.IsOpened)
+                    _Tcapture.Stop();
+
+                if (_SerialPort != null && _SerialPort.IsOpen)
+                    _SerialPort.Close();
+
+                update_status();
+            }
+        }
+
+        private void update_status()
+        {
+            // Update Serial Port Sataus
+            if (_SerialPort != null && _SerialPort.IsOpen)
+            {
+                toolStripStatusSerialPort.Text = "Serial Port : connected";
+                toolStripStatusSerialPort.ForeColor = Color.Green;
+            }
+            else if (_SerialPort == null || !_SerialPort.IsOpen)
+            {
+                toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
+                toolStripStatusSerialPort.ForeColor = Color.Red;
             }
         }
 
@@ -359,12 +389,12 @@ namespace D92A_Automation_Function_V7
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            
+
         }
         Items items;
         private void btnEditModel_Click(object sender, EventArgs e)
         {
-            if(modelId == -1)
+            if (modelId == -1)
             {
                 MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -416,7 +446,7 @@ namespace D92A_Automation_Function_V7
                 _Tcapture.Dispose();
             }
         }
-        
+
         internal void loadModel()
         {
             try
@@ -445,7 +475,7 @@ namespace D92A_Automation_Function_V7
             {
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-}
+        }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -462,7 +492,7 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            
+
             if (items != null)
             {
                 items.Dispose();
@@ -470,7 +500,7 @@ namespace D92A_Automation_Function_V7
             // Column index of button edit
             items = new Items(modelId);
             items.ShowDialog();
-            
+
         }
 
         private void dataGridViewModelList_SelectionChanged(object sender, EventArgs e)
@@ -480,7 +510,7 @@ namespace D92A_Automation_Function_V7
                 if (dataGridViewModelList.SelectedRows.Count > 0)
                 {
                     dynamic row = dataGridViewModelList.SelectedRows[0].DataBoundItem;
-                    this.modelId =int.Parse(row.id.ToString());
+                    this.modelId = int.Parse(row.id.ToString());
                     lbModelName.Text = row.Models_Name;
                     toolStripStatusLabelModelID.Text = "Model ID :" + this.modelId.ToString();
                 }
@@ -496,13 +526,12 @@ namespace D92A_Automation_Function_V7
             modules.Models.Delete(this.modelId);
             loadModel();
         }
-
         List<_ItemsList> _Items;
         List<modules.Actions> actions;
 
         private void ProcessTesting()
         {
-            if(modelId == -1)
+            if (modelId == -1)
             {
                 MessageBox.Show("Please select model!");
                 return;
@@ -519,7 +548,7 @@ namespace D92A_Automation_Function_V7
             _Items = _ItemsList.LoadItems(modelId);
             if (txtProcessDetails.InvokeRequired)
                 txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
-            
+
             foreach (_ItemsList item in _Items)
             {
                 txtProcessDetailsAppendText($"Item : {item.name} ");
@@ -527,24 +556,26 @@ namespace D92A_Automation_Function_V7
                 if (btnCheckBoxAuto.Checked && item._type == 1)
                 {
                     continue;
-                }else if (btnCheckBoxManual.Checked && item._type == 2)
+                }
+                else if (btnCheckBoxManual.Checked && item._type == 2)
                 {
                     continue;
                 }
                 actions = null;
                 actions = modules.Actions.LoadActions(item.id);
-                foreach(modules.Actions action in actions)
+                foreach (modules.Actions action in actions)
                 {
                     //Console.WriteLine(action._type);
-                    if(action._type == 0)
+                    if (action._type == 0)
                     {
                         // Mode IO Function
-                        if(action.io_type == 0)
+                        if (action.io_type == 0)
                         {
                             //Console.WriteLine($"{action.io_state}{action.io_port}");
                             sendSerialCommand($"{action.io_state}{action.io_port}");
-                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ");                        }
-                        else if(action.io_type == 1)
+                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ");
+                        }
+                        else if (action.io_type == 1)
                         {
                             sendSerialCommand($"1{action.io_port}");
                             txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ");
@@ -552,19 +583,19 @@ namespace D92A_Automation_Function_V7
                             sendSerialCommand($"0{action.io_port}");
                             txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ");
                         }
-                        
+
                     }
-                    else if(action._type == 1)
+                    else if (action._type == 1)
                     {
                         int ngCount = 0;
-                        process_compare:
+                    process_compare:
                         var result = ProcessCompare(action.image_path);
                         txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Image Comapre result : {result}%, config :{action.image_percent} ");
                         if (result < action.image_percent)
                         {
                             // Test Again
                             ngCount++;
-                            if(ngCount < 10)
+                            if (ngCount < 10)
                             {
                                 txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Test again : ---{ngCount}--- ");
                                 Thread.Sleep(100);
@@ -579,7 +610,7 @@ namespace D92A_Automation_Function_V7
                         {
                             txtProcessDetailsAppendText("Judement OK");
                             //Console.WriteLine("Judement OK");
-                        }                      
+                        }
                     }
                     else if (action._type == 2)
                     {
@@ -589,7 +620,7 @@ namespace D92A_Automation_Function_V7
                         int timeOut = action.io_timeout * 1000;
                         int counter = 0;
                         int countTime = 0;
-                        while (counter<=timeOut)
+                        while (counter <= timeOut)
                         {
                             if (stateReceivedData == true)
                             {
@@ -597,17 +628,17 @@ namespace D92A_Automation_Function_V7
                             }
                             Thread.Sleep(50);
                             counter++;
-                            countTime ++;
-                            if(countTime > 10)
+                            countTime++;
+                            if (countTime > 10)
                             {
-                                txtProcessDetailsAppendText(".",true);
+                                txtProcessDetailsAppendText(".", true);
                             }
                         }
-                        if(stateReceivedData && btnReceivedData != string.Empty)
+                        if (stateReceivedData && btnReceivedData != string.Empty)
                         {
                             txtProcessDetailsAppendText("Pressed button OK");
                         }
-                        else if(stateReceivedData && btnReceivedData != string.Empty)
+                        else if (stateReceivedData && btnReceivedData != string.Empty)
                         {
                             txtProcessDetailsAppendText("Pressed button NG");
                         }
@@ -625,7 +656,7 @@ namespace D92A_Automation_Function_V7
             sendSerialCommand("end");
         }
 
-        public void txtProcessDetailsAppendText(string data,bool noNewLine = false)
+        public void txtProcessDetailsAppendText(string data, bool noNewLine = false)
         {
             if (txtProcessDetails.InvokeRequired)
             {
@@ -635,6 +666,12 @@ namespace D92A_Automation_Function_V7
                     txtProcessDetails.AppendText($"{data} {newLine}");
                     txtProcessDetails.ScrollToCaret();
                 });
+            }
+            else
+            {
+                string newLine = noNewLine ? "" : Environment.NewLine;
+                string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                txtProcessDetails.AppendText($"{date} ->{data} {newLine}");
             }
         }
 
@@ -748,9 +785,9 @@ namespace D92A_Automation_Function_V7
             }
         }
 
-        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        private void loginToolStripMenuIteam_Click(object sender, EventArgs e)
         {
-            if(login != null)
+            if (login != null)
             {
                 login.Dispose();
             }
@@ -768,7 +805,7 @@ namespace D92A_Automation_Function_V7
                 return;
             }
 
-            if(txtName.Text == "")
+            if (txtName.Text == "")
             {
                 MessageBox.Show("Please enter name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -786,17 +823,12 @@ namespace D92A_Automation_Function_V7
             {
                 thread.Abort();
                 thread.DisableComObjectEagerCleanup();
-                thread= null;
+                thread = null;
             }
-            pictureBoxDetect.Image= null;
+            pictureBoxDetect.Image = null;
             thread = new Thread(new ThreadStart(ProcessTesting));
             thread.Start();
-            
-        }
 
-        private void settingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabControl.SelectTab(1);
         }
 
         private void Home_Resize(object sender, EventArgs e)
@@ -806,10 +838,11 @@ namespace D92A_Automation_Function_V7
             // int height = this.Height;
             // Console.WriteLine("Width: " + width + " Height: " + height);
 
-            if(this.Width > 1390)
+            if (this.Width > 1390)
             {
                 tableLayoutPanelHome.ColumnStyles[1].Width = 700;
-            }else if (this.Width > 1500)
+            }
+            else if (this.Width > 1500)
             {
                 tableLayoutPanelHome.ColumnStyles[1].Width = 800;
             }
@@ -830,16 +863,263 @@ namespace D92A_Automation_Function_V7
                 tableLayoutPanelHome.ColumnStyles[1].Width = 505;
             }
         }
+
+        public string resultTesting = "NG";
         private void _workerTesting_DoWork(object sender, DoWorkEventArgs e)
         {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            // Process testing 2
+            bool found_NG = false;
+            try
+            {
+                if (modelId == -1)
+                {
+                    MessageBox.Show("Please select model!");
+                    return;
+                    throw new Exception("Please select model!");
+                }
 
+                for (int i = 0; i < 16; i++)
+                {
+                    sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                    Thread.Sleep(50);
+                    int persent = (Int32)Math.Round((double)(i * 100) / 16); // 
+                    worker.ReportProgress(persent);
+                }
+                worker.ReportProgress(0);
+                _Items = null;
+                _Items = _ItemsList.LoadItems(modelId);
+
+
+                lbResult.Text = "Testing...";
+                bool toggle = false;
+                txtProcessDetailsAppendText("Start Testing....");
+
+                int _counter = 0;
+                foreach (_ItemsList item in _Items)
+                {
+                    _counter++;
+                    toggle = !toggle;
+                    if (toggle)
+                    {
+                        lbResult.SuspendLayout();
+                        lbResult.Text = "Testing..";
+                        lbResult.ResumeLayout();
+                    }
+                    else
+                    {
+                        lbResult.SuspendLayout();
+                        lbResult.Text = "Testing.";
+                        lbResult.ResumeLayout();
+                    }
+
+                    txtProcessDetailsAppendText($"Item : {item.name} ");
+                    toolStripStatusProcessTesting.Text = $"Type : {type_items[item._type]}";
+                    if (btnCheckBoxAuto.Checked && item._type == 1)
+                    {
+                        continue;
+                    }
+                    else if (btnCheckBoxManual.Checked && item._type == 2)
+                    {
+                        continue;
+                    }
+                    actions = null;
+                    actions = modules.Actions.LoadActions(item.id);
+                    foreach (modules.Actions action in actions)
+                    {
+                        if (action._type == 0)
+                        {
+                            // Mode IO Function 0 = Manual, 1 = Auto, 2 = Wait judment
+                            if (action.io_type == 0)
+                            {
+                                sendSerialCommand($"{action.io_state}{action.io_port}");
+                                txtProcessDetailsAppendText($"io data : {action.io_state}{action.io_port} ");
+                            }
+                            else if (action.io_type == 1)
+                            {
+                                sendSerialCommand($"1{action.io_port}");
+                                txtProcessDetailsAppendText($"io data : 1{action.io_port} ");
+                                Thread.Sleep(action.auto_delay);
+                                sendSerialCommand($"0{action.io_port}");
+                                txtProcessDetailsAppendText($"io data : 0{action.io_port} ");
+                            }
+
+                        }
+                        else if (action._type == 1)
+                        {
+                            int ngCount = 0;
+                        process_compare:
+                            var result = ProcessCompare(action.image_path);
+                            txtProcessDetailsAppendText($"Image Comapre result : {result}%, config :{action.image_percent} ");
+                            if (result < action.image_percent)
+                            {
+                                // Test Again
+                                ngCount++;
+                                if (ngCount < 15)
+                                {
+                                    txtProcessDetailsAppendText($"Test again : ---{ngCount}--- ");
+                                    Thread.Sleep(100);
+                                    goto process_compare;
+                                }
+                                // Test 
+                                txtProcessDetailsAppendText("Judement NG");
+                                //Console.WriteLine("Judement NG");
+                                found_NG = true;
+                                // End process
+                            }
+                            else
+                            {
+                                txtProcessDetailsAppendText("Judement OK");
+                                //Console.WriteLine("Judement OK");
+                            }
+                        }
+                        else if (action._type == 2)
+                        {
+                            stateReceivedData = false;
+                            btnReceivedData = string.Empty;
+                            // 1 se
+                            int timeOut = action.io_timeout * 1000;
+                            int counter = 0;
+                            int countTime = 0;
+                            while (counter <= timeOut)
+                            {
+                                if (stateReceivedData == true)
+                                {
+                                    break;
+                                }
+                                Thread.Sleep(50);
+                                counter++;
+                                countTime++;
+                                if (countTime > 10)
+                                {
+                                    txtProcessDetailsAppendText(".", true);
+                                }
+                            }
+                            if (stateReceivedData && btnReceivedData != string.Empty)
+                            {
+                                txtProcessDetailsAppendText("Pressed button OK");
+                            }
+                            else if (stateReceivedData && btnReceivedData != string.Empty)
+                            {
+                                txtProcessDetailsAppendText("Pressed button NG");
+                            }
+                            else
+                            {
+                                txtProcessDetailsAppendText("Time Out!!");
+                                found_NG = true;
+                            }
+                        }
+                        int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
+                        if (persent > 100)
+                            persent = 100;
+                        worker.ReportProgress(persent);
+                        Thread.Sleep(action.delay);
+                        if (found_NG)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Testing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            txtProcessDetailsAppendText("End Process");
+            Console.WriteLine("End Process");
+            sendSerialCommand("end");
+            // Check the results 
+            if (!found_NG)
+            {
+                resultTesting = "OK";
+                blinkRuning = false;
+            }
+            else
+            {
+                resultTesting = "NG";
+                blinkRuning = true;
+            }
         }
 
         private void _workerTesting_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-
+            toolStripProgressTesting.Value = e.ProgressPercentage;
         }
+
         private void _workerTesting_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            lbResult.Text = resultTesting;
+            blinkRuning = false;
+            if (resultTesting == "OK")
+            {
+                lbResult.BackColor = Color.Green;
+            }
+            else
+            {
+                lbResult.BackColor = Color.Red;
+            }
+            toolStripProgressTesting.Visible = false;
+        }
+
+        private void testing2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            testProcess();
+        }
+ 
+        private void testProcess()
+        {
+            if (_worker.IsBusy != true)
+            {
+                if (txtProcessDetails.InvokeRequired)
+                    txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
+                else
+                    txtProcessDetails.Text = string.Empty;
+
+                toolStripProgressTesting.Visible = true;
+                toolStripProgressTesting.Value = 0;
+                _worker.RunWorkerAsync(this);
+            }
+            else
+            {
+                MessageBox.Show(Properties.Resources.process_is_runing, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void timerNG_Tick(object sender, EventArgs e)
+        {
+            if (blinkRuning)
+            {
+                blink = !blink;
+                if (blink)
+                {
+                    lbResult.BackColor = Color.White;
+                    lbResult.ForeColor = Color.Red;
+                }
+                else
+                {
+                    lbResult.BackColor = Color.Red;
+                    lbResult.ForeColor = Color.White;
+                }
+            }
+            else
+            {
+                blinkRuning = false;
+                if (lbResult.Text == "NG")
+                {
+                    lbResult.BackColor = Color.Red;
+                    lbResult.ForeColor = Color.White;
+                }
+                else
+                {
+                    lbResult.BackColor = Color.Green;
+                    lbResult.ForeColor = Color.White;
+                }
+                timerNG.Stop();
+            }
+        }
+
+        private void timerCounter_Tick(object sender, EventArgs e)
         {
 
         }
