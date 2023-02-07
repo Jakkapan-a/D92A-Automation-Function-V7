@@ -54,8 +54,6 @@ namespace D92A_Automation_Function_V7
         public int modelId = -1;
         public Dictionary<string, string[,]> keysSLD = new Dictionary<string, string[,]>();
 
-        private OpenCvSharp.VideoCapture capture;
-
         private bool isCapturing = false;
         private System.Windows.Forms.Timer timerVideo;
         private string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
@@ -83,7 +81,11 @@ namespace D92A_Automation_Function_V7
 
         private bool blink = false;
         private bool blinkRuning = false;
-
+        private delegate void ProcessUpdate(int value);
+        private ProcessUpdate onProcessUpdate;
+        private ProcessUpdate onProcessClose;
+        private ProcessUpdate onProcessStart;
+        private bool lockImage = false;
         #endregion
 
         #region Form Home Load
@@ -92,10 +94,6 @@ namespace D92A_Automation_Function_V7
         {
             log = new LogWriter(Properties.Resources.path_log);
             log.Save("From loading");
-
-            this.timerVideo = new System.Windows.Forms.Timer();
-            this.timerVideo.Interval = 1000 / 20;
-            this.timerVideo.Tick += new System.EventHandler(this.timerVideo_Trick);
 
             var drive = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
 
@@ -135,17 +133,8 @@ namespace D92A_Automation_Function_V7
             modules.Actions.DeleteTemp();
 
             btnCheckBoxAuto.Checked = true;
-            timerVideo.Stop();
 
-            if (_worker == null)
-            {
-                _worker = new BackgroundWorker();
-                _worker.WorkerReportsProgress = true;
-                _worker.WorkerSupportsCancellation = true;
-                _worker.DoWork += _workerTesting_DoWork;
-                _worker.ProgressChanged += _workerTesting_ProgressChanged;
-                _worker.RunWorkerCompleted += _workerTesting_RunWorkerCompleted;
-            }
+            onProcessUpdate += _ProcessUpdate;
         }
         #endregion
         private void _Tcapture_OnVideoStarted()
@@ -167,35 +156,8 @@ namespace D92A_Automation_Function_V7
             {
                 pictureBoxCamera.SuspendLayout();
                 pictureBoxCamera.Image = new Bitmap(bitmap);
-                bitmapCamera = (Bitmap)pictureBoxCamera.Image;
+                bitmapCamera = (Bitmap)pictureBoxCamera.Image.Clone();                
                 pictureBoxCamera.ResumeLayout();
-            }
-        }
-
-        private void timerVideo_Trick(object sender, EventArgs e)
-        {
-            try
-            {
-                if (capture != null && capture.IsOpened())
-                {
-                    using (OpenCvSharp.Mat frame = new OpenCvSharp.Mat())
-                    {
-
-                        capture.Read(frame);
-                        if (frame != null)
-                        {
-                            pictureBoxCamera.SuspendLayout();
-                            pictureBoxCamera.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
-                            bitmapCamera = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
-                            pictureBoxCamera.ResumeLayout();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                timerVideo.Stop();
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -234,8 +196,9 @@ namespace D92A_Automation_Function_V7
                     if (data == "start")
                     {
                         blinkRuning = false;
-                        pictureBoxDetect.Visible = false;
+                        pictureBoxDetect.Visible = true;
                         TestingToolStripMenuItem.PerformClick();
+                        //testProcess();
                     }
                     else if (data == "end")
                     {
@@ -529,6 +492,18 @@ namespace D92A_Automation_Function_V7
         List<_ItemsList> _Items;
         List<modules.Actions> actions;
 
+        private void _ProcessUpdate(int value)
+        {
+            if(toolStripProgressTesting.GetCurrentParent().InvokeRequired) {
+                toolStripProgressTesting.GetCurrentParent().Invoke(new ProcessUpdate(_ProcessUpdate),value);
+                return;
+            }
+            else
+            {
+                toolStripProgressTesting.Value = value;
+            }
+        }
+
         private void ProcessTesting()
         {
             if (modelId == -1)
@@ -542,17 +517,53 @@ namespace D92A_Automation_Function_V7
             {
                 sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
                 Thread.Sleep(50);
+                int persent = (Int32)Math.Round((double)(i * 100) / 16); // 
+                //toolStripProgressTesting.Value = persent;
+                onProcessUpdate.Invoke(persent);
             }
-
+            onProcessUpdate.Invoke(0);
             _Items = null;
             _Items = _ItemsList.LoadItems(modelId);
             if (txtProcessDetails.InvokeRequired)
                 txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
-
+            bool toggle = false;
+            int _counter = 0;
             foreach (_ItemsList item in _Items)
             {
+                _counter++;
+                toggle = !toggle;
+                int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
+                onProcessUpdate.Invoke(persent);
+
+                if (toggle)
+                {
+                    if (lbResult.InvokeRequired)
+                    {
+                        lbResult.Invoke((MethodInvoker)delegate {
+                            lbResult.Text = "Testing..";
+                        });
+                    }
+                    else
+                    {
+                        lbResult.Text = "Testing..";
+                    }
+                }
+                else
+                {
+                    if (lbResult.InvokeRequired)
+                    {
+                        lbResult.Invoke((MethodInvoker)delegate {
+                            lbResult.Text = "Testing...";
+                        });
+                    }
+                    else
+                    {
+                        lbResult.Text = "Testing...";
+                    }
+                }
+
                 txtProcessDetailsAppendText($"Item : {item.name} ");
-                toolStripStatusProcessTesting.Text = $"Type : {type_items[item._type]}";
+                //toolStripStatusProcessTesting.Text = $"Type : {type_items[item._type]}";
                 if (btnCheckBoxAuto.Checked && item._type == 1)
                 {
                     continue;
@@ -681,11 +692,13 @@ namespace D92A_Automation_Function_V7
                 throw new Exception("File master not found!!");
 
             Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> image_master = new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(path_master).Clone();
+            // LockImage = true;
+            string path_temp = Properties.Resources.path_temp+"/" + Guid.NewGuid().ToString() + ".jpg";
 
             Bitmap match = Matching(image_master.ToBitmap(), imageSlave: bitmapCamera);
-            pictureBoxDetect.Image = (Image)match.Clone();
+            pictureBoxDetect.Image = new Bitmap(match);
 
-            string path_temp = _path + "/temp/" + Guid.NewGuid().ToString() + ".jpg";
+            path_temp = Properties.Resources.path_temp + "/" + Guid.NewGuid().ToString() + ".jpg";
 
             if (!Directory.Exists(_path + "/temp/"))
                 Directory.CreateDirectory(_path + "/temp/");
@@ -694,6 +707,7 @@ namespace D92A_Automation_Function_V7
 
             image_master.Dispose();
             match.Dispose();
+
             if (File.Exists(path_temp))
                 File.Delete(path_temp);
 
@@ -825,10 +839,13 @@ namespace D92A_Automation_Function_V7
                 thread.DisableComObjectEagerCleanup();
                 thread = null;
             }
+            toolStripProgressTesting.Visible = true;
+            toolStripProgressTesting.Value = 0;
+
             pictureBoxDetect.Image = null;
             thread = new Thread(new ThreadStart(ProcessTesting));
             thread.Start();
-
+           
         }
 
         private void Home_Resize(object sender, EventArgs e)
@@ -870,8 +887,8 @@ namespace D92A_Automation_Function_V7
             BackgroundWorker worker = sender as BackgroundWorker;
             // Process testing 2
             bool found_NG = false;
-            try
-            {
+            //try
+            //{
                 if (modelId == -1)
                 {
                     MessageBox.Show("Please select model!");
@@ -888,11 +905,20 @@ namespace D92A_Automation_Function_V7
                 }
                 worker.ReportProgress(0);
                 _Items = null;
+
                 _Items = _ItemsList.LoadItems(modelId);
 
-
-                lbResult.Text = "Testing...";
-                bool toggle = false;
+                if (lbResult.InvokeRequired)
+                {
+                    lbResult.Invoke((MethodInvoker)delegate {
+                        lbResult.Text = "Testing....";
+                    });
+                }
+                else
+                {
+                    lbResult.Text = "Testing..";
+                }
+            bool toggle = false;
                 txtProcessDetailsAppendText("Start Testing....");
 
                 int _counter = 0;
@@ -900,17 +926,31 @@ namespace D92A_Automation_Function_V7
                 {
                     _counter++;
                     toggle = !toggle;
+                    int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
+                    if (persent > 100)
+                        persent = 100;
+
                     if (toggle)
                     {
-                        lbResult.SuspendLayout();
-                        lbResult.Text = "Testing..";
-                        lbResult.ResumeLayout();
+                        if(lbResult.InvokeRequired)
+                        {
+                            lbResult.Invoke((MethodInvoker)delegate {
+                                lbResult.Text = "Testing..";
+                            });
+                        }else{
+                            lbResult.Text = "Testing..";
+                        }
                     }
                     else
                     {
-                        lbResult.SuspendLayout();
-                        lbResult.Text = "Testing.";
-                        lbResult.ResumeLayout();
+                        if (lbResult.InvokeRequired)
+                        {
+                            lbResult.Invoke((MethodInvoker)delegate {
+                                lbResult.Text = "Testing...";
+                            });
+                        }else{
+                            lbResult.Text = "Testing...";
+                        }
                     }
 
                     txtProcessDetailsAppendText($"Item : {item.name} ");
@@ -948,7 +988,7 @@ namespace D92A_Automation_Function_V7
                         else if (action._type == 1)
                         {
                             int ngCount = 0;
-                        process_compare:
+                            process_compare:
                             var result = ProcessCompare(action.image_path);
                             txtProcessDetailsAppendText($"Image Comapre result : {result}%, config :{action.image_percent} ");
                             if (result < action.image_percent)
@@ -1009,9 +1049,7 @@ namespace D92A_Automation_Function_V7
                                 found_NG = true;
                             }
                         }
-                        int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
-                        if (persent > 100)
-                            persent = 100;
+
                         worker.ReportProgress(persent);
                         Thread.Sleep(action.delay);
                         if (found_NG)
@@ -1021,11 +1059,14 @@ namespace D92A_Automation_Function_V7
                     }
                 }
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Testing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, "Testing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    // Worker end process.
+            //    resultTesting = "ERROR";
+            //    worker.CancelAsync();
+            //}
             txtProcessDetailsAppendText("End Process");
             Console.WriteLine("End Process");
             sendSerialCommand("end");
@@ -1059,32 +1100,33 @@ namespace D92A_Automation_Function_V7
             {
                 lbResult.BackColor = Color.Red;
             }
+
             toolStripProgressTesting.Visible = false;
         }
 
         private void testing2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            testProcess();
+            //testProcess();
         }
  
-        private void testProcess()
-        {
-            if (_worker.IsBusy != true)
-            {
-                if (txtProcessDetails.InvokeRequired)
-                    txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
-                else
-                    txtProcessDetails.Text = string.Empty;
+        //private void testProcess()
+        //{
+        //    if (_worker.IsBusy != true)
+        //    {
+        //        if (txtProcessDetails.InvokeRequired)
+        //            txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
+        //        else
+        //            txtProcessDetails.Text = string.Empty;
 
-                toolStripProgressTesting.Visible = true;
-                toolStripProgressTesting.Value = 0;
-                _worker.RunWorkerAsync(this);
-            }
-            else
-            {
-                MessageBox.Show(Properties.Resources.process_is_runing, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
+        //        toolStripProgressTesting.Visible = true;
+        //        toolStripProgressTesting.Value = 0;
+        //        _worker.RunWorkerAsync(this);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show(Properties.Resources.process_is_runing, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //    }
+        //}
 
         private void timerNG_Tick(object sender, EventArgs e)
         {
@@ -1105,7 +1147,8 @@ namespace D92A_Automation_Function_V7
             else
             {
                 blinkRuning = false;
-                if (lbResult.Text == "NG")
+
+                if (lbResult.Text == "NG" || lbResult.Text == "ERROR")
                 {
                     lbResult.BackColor = Color.Red;
                     lbResult.ForeColor = Color.White;
@@ -1123,6 +1166,7 @@ namespace D92A_Automation_Function_V7
         {
 
         }
+       
     }
 
 }
