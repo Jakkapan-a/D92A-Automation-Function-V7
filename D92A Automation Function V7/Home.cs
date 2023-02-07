@@ -66,6 +66,7 @@ namespace D92A_Automation_Function_V7
         private Thread thread;
         private int _indexDriverCamera = -1;
 
+        private BackgroundWorker _worker;
 
         public Bitmap bitmapCamera;
         public string ReadDataSerial;
@@ -127,7 +128,20 @@ namespace D92A_Automation_Function_V7
 
             btnCheckBoxManual.Checked = true;
             timerVideo.Stop();
+
+            if (_worker == null)
+            {
+                _worker = new BackgroundWorker();
+                _worker.WorkerReportsProgress = true;
+                _worker.WorkerSupportsCancellation = true;
+                _worker.DoWork += _workerTesting_DoWork;
+                _worker.ProgressChanged += _workerTesting_ProgressChanged;
+                _worker.RunWorkerCompleted +=_workerTesting_RunWorkerCompleted;
+            }
         }
+
+       
+
 
         private void _Tcapture_OnVideoStarted()
         {
@@ -198,7 +212,6 @@ namespace D92A_Automation_Function_V7
                         _Tcapture.Stop();
                     }
                     Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
-                    //_Tcapture.Start(_indexDriverCamera);
 
                     _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
                     _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
@@ -206,7 +219,7 @@ namespace D92A_Automation_Function_V7
                     toolStripStatusSerialPort.Text = "Serial Port : Connected";
                     toolStripStatusSerialPort.ForeColor = Color.Green;
                     sendSerialCommand("conn");
-                    Task.Delay(10);
+                    Task.Delay(100);
                     sendSerialCommand("conn");
                     btnStartStop.Text = "STOP";
                 }
@@ -229,6 +242,7 @@ namespace D92A_Automation_Function_V7
                     toolStripStatusSerialPort.Text = "Serial Port : Disconnected";
                     toolStripStatusSerialPort.ForeColor = Color.Red;
                     btnStartStop.Text = "START";
+                    pictureBoxCamera.Image = null;
                 }
             }catch(Exception ex)
             {
@@ -269,6 +283,7 @@ namespace D92A_Automation_Function_V7
                     log.Save("Serial Received :"+data);
                     if (data == "start")
                     {
+                        pictureBoxDetect.Visible = false;
                         TestingToolStripMenuItem.PerformClick();
                     }
                     else if(data == "end")
@@ -282,8 +297,10 @@ namespace D92A_Automation_Function_V7
                         switch (findKeyValue[0])
                         {
                             case "C1":
+                                Console.WriteLine($"C1 : {findKeyValue[1]}");
                                 break;
                             case "C2":
+                                Console.WriteLine($"C2 : {findKeyValue[1]}");
                                 break;
 
                         }
@@ -313,7 +330,6 @@ namespace D92A_Automation_Function_V7
                 }
             }catch(Exception ex)
             {
-                //MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -336,7 +352,7 @@ namespace D92A_Automation_Function_V7
                 _serialPortName = comboBoxSerialPort.SelectedItem.ToString();
                 // Update to toolStripStatusConection status
                 toolStripStatusConection.Text = $"Camera : {_indexDriverCamera} | Baud Rate : {_baudRate} | Serial Port : {_serialPortName}";
-
+                btnStartStop.PerformClick();
                 MessageBox.Show("Save connection success!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -355,10 +371,11 @@ namespace D92A_Automation_Function_V7
             }
             if (items != null)
             {
+                items.Close();
                 items.Dispose();
             }
             items = new Items(this);
-            items.ShowDialog();
+            items.Show();
         }
 
         private void btnAddModel_Click(object sender, EventArgs e)
@@ -373,10 +390,11 @@ namespace D92A_Automation_Function_V7
             {
                 if (io != null)
                 {
+                    io.Close();
                     io.Dispose();
                 }
                 io = new Test_IO(this);
-                io.ShowDialog();
+                io.Show();
             }
             else
             {
@@ -614,7 +632,7 @@ namespace D92A_Automation_Function_V7
                 txtProcessDetails.Invoke((MethodInvoker)delegate
                 {
                     string newLine = noNewLine ? "" : Environment.NewLine;
-                txtProcessDetails.AppendText($"{data} {newLine}");
+                    txtProcessDetails.AppendText($"{data} {newLine}");
                     txtProcessDetails.ScrollToCaret();
                 });
             }
@@ -770,6 +788,7 @@ namespace D92A_Automation_Function_V7
                 thread.DisableComObjectEagerCleanup();
                 thread= null;
             }
+            pictureBoxDetect.Image= null;
             thread = new Thread(new ThreadStart(ProcessTesting));
             thread.Start();
             
@@ -811,5 +830,19 @@ namespace D92A_Automation_Function_V7
                 tableLayoutPanelHome.ColumnStyles[1].Width = 505;
             }
         }
+        private void _workerTesting_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void _workerTesting_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+        private void _workerTesting_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
     }
+
 }

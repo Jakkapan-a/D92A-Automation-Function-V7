@@ -28,7 +28,8 @@ namespace D92A_Automation_Function_V7
         private Dictionary<string, bool> stateBtn = new Dictionary<string, bool>();
         private LogWriter log;
         private bool stateTesting = false;
-
+        private Thread thread;
+        private BackgroundWorker _worker;
         public Items(int model_id)
         {
             InitializeComponent();
@@ -275,8 +276,7 @@ namespace D92A_Automation_Function_V7
             edit_Item = new Edit_Item(this,item_id);
             edit_Item.Show(this);
         }
-        Thread thread;
-        BackgroundWorker _worker;
+
         
         private void btnTest_Click(object sender, EventArgs e)
         {
@@ -297,10 +297,7 @@ namespace D92A_Automation_Function_V7
                     _worker.DoWork += _worker_DoWork;
                     _worker.ProgressChanged += _worker_ProgressChanged;
                     _worker.RunWorkerCompleted += _worker_RunWorkerCompleted;
-                }
-  
-
-    
+                }  
 
                 toolStripStatusTestting.Text = string.Empty;
                 toolStripStatusTestting.Visible = true;

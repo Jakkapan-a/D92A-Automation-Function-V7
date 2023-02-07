@@ -34,7 +34,6 @@ namespace D92A_Automation_Function_V7.modules
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 IEnumerable<T> output = cnn.Query<T>(sql, parameters);
-                Console.WriteLine(output);
                 return output.ToList();
             }
         }
@@ -46,11 +45,11 @@ namespace D92A_Automation_Function_V7.modules
                 con.Execute(sql, parameters);
             }
         }
-        public static void Delete(string table_name,int id)
+        public static void Delete(string table_name, int id)
         {
             Execute("DELETE FROM " + table_name + " WHERE id = @id", new Dictionary<string, object> { { "@id", id } });
         }
-        private static string LoadConnectionString(string id = "Default")=> "Data Source=" + System.IO.Directory.GetCurrentDirectory() + "\\" + ConfigurationManager.ConnectionStrings[id];
+        private static string LoadConnectionString(string id = "Default") => "Data Source=" + System.IO.Directory.GetCurrentDirectory() + "\\" + ConfigurationManager.ConnectionStrings[id];
 
         internal static int GetScalar(string sql, Dictionary<string, object> parameters)
         {
@@ -59,5 +58,10 @@ namespace D92A_Automation_Function_V7.modules
                 return cnn.ExecuteScalar<int>(sql, parameters);
             }
         }
+
+        public static string getDateTimeNow
+        {
+            get { return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); }
+        }                                    
     }
 }

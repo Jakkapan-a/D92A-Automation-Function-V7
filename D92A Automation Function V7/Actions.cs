@@ -90,16 +90,21 @@ namespace D92A_Automation_Function_V7
             Image m = pictureBoxCamera.Image;
             pictureBoxCamera.Image = null;
             m?.Dispose();
-
-            pictureBoxCamera.Image = Image.FromFile(fileName);
-            if(oldfileName != string.Empty)
+            try
             {
-                if (File.Exists(oldfileName))
+                pictureBoxCamera.Image = Image.FromFile(fileName);
+                if(oldfileName != string.Empty)
                 {
-                    File.Delete(oldfileName);
-                }               
+                    if (File.Exists(oldfileName))
+                    {
+                        File.Delete(oldfileName);
+                    }               
+                }
+                oldfileName = fileName;
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
-            oldfileName = fileName;
         }
 
         private void btnSaveAction_Click(object sender, EventArgs e)

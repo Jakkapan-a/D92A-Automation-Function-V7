@@ -15,7 +15,7 @@
 // Display TM1637
 #define CLK 10
 #define DIO 11
-#define TEST_DELAY 1000
+#define TEST_DELAY 500
 
 //*********************** INPUT Sensor ***********************//
 /* 
@@ -67,13 +67,19 @@ PINOUT ACC(47);             // Relay ACC_ONOFF A6-D60 //
 
 PINOUT Alarm_Red(45);
 PINOUT Alarm_Yellow(43);
-PINOUT Alarm_Green(41);  
+PINOUT Alarm_Green(41);
 PINOUT Alarm_Sound(39);
 
-PINOUT SLN45_BT1(52);  // Relay SLN45_BT1 D50 //
-PINOUT SLN45_BT2(50);  // Relay SLN45_BT2 D51 //
-PINOUT SLN45_BT3(48);  // Relay SLN45_BT3 D52 //
-PINOUT SLN45_BT4(46);  // Relay SLN45_BT4 D53 //
+// PINOUT SLN45_BT1(52);  // Relay SLN45_BT1 D50 //
+// PINOUT SLN45_BT2(50);  // Relay SLN45_BT2 D51 //
+// PINOUT SLN45_BT3(48);  // Relay SLN45_BT3 D52 //
+// PINOUT SLN45_BT4(46);  // Relay SLN45_BT4 D53 //
+
+PINOUT SLN45_BT1(46);  // Relay SLN45_BT1 D50 //
+PINOUT SLN45_BT2(48);  // Relay SLN45_BT2 D51 //
+PINOUT SLN45_BT3(50);  // Relay SLN45_BT3 D52 //
+PINOUT SLN45_BT4(52);  // Relay SLN45_BT4 D53 //
+
 
 PINOUT SLN90_BT1(44);  // Relay SLN90_BT1 D46 //
 PINOUT SLN90_BT2(42);  // Relay SLN90_BT2 D47 //
@@ -209,27 +215,43 @@ void func_control(String _data) {
   } else if (_data == "1R16") {
     SLN90_BT4.on();
   }
-    sendSerialCommand(_data);
+  // sendSerialCommand(_data);
 }
 bool isControlKeys(String _data) {
 
   String data[] = {
-    "0R01","1R01",
-    "0R02","1R02",
-    "0R03","1R03",
-    "0R04","1R04",
-    "0R05","1R05",
-    "0R06","1R06",
-    "0R07","1R07",
-    "0R08","1R08",
-    "0R09","1R09",
-    "0R10","1R10",
-    "0R11","1R11",
-    "0R12","1R12",
-    "0R13","1R13",
-    "0R14","1R14",
-    "0R15","1R15",
-    "0R16","1R16",
+    "0R01",
+    "1R01",
+    "0R02",
+    "1R02",
+    "0R03",
+    "1R03",
+    "0R04",
+    "1R04",
+    "0R05",
+    "1R05",
+    "0R06",
+    "1R06",
+    "0R07",
+    "1R07",
+    "0R08",
+    "1R08",
+    "0R09",
+    "1R09",
+    "0R10",
+    "1R10",
+    "0R11",
+    "1R11",
+    "0R12",
+    "1R12",
+    "0R13",
+    "1R13",
+    "0R14",
+    "1R14",
+    "0R15",
+    "1R15",
+    "0R16",
+    "1R16",
   };
 
   for (int i = 0; i < sizeof(data) / sizeof(data[0]); i++) {
@@ -241,12 +263,13 @@ bool isControlKeys(String _data) {
   return false;
 }
 bool toggleBrightness = true;
-
+bool toggleCurrent;
 void timeCount() {
   if (millis() - last_time_cs >= period) {
 
-    // sendSerialCommand(String(state_connected) + " : "+String(isConnectChange));
-    
+
+
+    toggleCurrent = !toggleCurrent;
     if (!state_connected && isConnectChange) {
       toggleBrightness = !toggleBrightness;
       display.setBrightness(5, toggleBrightness);  // on
@@ -259,6 +282,7 @@ void timeCount() {
     if (timer_count > 3600) {
       timer_count = 0;
     }
+
     last_time_cs = millis();
   } else if (millis() < 1000) {
     last_time_cs = millis();
@@ -287,9 +311,9 @@ void serialEvent() {
 void setup() {
   //
   Serial.begin(115200);
-  ina219_A.begin();
-  ina219_B.begin();
-  Serial.println("Starting.......");
+  // ina219_A.begin();
+  // ina219_B.begin();
+  sendSerialCommand("Starting.......");
   uint8_t data[] = { 0xff, 0xff, 0xff, 0xff };
   uint8_t blank[] = { 0x00, 0x00, 0x00, 0x00 };
   display.setBrightness(5);
@@ -306,39 +330,38 @@ void setup() {
 
   // SLN90_BT4.on();
 }
-bool state_btn_Start,state_btn_OK,state_btn_NG;
-void func_button(){
+bool state_btn_Start, state_btn_OK, state_btn_NG;
+void func_button() {
 
-  if(SW_Button_Start.getState() && state_btn_Start){
+  if (SW_Button_Start.getState() && state_btn_Start) {
     IsRunning = true;
     judgement = -1;
     state_btn_Start = false;
     sendSerialCommand("start");
-  } else if(!SW_Button_Start.getState())
-  {
+  } else if (!SW_Button_Start.getState()) {
     state_btn_Start = true;
-  } 
+  }
 
-  if(SW_Button_JudgeNG.getState() && state_btn_NG){
+  if (SW_Button_JudgeNG.getState() && state_btn_NG) {
     judgement = 0;
     state_btn_NG = false;
     sendSerialCommand("NG");
-  }else if(!SW_Button_JudgeNG.getState()){
-     state_btn_NG = true;
+  } else if (!SW_Button_JudgeNG.getState()) {
+    state_btn_NG = true;
   }
 
-  if(SW_Button_JudgeOK.getState() && state_btn_OK){
+  if (SW_Button_JudgeOK.getState() && state_btn_OK) {
     judgement = 1;
     state_btn_OK = false;
     sendSerialCommand("OK");
-  }else if(!SW_Button_JudgeOK.getState()){
+  } else if (!SW_Button_JudgeOK.getState()) {
     state_btn_OK = true;
   }
 }
 
 void loop() {
-  
-func_button();
+
+  func_button();
 
   //-- Received data --//
   if (stringComplete == true) {
@@ -357,10 +380,10 @@ func_button();
     } else if (inputString == "close") {
       state_connected = false;
       isConnectChange = true;
-    }else if(inputString == "run"){
+    } else if (inputString == "run") {
       IsRunning = true;
       judgement = -1;
-    }else if(inputString == "end"){
+    } else if (inputString == "end") {
       IsRunning = false;
     }
 
