@@ -30,14 +30,14 @@ namespace D92A_Automation_Function_V7
             "ALRAM YOLLOW",
             "ALRAM GREEN",
             "ALRAM SOUND",
-            "SLD 45° 1",
-            "SLD 45° 2",
-            "SLD 45° 3",
             "SLD 45° 4",
-            "SLD 90° 1",
-            "SLD 90° 2",
-            "SLD 90° 3",
+            "SLD 45° 3",
+            "SLD 45° 2",
+            "SLD 45° 1",
             "SLD 90° 4",
+            "SLD 90° 3",
+            "SLD 90° 2",
+            "SLD 90° 1",
         };
 
         private Items Items;

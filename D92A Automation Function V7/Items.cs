@@ -71,7 +71,7 @@ namespace D92A_Automation_Function_V7
 
             ProgressLoader();
         }
-
+        int _total;
         public async void ProgressLoader()
         {
             log.Save("Close all IO");
@@ -84,6 +84,7 @@ namespace D92A_Automation_Function_V7
                 toolStripProgressLoader.Value = persent;
                 this.home.sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
                 await Task.Delay(100);
+                this._total = i + 1;
             }
             this.toolStripProgressLoader.Visible = false;
         }
@@ -558,6 +559,15 @@ namespace D92A_Automation_Function_V7
                 Thread.Sleep(action.delay);
             }
             stateTesting = false;
+        }
+
+        private void Items_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(_total <= 15)
+            {
+                e.Cancel = true;
+                MessageBox.Show(Properties.Resources.process_is_runing, "Warning", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+            }
         }
     }
 }

@@ -158,7 +158,7 @@
             this.R09.Name = "R09";
             this.R09.Size = new System.Drawing.Size(131, 68);
             this.R09.TabIndex = 0;
-            this.R09.Text = "SLN  1 (45°)";
+            this.R09.Text = "SLN  4 (45°)";
             this.R09.UseVisualStyleBackColor = true;
             this.R09.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R09.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -184,7 +184,7 @@
             this.R10.Name = "R10";
             this.R10.Size = new System.Drawing.Size(133, 68);
             this.R10.TabIndex = 0;
-            this.R10.Text = "SLN  2 (45°)";
+            this.R10.Text = "SLN  3 (45°)";
             this.R10.UseVisualStyleBackColor = true;
             this.R10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R10.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -210,7 +210,7 @@
             this.R11.Name = "R11";
             this.R11.Size = new System.Drawing.Size(133, 68);
             this.R11.TabIndex = 0;
-            this.R11.Text = "SLN 3 (45°)";
+            this.R11.Text = "SLN 2 (45°)";
             this.R11.UseVisualStyleBackColor = true;
             this.R11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R11.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -236,7 +236,7 @@
             this.R12.Name = "R12";
             this.R12.Size = new System.Drawing.Size(133, 68);
             this.R12.TabIndex = 0;
-            this.R12.Text = "SLN  4 (45°)";
+            this.R12.Text = "SLN  1 (45°)";
             this.R12.UseVisualStyleBackColor = true;
             this.R12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R12.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -262,7 +262,7 @@
             this.R16.Name = "R16";
             this.R16.Size = new System.Drawing.Size(133, 68);
             this.R16.TabIndex = 0;
-            this.R16.Text = "SLN  4 ( 90°)";
+            this.R16.Text = "SLN  1 ( 90°)";
             this.R16.UseVisualStyleBackColor = true;
             this.R16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R16.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -288,7 +288,7 @@
             this.R15.Name = "R15";
             this.R15.Size = new System.Drawing.Size(133, 68);
             this.R15.TabIndex = 0;
-            this.R15.Text = "SLN  3 ( 90°)";
+            this.R15.Text = "SLN  2 ( 90°)";
             this.R15.UseVisualStyleBackColor = true;
             this.R15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R15.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -314,7 +314,7 @@
             this.R14.Name = "R14";
             this.R14.Size = new System.Drawing.Size(133, 68);
             this.R14.TabIndex = 0;
-            this.R14.Text = "SLN  2 ( 90°)";
+            this.R14.Text = "SLN  3 ( 90°)";
             this.R14.UseVisualStyleBackColor = true;
             this.R14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R14.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -340,7 +340,7 @@
             this.R13.Name = "R13";
             this.R13.Size = new System.Drawing.Size(133, 68);
             this.R13.TabIndex = 0;
-            this.R13.Text = "SLN  1 ( 90°)";
+            this.R13.Text = "SLN  4 ( 90°)";
             this.R13.UseVisualStyleBackColor = true;
             this.R13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseDown);
             this.R13.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnSLN_MouseUp);
@@ -408,7 +408,7 @@
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::D92A_Automation_Function_V7.Properties.Resources.PD;
+            this.pictureBox1.Image = global::D92A_Automation_Function_V7.Properties.Resources.PD_4;
             this.pictureBox1.Location = new System.Drawing.Point(111, 57);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(499, 221);

@@ -85,6 +85,8 @@ namespace D92A_Automation_Function_V7
         private ProcessUpdate onProcessUpdate;
         private ProcessUpdate onProcessClose;
         private ProcessUpdate onProcessStart;
+
+        private bool isTesting = false;
         private bool lockImage = false;
         #endregion
 
@@ -450,19 +452,20 @@ namespace D92A_Automation_Function_V7
 
         private void dataGridViewModelList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (modelId == -1)
-            {
-                MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            //if (modelId == -1)
+            //{
+            //    MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    return;
+            //}
 
-            if (items != null)
-            {
-                items.Dispose();
-            }
-            // Column index of button edit
-            items = new Items(modelId);
-            items.ShowDialog();
+            //if (items != null)
+            //{
+            //    items.Dispose();
+            //}
+            //// Column index of button edit
+            //items = new Items(modelId);
+            //items.ShowDialog();
+            btnEditModel.PerformClick();
 
         }
 
@@ -504,6 +507,51 @@ namespace D92A_Automation_Function_V7
             }
         }
 
+        private void setLBResult(string _input)
+        {
+            Color colBG = Color.White;
+            Color colTxt = Color.White;
+
+            switch (_input.ToUpper())
+            {
+                case "OK":
+                    colBG = Color.Green;
+                    colTxt = Color.Black;
+                    break;
+
+                case "NG":
+                    colBG = Color.Red;
+                    colTxt = Color.White;
+                    //blinkRuning = true;
+                    //timerNG.Start();
+                    break;
+                case "ERROR":
+                    colBG = Color.Red;
+                    colTxt = Color.White;
+                    break;
+                default:
+                    colBG = Color.Yellow;
+                    colTxt =Color.Black;
+                    //blinkRuning = false;
+                    //timerNG.Stop();
+                    break;
+            }
+
+            if (lbResult.InvokeRequired)
+            {
+                lbResult.Invoke((MethodInvoker)delegate {
+                    lbResult.Text = _input;
+                    lbResult.BackColor = colBG;
+                    lbResult.ForeColor = colTxt;
+                });
+            }
+            else
+            {
+                lbResult.Text = _input;
+                lbResult.BackColor = colBG;
+                lbResult.ForeColor = colTxt;
+            }
+        }
         private void ProcessTesting()
         {
             if (modelId == -1)
@@ -528,6 +576,7 @@ namespace D92A_Automation_Function_V7
                 txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
             bool toggle = false;
             int _counter = 0;
+            bool found_NG = false;
             foreach (_ItemsList item in _Items)
             {
                 _counter++;
@@ -537,33 +586,16 @@ namespace D92A_Automation_Function_V7
 
                 if (toggle)
                 {
-                    if (lbResult.InvokeRequired)
-                    {
-                        lbResult.Invoke((MethodInvoker)delegate {
-                            lbResult.Text = "Testing..";
-                        });
-                    }
-                    else
-                    {
-                        lbResult.Text = "Testing..";
-                    }
+                    setLBResult("Testing..");
+                 
                 }
                 else
                 {
-                    if (lbResult.InvokeRequired)
-                    {
-                        lbResult.Invoke((MethodInvoker)delegate {
-                            lbResult.Text = "Testing...";
-                        });
-                    }
-                    else
-                    {
-                        lbResult.Text = "Testing...";
-                    }
+                    setLBResult("Testing....");
                 }
 
                 txtProcessDetailsAppendText($"Item : {item.name} ");
-                //toolStripStatusProcessTesting.Text = $"Type : {type_items[item._type]}";
+
                 if (btnCheckBoxAuto.Checked && item._type == 1)
                 {
                     continue;
@@ -582,40 +614,41 @@ namespace D92A_Automation_Function_V7
                         // Mode IO Function
                         if (action.io_type == 0)
                         {
-                            //Console.WriteLine($"{action.io_state}{action.io_port}");
+                            // Console.WriteLine($"{action.io_state}{action.io_port}");
                             sendSerialCommand($"{action.io_state}{action.io_port}");
-                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ");
+                            txtProcessDetailsAppendText($"IO data : {action.io_state}{action.io_port} ");
                         }
                         else if (action.io_type == 1)
                         {
                             sendSerialCommand($"1{action.io_port}");
-                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ");
+                            txtProcessDetailsAppendText($"IO data : 1{action.io_port} ");
                             Thread.Sleep(action.auto_delay);
                             sendSerialCommand($"0{action.io_port}");
-                            txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ");
+                            txtProcessDetailsAppendText($"IO data : 0{action.io_port} ");
                         }
 
                     }
                     else if (action._type == 1)
                     {
                         int ngCount = 0;
-                    process_compare:
+                        process_compare:
                         var result = ProcessCompare(action.image_path);
-                        txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Image Comapre result : {result}%, config :{action.image_percent} ");
+                        txtProcessDetailsAppendText($"Image Comapre result : {result}%, config :{action.image_percent} ");
                         if (result < action.image_percent)
                         {
                             // Test Again
                             ngCount++;
-                            if (ngCount < 10)
+                            if (ngCount < 15)
                             {
-                                txtProcessDetailsAppendText($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> Test again : ---{ngCount}--- ");
-                                Thread.Sleep(100);
+                                txtProcessDetailsAppendText($"Test again : ---{ngCount}--- ");
+                                Thread.Sleep(150);
                                 goto process_compare;
                             }
                             // Test 
                             txtProcessDetailsAppendText("Judement NG");
                             //Console.WriteLine("Judement NG");
                             // End process
+                            found_NG = true;
                         }
                         else
                         {
@@ -652,19 +685,41 @@ namespace D92A_Automation_Function_V7
                         else if (stateReceivedData && btnReceivedData != string.Empty)
                         {
                             txtProcessDetailsAppendText("Pressed button NG");
+                            found_NG = true;
                         }
                         else
                         {
                             txtProcessDetailsAppendText("Time Out!!");
                         }
                     }
+                    if (found_NG)
+                    {
+                        break;
+                    }
 
                     Thread.Sleep(action.delay);
                 }
+                if (found_NG)
+                {
+                    break;
+                }
             }
+
+
+
             txtProcessDetailsAppendText("End Process");
             Console.WriteLine("End Process");
             sendSerialCommand("end");
+            isTesting = false;
+
+            if (found_NG)
+            {
+                setLBResult("NG");
+            }
+            else
+            {
+                setLBResult("OK");
+            }
         }
 
         public void txtProcessDetailsAppendText(string data, bool noNewLine = false)
@@ -674,15 +729,17 @@ namespace D92A_Automation_Function_V7
                 txtProcessDetails.Invoke((MethodInvoker)delegate
                 {
                     string newLine = noNewLine ? "" : Environment.NewLine;
-                    txtProcessDetails.AppendText($"{data} {newLine}");
+                    string date = DateTime.Now.ToString("HH:mm:ss");
+                    txtProcessDetails.AppendText($"{date} ->{data} {newLine}");
                     txtProcessDetails.ScrollToCaret();
                 });
             }
             else
             {
                 string newLine = noNewLine ? "" : Environment.NewLine;
-                string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string date = DateTime.Now.ToString("HH:mm:ss");
                 txtProcessDetails.AppendText($"{date} ->{data} {newLine}");
+                txtProcessDetails.ScrollToCaret();
             }
         }
 
@@ -700,8 +757,8 @@ namespace D92A_Automation_Function_V7
 
             path_temp = Properties.Resources.path_temp + "/" + Guid.NewGuid().ToString() + ".jpg";
 
-            if (!Directory.Exists(_path + "/temp/"))
-                Directory.CreateDirectory(_path + "/temp/");
+            if (!Directory.Exists(Properties.Resources.path_temp))
+                Directory.CreateDirectory(Properties.Resources.path_temp);
             match.Save(path_temp, System.Drawing.Imaging.ImageFormat.Jpeg);
             double result = Compare(image_master, new Emgu.CV.Image<Emgu.CV.Structure.Gray, byte>(path_temp));
 
@@ -830,9 +887,15 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show("Please enter ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (isTesting)
+            {
+                //MessageBox.Show(Properties.Resources.process_is_runing, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                return;
+            }
             // 
             sendSerialCommand("run");
             //ProcessTesting();
+          
             if (thread != null)
             {
                 thread.Abort();
@@ -841,11 +904,10 @@ namespace D92A_Automation_Function_V7
             }
             toolStripProgressTesting.Visible = true;
             toolStripProgressTesting.Value = 0;
-
+            isTesting = true;
             pictureBoxDetect.Image = null;
             thread = new Thread(new ThreadStart(ProcessTesting));
-            thread.Start();
-           
+            thread.Start();           
         }
 
         private void Home_Resize(object sender, EventArgs e)

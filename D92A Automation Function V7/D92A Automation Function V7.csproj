@@ -334,6 +334,12 @@
   <ItemGroup>
     <None Include="Resources\PD.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PD_3.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PD_4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

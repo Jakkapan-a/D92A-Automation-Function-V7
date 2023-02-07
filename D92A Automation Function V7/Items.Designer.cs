@@ -342,6 +342,7 @@
             this.Name = "Items";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Items";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Items_FormClosing);
             this.Load += new System.EventHandler(this.Items_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
