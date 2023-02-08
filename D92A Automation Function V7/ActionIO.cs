@@ -140,9 +140,7 @@ namespace D92A_Automation_Function_V7
                 // get text of tableLayoutPanelAction -> Panel -> button name is getStateBtnName
                 var IOname = getTxtBtn(IOPort);
 
-                Console.WriteLine(IOPort + ","+ IOname);
-                stopwatch.Stop();
-                Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
+           
 
                  // Validate 
                 if (IOname == string.Empty)
@@ -165,8 +163,6 @@ namespace D92A_Automation_Function_V7
                 actions.name = "IO Fuction";
                 actions._type = 0;  // 0 = IO, 1 = Image
 
-
-
                 actions.io_type = TypeActionOfIO();     // 0 = Manual, 1 = Auto, 2 = Wait judgment
                 actions.io_state = checkBoxON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
                 actions.io_port = IOPort;
@@ -179,6 +175,8 @@ namespace D92A_Automation_Function_V7
                 actions.image_status = 1;
                 actions.Save();
                 this.Items.LoadActionsList();
+                stopwatch.Stop();
+                Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
                 this.Close();
             }
             catch (Exception ex)

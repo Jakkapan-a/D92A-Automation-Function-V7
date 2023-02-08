@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panelActonImage = new System.Windows.Forms.Panel();
+            this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -36,10 +37,12 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtDelay = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtPercent = new System.Windows.Forms.NumericUpDown();
             this.panelActonImage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPercent)).BeginInit();
             this.SuspendLayout();
             // 
             // panelActonImage
@@ -52,6 +55,18 @@
             this.panelActonImage.Name = "panelActonImage";
             this.panelActonImage.Size = new System.Drawing.Size(715, 341);
             this.panelActonImage.TabIndex = 0;
+            // 
+            // pictureBoxCamera
+            // 
+            this.pictureBoxCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxCamera.Location = new System.Drawing.Point(5, 3);
+            this.pictureBoxCamera.Name = "pictureBoxCamera";
+            this.pictureBoxCamera.Size = new System.Drawing.Size(707, 335);
+            this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCamera.TabIndex = 0;
+            this.pictureBoxCamera.TabStop = false;
             // 
             // statusStrip1
             // 
@@ -139,23 +154,36 @@
             this.label9.Text = "Master Image";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBoxCamera
+            // label11
             // 
-            this.pictureBoxCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxCamera.Location = new System.Drawing.Point(5, 3);
-            this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(707, 335);
-            this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCamera.TabIndex = 0;
-            this.pictureBoxCamera.TabStop = false;
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(263, 403);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(61, 13);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Percent % :";
+            // 
+            // txtPercent
+            // 
+            this.txtPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtPercent.Location = new System.Drawing.Point(330, 401);
+            this.txtPercent.Name = "txtPercent";
+            this.txtPercent.Size = new System.Drawing.Size(106, 20);
+            this.txtPercent.TabIndex = 10;
+            this.txtPercent.Value = new decimal(new int[] {
+            85,
+            0,
+            0,
+            0});
             // 
             // ActionImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(739, 446);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.txtPercent);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -166,9 +194,11 @@
             this.Controls.Add(this.panelActonImage);
             this.Name = "ActionImage";
             this.Text = "ActionImage";
+            this.Load += new System.EventHandler(this.ActionImage_Load);
             this.panelActonImage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPercent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,5 +215,7 @@
         private System.Windows.Forms.NumericUpDown txtDelay;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox pictureBoxCamera;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown txtPercent;
     }
 }

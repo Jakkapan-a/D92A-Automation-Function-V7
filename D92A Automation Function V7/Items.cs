@@ -47,7 +47,7 @@ namespace D92A_Automation_Function_V7
             model = Models.GetModelById(model_id);
             lbModelName.Text = model.name;
         }
-        Actions actions;
+        ActionImage actions;
         private void btnAddActions_Click(object sender, EventArgs e)
         {
             if(item_id == -1)
@@ -59,7 +59,7 @@ namespace D92A_Automation_Function_V7
             {
                 actions.Close();
             }
-            actions = new Actions(this,item_id);
+            actions = new ActionImage(this);
             actions.Show(this);
         }
 
