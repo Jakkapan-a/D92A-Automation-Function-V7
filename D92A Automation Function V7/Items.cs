@@ -116,6 +116,7 @@ namespace D92A_Automation_Function_V7
                             Action = getIOAction(x), 
                             IO_PORT = (x._type == 0) ? x.io_port : "-",
                             Image = (x._type == 1) ? x.image_path : "-",
+                            Percent = (x._type == 1)? x.image_percent.ToString() :"-",
                             Delay = x.delay,
                             Date = x.created_at                           
                         }).ToList();
@@ -127,28 +128,32 @@ namespace D92A_Automation_Function_V7
         {
             // Number Type --> 0 = Manual, 1 = Auto, 2 = Wait judment
             string str = string.Empty;
-            switch (actions.io_type)
+            if (actions._type == 0)
             {
-                case 0:
-                    // Manual
-                    // 0 = OFF,1 = ON
-                    if (actions.io_state == 1)
-                    {
-                        str = "On";
-                    }
-                    else
-                    {
-                        str = "Off";
-                    }
-                  break;
-                case 1:
-                    str = "Auto";
-                    break;
-                case 2:
-                    str = "Wait judment";
-                    break;
+                switch (actions.io_type)
+                {
+                    case 0:
+                        // Manual
+                        // 0 = OFF,1 = ON
+                        if (actions.io_state == 1)
+                        {
+                            str = "On";
+                        }
+                        else
+                        {
+                            str = "Off";
+                        }
+                        break;
+                    case 1:
+                        str = "Auto";
+                        break;
+                    case 2:
+                        str = "Wait judment";
+                        break;
+                }
+                return str;
             }
-            return str;
+            return "-";
         }
         private Add_Item add_item;
 
