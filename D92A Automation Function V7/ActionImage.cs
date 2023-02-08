@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -129,7 +130,7 @@ namespace D92A_Automation_Function_V7
             }
             filename += "/"+Guid.NewGuid().ToString() + ".jpg";
             pictureBoxCamera.Image.Save(filename, ImageFormat.Jpeg);
-
+            Thread.Sleep(1000);
             Image m = pictureBoxCamera.Image;
             pictureBoxCamera.Image = null;
             m?.Dispose();
@@ -138,7 +139,7 @@ namespace D92A_Automation_Function_V7
             {
                 if (File.Exists(oldfileName))
                 {
-                    File.Delete(oldfileName);
+                    //File.Delete(oldfileName);
                 }
             }
             oldfileName = string.Empty;

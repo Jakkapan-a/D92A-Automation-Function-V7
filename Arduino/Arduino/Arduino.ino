@@ -265,9 +265,7 @@ bool isControlKeys(String _data) {
 bool toggleBrightness = true;
 bool toggleCurrent;
 void timeCount() {
-  if (millis() - last_time_cs >= period) {
-
-
+  if (millis() - last_time_cs >= period) {   
 
     toggleCurrent = !toggleCurrent;
     if (!state_connected && isConnectChange) {
@@ -277,7 +275,6 @@ void timeCount() {
       display.setBrightness(5, true);  // on
     }
 
-    //  ina219_A.getCurrent_mA();
     timer_count++;
     if (timer_count > 3600) {
       timer_count = 0;
@@ -287,6 +284,20 @@ void timeCount() {
   } else if (millis() < 1000) {
     last_time_cs = millis();
   }
+
+   if (millis() - last_time_ms >= 880) {
+
+    double current = ina219_A.getCurrent_mA();
+    double voltage = ina219_A.getBusVoltage_V();
+    double power = ina219_A.getPower_mW();
+    double shuntvoltage = ina219_A.getShuntVoltage_mV();
+    double loadvoltage = voltage + (shuntvoltage / 1000);
+    sendSerialCommand("C1:" + String(current, 2));
+    
+    last_time_ms = millis();
+    }else if (millis() < 1000) {
+    last_time_ms = millis();
+    }
 }
 //****************** Func Send data ***********************//
 void sendSerialCommand(String msg) {
@@ -311,7 +322,7 @@ void serialEvent() {
 void setup() {
   //
   Serial.begin(115200);
-  // ina219_A.begin();
+  ina219_A.begin();
   // ina219_B.begin();
   sendSerialCommand("Starting.......");
   uint8_t data[] = { 0xff, 0xff, 0xff, 0xff };
@@ -320,13 +331,13 @@ void setup() {
   //display.showNumberHexEx(0xbaaa);        // Expect: f1Af
   display.clear();
   display.setSegments(SEG_WAIT);
-  delay(TEST_DELAY);
+  // delay(TEST_DELAY);
   display.setBrightness(5, false);  // off
   display.setSegments(SEG_WAIT);
-  delay(TEST_DELAY);
+  // delay(TEST_DELAY);
   display.setBrightness(5, true);  // on
   display.setSegments(SEG_WAIT);
-  delay(TEST_DELAY);
+  // delay(TEST_DELAY);
 
   // SLN90_BT4.on();
 }

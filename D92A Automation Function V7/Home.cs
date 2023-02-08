@@ -205,18 +205,30 @@ namespace D92A_Automation_Function_V7
                     else if (data == "end")
                     {
 
+                    }else if(data == "OK" || data == "NG")
+                    {
+                        if (data == "OK")
+                            btnReceivedData = "OK";
+                        stateReceivedData = true;
+                        
                     }
 
                     string[] findKeyValue = data.Split(':');
+
                     if (findKeyValue.Length == 2)
                     {
+                        double val = 0;
                         switch (findKeyValue[0])
                         {
                             case "C1":
-                                Console.WriteLine($"C1 : {findKeyValue[1]}");
+                                val = Double.Parse(findKeyValue[1]);
+                                lbCurrent.Text = val.ToString() + " mA.";
+                                lbVoltage.Text = val.ToString();
+                                Console.WriteLine($"C1 : {val.ToString()}");
                                 break;
                             case "C2":
-                                Console.WriteLine($"C2 : {findKeyValue[1]}");
+                                val = int.Parse(findKeyValue[1]) / 10;
+                                Console.WriteLine($"C2 : {val.ToString()}");
                                 break;
 
                         }
@@ -452,21 +464,7 @@ namespace D92A_Automation_Function_V7
 
         private void dataGridViewModelList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //if (modelId == -1)
-            //{
-            //    MessageBox.Show("Please select a model!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            //    return;
-            //}
-
-            //if (items != null)
-            //{
-            //    items.Dispose();
-            //}
-            //// Column index of button edit
-            //items = new Items(modelId);
-            //items.ShowDialog();
             btnEditModel.PerformClick();
-
         }
 
         private void dataGridViewModelList_SelectionChanged(object sender, EventArgs e)
@@ -522,8 +520,6 @@ namespace D92A_Automation_Function_V7
                 case "NG":
                     colBG = Color.Red;
                     colTxt = Color.White;
-                    //blinkRuning = true;
-                    //timerNG.Start();
                     break;
                 case "ERROR":
                     colBG = Color.Red;
@@ -532,8 +528,6 @@ namespace D92A_Automation_Function_V7
                 default:
                     colBG = Color.Yellow;
                     colTxt =Color.Black;
-                    //blinkRuning = false;
-                    //timerNG.Stop();
                     break;
             }
 
@@ -678,11 +672,11 @@ namespace D92A_Automation_Function_V7
                                 txtProcessDetailsAppendText(".", true);
                             }
                         }
-                        if (stateReceivedData && btnReceivedData != string.Empty)
+                        if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "OK")
                         {
                             txtProcessDetailsAppendText("Pressed button OK");
                         }
-                        else if (stateReceivedData && btnReceivedData != string.Empty)
+                        else if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "NG")
                         {
                             txtProcessDetailsAppendText("Pressed button NG");
                             found_NG = true;
@@ -690,6 +684,7 @@ namespace D92A_Automation_Function_V7
                         else
                         {
                             txtProcessDetailsAppendText("Time Out!!");
+                            found_NG = true;
                         }
                     }
                     if (found_NG)
@@ -720,6 +715,32 @@ namespace D92A_Automation_Function_V7
             {
                 setLBResult("OK");
             }
+
+            // End Process
+            var history = new History();
+            history.employee_id = txtName.Text;
+            history.serial_no = txtSerialProduct.Text;
+            history.result = found_NG ? "NG" : "OK";
+            history.Save();
+
+            // Load history
+            loadhistoty();
+        }
+
+        private delegate void loadhoistory();
+
+        private void loadhistoty()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new loadhoistory(loadhistoty));
+                return;
+            }
+            var list = History.LoadHistory();
+            list.Reverse();
+            dataGridViewHistory.DataSource = null;
+            
+            
         }
 
         public void txtProcessDetailsAppendText(string data, bool noNewLine = false)
@@ -840,13 +861,11 @@ namespace D92A_Automation_Function_V7
                 Rectangle r = new Rectangle(maxLoc, template.Size);
                 var imgCrop = imgScene.Copy(r);
                 CvInvoke.Rectangle(imgScene, r, new MCvScalar(0, 0, 255), 2);
-                //this.pictureBox2.Image = imgScene.ToBitmap();
 
                 if (path_save != null)
                 {
                     imgScene.Save(path_save);
                 }
-                //this.pictureBox1.Hide();
                 return imgCrop.ToBitmap();
             }
             catch (Exception ex)
@@ -944,251 +963,6 @@ namespace D92A_Automation_Function_V7
         }
 
         public string resultTesting = "NG";
-        private void _workerTesting_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            // Process testing 2
-            bool found_NG = false;
-            //try
-            //{
-                if (modelId == -1)
-                {
-                    MessageBox.Show("Please select model!");
-                    return;
-                    throw new Exception("Please select model!");
-                }
-
-                for (int i = 0; i < 16; i++)
-                {
-                    sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
-                    Thread.Sleep(50);
-                    int persent = (Int32)Math.Round((double)(i * 100) / 16); // 
-                    worker.ReportProgress(persent);
-                }
-                worker.ReportProgress(0);
-                _Items = null;
-
-                _Items = _ItemsList.LoadItems(modelId);
-
-                if (lbResult.InvokeRequired)
-                {
-                    lbResult.Invoke((MethodInvoker)delegate {
-                        lbResult.Text = "Testing....";
-                    });
-                }
-                else
-                {
-                    lbResult.Text = "Testing..";
-                }
-            bool toggle = false;
-                txtProcessDetailsAppendText("Start Testing....");
-
-                int _counter = 0;
-                foreach (_ItemsList item in _Items)
-                {
-                    _counter++;
-                    toggle = !toggle;
-                    int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
-                    if (persent > 100)
-                        persent = 100;
-
-                    if (toggle)
-                    {
-                        if(lbResult.InvokeRequired)
-                        {
-                            lbResult.Invoke((MethodInvoker)delegate {
-                                lbResult.Text = "Testing..";
-                            });
-                        }else{
-                            lbResult.Text = "Testing..";
-                        }
-                    }
-                    else
-                    {
-                        if (lbResult.InvokeRequired)
-                        {
-                            lbResult.Invoke((MethodInvoker)delegate {
-                                lbResult.Text = "Testing...";
-                            });
-                        }else{
-                            lbResult.Text = "Testing...";
-                        }
-                    }
-
-                    txtProcessDetailsAppendText($"Item : {item.name} ");
-                    toolStripStatusProcessTesting.Text = $"Type : {type_items[item._type]}";
-                    if (btnCheckBoxAuto.Checked && item._type == 1)
-                    {
-                        continue;
-                    }
-                    else if (btnCheckBoxManual.Checked && item._type == 2)
-                    {
-                        continue;
-                    }
-                    actions = null;
-                    actions = modules.Actions.LoadActionsID(item.id);
-                    foreach (modules.Actions action in actions)
-                    {
-                        if (action._type == 0)
-                        {
-                            // Mode IO Function 0 = Manual, 1 = Auto, 2 = Wait judment
-                            if (action.io_type == 0)
-                            {
-                                sendSerialCommand($"{action.io_state}{action.io_port}");
-                                txtProcessDetailsAppendText($"io data : {action.io_state}{action.io_port} ");
-                            }
-                            else if (action.io_type == 1)
-                            {
-                                sendSerialCommand($"1{action.io_port}");
-                                txtProcessDetailsAppendText($"io data : 1{action.io_port} ");
-                                Thread.Sleep(action.auto_delay);
-                                sendSerialCommand($"0{action.io_port}");
-                                txtProcessDetailsAppendText($"io data : 0{action.io_port} ");
-                            }
-
-                        }
-                        else if (action._type == 1)
-                        {
-                            int ngCount = 0;
-                            process_compare:
-                            var result = ProcessCompare(action.image_path);
-                            txtProcessDetailsAppendText($"Image Comapre result : {result}%, config :{action.image_percent} ");
-                            if (result < action.image_percent)
-                            {
-                                // Test Again
-                                ngCount++;
-                                if (ngCount < 15)
-                                {
-                                    txtProcessDetailsAppendText($"Test again : ---{ngCount}--- ");
-                                    Thread.Sleep(100);
-                                    goto process_compare;
-                                }
-                                // Test 
-                                txtProcessDetailsAppendText("Judement NG");
-                                //Console.WriteLine("Judement NG");
-                                found_NG = true;
-                                // End process
-                            }
-                            else
-                            {
-                                txtProcessDetailsAppendText("Judement OK");
-                                //Console.WriteLine("Judement OK");
-                            }
-                        }
-                        else if (action._type == 2)
-                        {
-                            stateReceivedData = false;
-                            btnReceivedData = string.Empty;
-                            // 1 se
-                            int timeOut = action.io_timeout * 1000;
-                            int counter = 0;
-                            int countTime = 0;
-                            while (counter <= timeOut)
-                            {
-                                if (stateReceivedData == true)
-                                {
-                                    break;
-                                }
-                                Thread.Sleep(50);
-                                counter++;
-                                countTime++;
-                                if (countTime > 10)
-                                {
-                                    txtProcessDetailsAppendText(".", true);
-                                }
-                            }
-                            if (stateReceivedData && btnReceivedData != string.Empty)
-                            {
-                                txtProcessDetailsAppendText("Pressed button OK");
-                            }
-                            else if (stateReceivedData && btnReceivedData != string.Empty)
-                            {
-                                txtProcessDetailsAppendText("Pressed button NG");
-                            }
-                            else
-                            {
-                                txtProcessDetailsAppendText("Time Out!!");
-                                found_NG = true;
-                            }
-                        }
-
-                        worker.ReportProgress(persent);
-                        Thread.Sleep(action.delay);
-                        if (found_NG)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "Testing error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    // Worker end process.
-            //    resultTesting = "ERROR";
-            //    worker.CancelAsync();
-            //}
-            txtProcessDetailsAppendText("End Process");
-            Console.WriteLine("End Process");
-            sendSerialCommand("end");
-            // Check the results 
-            if (!found_NG)
-            {
-                resultTesting = "OK";
-                blinkRuning = false;
-            }
-            else
-            {
-                resultTesting = "NG";
-                blinkRuning = true;
-            }
-        }
-
-        private void _workerTesting_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            toolStripProgressTesting.Value = e.ProgressPercentage;
-        }
-
-        private void _workerTesting_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            lbResult.Text = resultTesting;
-            blinkRuning = false;
-            if (resultTesting == "OK")
-            {
-                lbResult.BackColor = Color.Green;
-            }
-            else
-            {
-                lbResult.BackColor = Color.Red;
-            }
-
-            toolStripProgressTesting.Visible = false;
-        }
-
-        private void testing2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //testProcess();
-        }
- 
-        //private void testProcess()
-        //{
-        //    if (_worker.IsBusy != true)
-        //    {
-        //        if (txtProcessDetails.InvokeRequired)
-        //            txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
-        //        else
-        //            txtProcessDetails.Text = string.Empty;
-
-        //        toolStripProgressTesting.Visible = true;
-        //        toolStripProgressTesting.Value = 0;
-        //        _worker.RunWorkerAsync(this);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show(Properties.Resources.process_is_runing, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //    }
-        //}
 
         private void timerNG_Tick(object sender, EventArgs e)
         {

@@ -47,10 +47,6 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
 
-        public static List<History> Load()
-        {
-            string sql = "SELECT * FROM history";
-            return SQliteDataAccess.GetRow<History>(sql);
-        }
+        public static List<History> LoadHistory() => SQliteDataAccess.LoadData<History>("SELECT * FROM history ORDER BY id DESC LIMIT 100", null);
     }
 }

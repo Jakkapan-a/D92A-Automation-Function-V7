@@ -40,7 +40,6 @@
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testing2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelHomeHeader = new System.Windows.Forms.TableLayoutPanel();
             this.lbModelName = new System.Windows.Forms.Label();
             this.lbResult = new System.Windows.Forms.Label();
@@ -51,7 +50,6 @@
             this.tableLayoutPanelHome2 = new System.Windows.Forms.TableLayoutPanel();
             this.txtProcessDetails = new System.Windows.Forms.RichTextBox();
             this.pictureBoxDetect = new System.Windows.Forms.PictureBox();
-            this.dataGridViewHistory = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCheckBoxAuto = new System.Windows.Forms.RadioButton();
             this.btnCheckBoxManual = new System.Windows.Forms.RadioButton();
@@ -60,6 +58,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtSerialProduct = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lbCurrent = new System.Windows.Forms.Label();
+            this.lbVoltage = new System.Windows.Forms.Label();
+            this.dataGridViewHistory = new System.Windows.Forms.DataGridView();
             this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnEditModel = new System.Windows.Forms.Button();
@@ -85,6 +87,7 @@
             this.toolStripProgressTesting = new System.Windows.Forms.ToolStripProgressBar();
             this.timerNG = new System.Windows.Forms.Timer(this.components);
             this.timerCounter = new System.Windows.Forms.Timer(this.components);
+            this.toolStripStatusCurrent = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
@@ -93,8 +96,9 @@
             this.tableLayoutPanelHome.SuspendLayout();
             this.tableLayoutPanelHome2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).BeginInit();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).BeginInit();
@@ -150,8 +154,7 @@
             this.iOTestingToolStripMenuItem,
             this.loginToolStripMenuItem,
             this.TestingToolStripMenuItem,
-            this.settingToolStripMenuItem,
-            this.testing2ToolStripMenuItem});
+            this.settingToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
             this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.systemToolStripMenuItem.Text = "System";
@@ -159,36 +162,29 @@
             // iOTestingToolStripMenuItem
             // 
             this.iOTestingToolStripMenuItem.Name = "iOTestingToolStripMenuItem";
-            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iOTestingToolStripMenuItem.Text = "IO Testing";
             this.iOTestingToolStripMenuItem.Click += new System.EventHandler(this.iOTestingToolStripMenuItem_Click);
             // 
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loginToolStripMenuItem.Text = "Login";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuIteam_Click);
             // 
             // TestingToolStripMenuItem
             // 
             this.TestingToolStripMenuItem.Name = "TestingToolStripMenuItem";
-            this.TestingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.TestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.TestingToolStripMenuItem.Text = "Testing";
             this.TestingToolStripMenuItem.Click += new System.EventHandler(this.TestingToolStripMenuItem_Click);
             // 
             // settingToolStripMenuItem
             // 
             this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingToolStripMenuItem.Text = "Setting";
-            // 
-            // testing2ToolStripMenuItem
-            // 
-            this.testing2ToolStripMenuItem.Name = "testing2ToolStripMenuItem";
-            this.testing2ToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.testing2ToolStripMenuItem.Text = "Testing 2";
-            this.testing2ToolStripMenuItem.Click += new System.EventHandler(this.testing2ToolStripMenuItem_Click);
             // 
             // tableLayoutPanelHomeHeader
             // 
@@ -280,7 +276,7 @@
             this.tableLayoutPanelHome.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome.ColumnCount = 2;
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 507F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 509F));
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
             this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
@@ -301,14 +297,14 @@
             this.tableLayoutPanelHome2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.Controls.Add(this.txtProcessDetails, 1, 1);
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 1);
-            this.tableLayoutPanelHome2.Controls.Add(this.dataGridViewHistory, 1, 0);
             this.tableLayoutPanelHome2.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(300, 4);
+            this.tableLayoutPanelHome2.Controls.Add(this.panel2, 1, 0);
+            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(298, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(501, 374);
+            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(503, 374);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
             // txtProcessDetails
@@ -316,9 +312,9 @@
             this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProcessDetails.Location = new System.Drawing.Point(254, 190);
+            this.txtProcessDetails.Location = new System.Drawing.Point(255, 190);
             this.txtProcessDetails.Name = "txtProcessDetails";
-            this.txtProcessDetails.Size = new System.Drawing.Size(243, 180);
+            this.txtProcessDetails.Size = new System.Drawing.Size(244, 180);
             this.txtProcessDetails.TabIndex = 1;
             this.txtProcessDetails.Text = "";
             // 
@@ -329,21 +325,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxDetect.Location = new System.Drawing.Point(4, 190);
             this.pictureBoxDetect.Name = "pictureBoxDetect";
-            this.pictureBoxDetect.Size = new System.Drawing.Size(243, 180);
+            this.pictureBoxDetect.Size = new System.Drawing.Size(244, 180);
             this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxDetect.TabIndex = 0;
             this.pictureBoxDetect.TabStop = false;
-            // 
-            // dataGridViewHistory
-            // 
-            this.dataGridViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewHistory.Location = new System.Drawing.Point(254, 4);
-            this.dataGridViewHistory.Name = "dataGridViewHistory";
-            this.dataGridViewHistory.Size = new System.Drawing.Size(243, 179);
-            this.dataGridViewHistory.TabIndex = 2;
             // 
             // panel1
             // 
@@ -359,14 +344,14 @@
             this.panel1.Controls.Add(this.txtName);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(243, 179);
+            this.panel1.Size = new System.Drawing.Size(244, 179);
             this.panel1.TabIndex = 3;
             // 
             // btnCheckBoxAuto
             // 
             this.btnCheckBoxAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCheckBoxAuto.AutoSize = true;
-            this.btnCheckBoxAuto.Location = new System.Drawing.Point(192, 149);
+            this.btnCheckBoxAuto.Location = new System.Drawing.Point(193, 149);
             this.btnCheckBoxAuto.Name = "btnCheckBoxAuto";
             this.btnCheckBoxAuto.Size = new System.Drawing.Size(47, 17);
             this.btnCheckBoxAuto.TabIndex = 3;
@@ -378,7 +363,7 @@
             // 
             this.btnCheckBoxManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCheckBoxManual.AutoSize = true;
-            this.btnCheckBoxManual.Location = new System.Drawing.Point(126, 149);
+            this.btnCheckBoxManual.Location = new System.Drawing.Point(127, 149);
             this.btnCheckBoxManual.Name = "btnCheckBoxManual";
             this.btnCheckBoxManual.Size = new System.Drawing.Size(60, 17);
             this.btnCheckBoxManual.TabIndex = 3;
@@ -411,7 +396,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(236, 52);
+            this.label4.Size = new System.Drawing.Size(237, 52);
             this.label4.TabIndex = 1;
             this.label4.Text = "INSPECTION";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -422,7 +407,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSerialProduct.Location = new System.Drawing.Point(79, 116);
             this.txtSerialProduct.Name = "txtSerialProduct";
-            this.txtSerialProduct.Size = new System.Drawing.Size(160, 20);
+            this.txtSerialProduct.Size = new System.Drawing.Size(161, 20);
             this.txtSerialProduct.TabIndex = 0;
             // 
             // txtName
@@ -431,8 +416,58 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(79, 78);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(160, 20);
+            this.txtName.Size = new System.Drawing.Size(161, 20);
             this.txtName.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.lbCurrent);
+            this.panel2.Controls.Add(this.lbVoltage);
+            this.panel2.Controls.Add(this.dataGridViewHistory);
+            this.panel2.Location = new System.Drawing.Point(255, 4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(244, 179);
+            this.panel2.TabIndex = 4;
+            // 
+            // lbCurrent
+            // 
+            this.lbCurrent.AccessibleDescription = "as";
+            this.lbCurrent.AccessibleName = "sa";
+            this.lbCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbCurrent.AutoSize = true;
+            this.lbCurrent.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lbCurrent.Location = new System.Drawing.Point(72, 153);
+            this.lbCurrent.Name = "lbCurrent";
+            this.lbCurrent.Size = new System.Drawing.Size(44, 13);
+            this.lbCurrent.TabIndex = 3;
+            this.lbCurrent.Text = "12V DC";
+            // 
+            // lbVoltage
+            // 
+            this.lbVoltage.AccessibleDescription = "as";
+            this.lbVoltage.AccessibleName = "sa";
+            this.lbVoltage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbVoltage.AutoSize = true;
+            this.lbVoltage.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lbVoltage.Location = new System.Drawing.Point(3, 153);
+            this.lbVoltage.Name = "lbVoltage";
+            this.lbVoltage.Size = new System.Drawing.Size(44, 13);
+            this.lbVoltage.TabIndex = 3;
+            this.lbVoltage.Text = "12V DC";
+            // 
+            // dataGridViewHistory
+            // 
+            this.dataGridViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewHistory.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewHistory.Name = "dataGridViewHistory";
+            this.dataGridViewHistory.Size = new System.Drawing.Size(238, 133);
+            this.dataGridViewHistory.TabIndex = 2;
             // 
             // pictureBoxCamera
             // 
@@ -441,7 +476,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
             this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(289, 374);
+            this.pictureBoxCamera.Size = new System.Drawing.Size(287, 374);
             this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCamera.TabIndex = 1;
             this.pictureBoxCamera.TabStop = false;
@@ -615,7 +650,8 @@
             this.toolStripStatusSerialDetails,
             this.toolStripStatusLabelModelID,
             this.toolStripStatusProcessTesting,
-            this.toolStripProgressTesting});
+            this.toolStripProgressTesting,
+            this.toolStripStatusCurrent});
             this.statusStripHome.Location = new System.Drawing.Point(0, 537);
             this.statusStripHome.Name = "statusStripHome";
             this.statusStripHome.Size = new System.Drawing.Size(834, 24);
@@ -671,6 +707,12 @@
             this.timerCounter.Interval = 900;
             this.timerCounter.Tick += new System.EventHandler(this.timerCounter_Tick);
             // 
+            // toolStripStatusCurrent
+            // 
+            this.toolStripStatusCurrent.Name = "toolStripStatusCurrent";
+            this.toolStripStatusCurrent.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusCurrent.Text = "toolStripStatusLabel1";
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -699,9 +741,11 @@
             this.tableLayoutPanelHome.ResumeLayout(false);
             this.tableLayoutPanelHome2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDetect)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewModelList)).EndInit();
@@ -768,10 +812,13 @@
         private System.Windows.Forms.RadioButton btnCheckBoxAuto;
         private System.Windows.Forms.RadioButton btnCheckBoxManual;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusProcessTesting;
-        private System.Windows.Forms.ToolStripMenuItem testing2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressTesting;
         private System.Windows.Forms.Timer timerNG;
         private System.Windows.Forms.Timer timerCounter;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lbVoltage;
+        private System.Windows.Forms.Label lbCurrent;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusCurrent;
     }
 }
 
