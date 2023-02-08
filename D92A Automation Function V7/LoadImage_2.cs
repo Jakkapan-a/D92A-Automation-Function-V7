@@ -17,13 +17,19 @@ namespace D92A_Automation_Function_V7
         Home home;
         Rectangle Rect;
         private Actions actions;
+        private ActionImage actionImage;
         public LoadImage_2(Home home, Actions actions)
         {
             InitializeComponent();
             this.home = home;
             this.actions= actions;
         }
-
+        public LoadImage_2(Home home, ActionImage action)
+        {
+            InitializeComponent();
+            this.home = home;
+            this.actionImage = action;
+        }
         private void LoadImage_2_Load(object sender, EventArgs e)
         {
             timerVideo.Start();
@@ -55,7 +61,15 @@ namespace D92A_Automation_Function_V7
                     string filename = $"{path}{Guid.NewGuid()}.jpg";
                     // Save image
                     bmp.Save(filename, ImageFormat.Jpeg);
-                    this.actions.SetImage(filename);
+                    if(this.actions != null)
+                    {
+                        this.actions.SetImage(filename);
+
+                    }else if(this.actionImage != null)
+                    {
+                        this.actionImage.SetImage(filename);
+                    }
+
                 }
             }
 

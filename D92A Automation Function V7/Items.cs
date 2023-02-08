@@ -19,10 +19,10 @@ namespace D92A_Automation_Function_V7
     public partial class Items : Form
     {
         public int model_id = -1;
-        private int item_id = -1;
+        public int item_id = -1;
         private string[] type_items = { "Normal", "Manual", "Auto" };
         Models model;
-        Actions actions;
+
         private string path_image = string.Empty;
         public Home home;
         private Dictionary<string, bool> stateBtn = new Dictionary<string, bool>();
@@ -47,9 +47,14 @@ namespace D92A_Automation_Function_V7
             model = Models.GetModelById(model_id);
             lbModelName.Text = model.name;
         }
-
+        Actions actions;
         private void btnAddActions_Click(object sender, EventArgs e)
         {
+            if(item_id == -1)
+            {
+                MessageBox.Show(Properties.Resources.please_select_item, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (actions != null)
             {
                 actions.Close();
@@ -112,7 +117,7 @@ namespace D92A_Automation_Function_V7
             dataGridViewActionList.DataSource = null;
             if (item_id == -1)
                 return;
-            List<modules.Actions> actions = modules.Actions.LoadActions(item_id);
+            List<modules.Actions> actions = modules.Actions.LoadActionsID(item_id);
             int i = 0;
             var data = (from x in actions
                         select new
@@ -330,7 +335,7 @@ namespace D92A_Automation_Function_V7
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             log.Save("Testing Start");
-            List<modules.Actions> actions = modules.Actions.LoadActions(item_id);
+            List<modules.Actions> actions = modules.Actions.LoadActionsID(item_id);
             Int32 counter = 0;
             foreach (modules.Actions action in actions)
             {
@@ -464,7 +469,7 @@ namespace D92A_Automation_Function_V7
         }
         private void processTesting()
         {
-            List<modules.Actions> actions = modules.Actions.LoadActions(item_id);
+            List<modules.Actions> actions = modules.Actions.LoadActionsID(item_id);
             Int32 counter = 0;
             toolStripStatusTestting.Text = string.Empty;
             toolStripStatusTestting.Visible = true;
@@ -573,6 +578,11 @@ namespace D92A_Automation_Function_V7
         ActionIO actionIO;
         private void btnAdd_IO_Click(object sender, EventArgs e)
         {
+            if(item_id == -1)
+            {
+                MessageBox.Show(Properties.Resources.please_select_item, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if(actionIO != null)
             {
                 actionIO.Close();

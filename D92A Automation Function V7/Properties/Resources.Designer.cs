@@ -167,6 +167,15 @@ namespace D92A_Automation_Function_V7.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select item.
+        /// </summary>
+        internal static string please_select_item {
+            get {
+                return ResourceManager.GetString("please_select_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Process is running.
         /// </summary>
         internal static string process_is_runing {

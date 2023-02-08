@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,22 @@ namespace D92A_Automation_Function_V7
         private List<stateBtn> stateBtns;
 
         private Items Items;
+        private int item_id = -1;
         public ActionIO(Items Items)
         {
             InitializeComponent();
             this.Items = Items;
+            this.item_id = Items.item_id;
         }
-
+        private int action_id = -1;
+        public ActionIO(Items Items, int action_id)
+        {
+            InitializeComponent();
+            this.Items = Items;
+            this.item_id = Items.item_id;
+            this.action_id = action_id;
+        }
+        private modules.Actions ActionsUpdate;
         private void ActionIO_Load(object sender, EventArgs e)
         {
             stateBtns = new List<stateBtn>();            
@@ -39,6 +50,13 @@ namespace D92A_Automation_Function_V7
                     stateBtns.Add(new stateBtn { name = "R" + i.ToString(), state = false });
                      this.stateBtn.Add("R" + i.ToString(), false);
                 }
+            }
+            checkBoxON.Checked = true;
+
+            if(action_id != -1)
+            {
+                btnSaveIO.Text = "Update";
+                ActionsUpdate = modules.Actions.LoadActionsByID(action_id).First();
             }
         }
 
@@ -80,39 +98,109 @@ namespace D92A_Automation_Function_V7
                 button.BackColor = Color.White;
             }            
         }
+        private string getTxtBtn(string name)
+        {
+            foreach (Panel panel in tableLayoutPanelAction.Controls)
+            {
+                foreach (Button btn in panel.Controls)
+                {
+                    if(btn.Name == name)
+                        return btn.Text;
+                }
+            }
+            return string.Empty;
+        }
+        private bool isChecked()
+        {
+            if (btnIO_TypeAuto.Checked || btnIO_TypeManual.Checked || btnIO_TypeWaitJudgment.Checked)
+            {
+                return true;
+            }
+            return false;
+        }
+        private int TypeActionOfIO()
+        {
+            if(btnIO_TypeManual.Checked)
+                return 0;
+            else if(btnIO_TypeAuto.Checked)
+                return 1;
+            else if(btnIO_TypeWaitJudgment.Checked)
+                return 2;
 
+            return -1;
+        }
         private void btnSaveIO_Click(object sender, EventArgs e)
         {
             try
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                // get name of state button color green
+                string IOPort= this.stateBtns.Where(x => x.state == true).ToList().First().name;
+                // get text of tableLayoutPanelAction -> Panel -> button name is getStateBtnName
+                var IOname = getTxtBtn(IOPort);
 
-                //modules.Actions actions = new modules.Actions();
-                //actions.item_id = item_id;
-                //actions.name = "IO Fuction";
-                //actions._type = 0;  // 0 = IO, 1 = Image
+                Console.WriteLine(IOPort + ","+ IOname);
+                stopwatch.Stop();
+                Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
 
-                //if (TypeActionOfIO() == -1 && btnSelectedIOFunction.Checked)
-                //    throw new Exception("Type of IO is invalid!.");
+                 // Validate 
+                if (IOname == string.Empty)
+                {
+                    throw new Exception("Please select IO port!");
+                }
 
-                //actions.io_type = TypeActionOfIO();     // 0 = Manual, 1 = Auto, 2 = Wait judment
-                //actions.io_state = checkBocON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
-                //actions.io_port = (comboBoxIOPort.SelectedIndex + 1 < 10) ? "R0" + (comboBoxIOPort.SelectedIndex + 1).ToString() : "R" + (comboBoxIOPort.SelectedIndex + 1).ToString();
-                //actions.io_name = getStateBtnName;
-                //actions.io_timeout = (int)txtTimeOut.Value;
-                //actions.delay = (int)txtDelay.Value;
-                //actions.auto_delay = (int)txtAutoDelay.Value;
-                //string filename = !btnSelectedIOFunction.Checked ? saveFileImage() : "";
-                //actions.image_path = filename;
-                //actions.image_percent = (int)txtPercent.Value;
-                //actions.image_status = 1;
-                //actions.Save();
+                if (!isChecked())                    
+                {
+                  throw new Exception("Please select IO type!");
+                }
 
-                //this.Items.LoadActionsList();
-                //this.Close();
+                if(this.item_id == -1)
+                {
+                    throw new Exception("Please select item!");
+                }
+
+                modules.Actions actions = new modules.Actions();
+                actions.item_id = item_id;
+                actions.name = "IO Fuction";
+                actions._type = 0;  // 0 = IO, 1 = Image
+
+
+
+                actions.io_type = TypeActionOfIO();     // 0 = Manual, 1 = Auto, 2 = Wait judgment
+                actions.io_state = checkBoxON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
+                actions.io_port = IOPort;
+                actions.io_name = IOname;
+                actions.io_timeout = (int)txtTimeOut.Value;
+                actions.delay = (int)txtDelay.Value;
+                actions.auto_delay = (int)txtAutoDelay.Value;
+                actions.image_path = "-";
+                actions.image_percent = 50;
+                actions.image_status = 1;
+                actions.Save();
+                this.Items.LoadActionsList();
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message, "Exclamation 007", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            
+        }
+
+        private void checkBoxON_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxON.Checked)
+            {
+                checkBoxOFF.Checked = false;
+            }
+        }
+
+        private void checkBoxOFF_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxOFF.Checked)
+            {
+                checkBoxON.Checked = false;
             }
         }
     }

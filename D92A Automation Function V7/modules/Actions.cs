@@ -123,6 +123,7 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
+
         #region Delete Action
         public void Delete()
         {
@@ -134,7 +135,7 @@ namespace D92A_Automation_Function_V7.modules
         #endregion
 
         #region Get Action
-        public static List<Actions> LoadActions(int item_id)
+        public static List<Actions> LoadActionsID(int item_id)
         {
             string sql = "SELECT * FROM actions WHERE item_id = @item_id AND image_status = 1";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -142,6 +143,14 @@ namespace D92A_Automation_Function_V7.modules
             return SQliteDataAccess.LoadData<modules.Actions>(sql, parameters);
         }
         #endregion
+        //Get Action ID
+        public static List<Actions> LoadActionsByID(int action_id)
+        {
+            string sql = "SELECT * FROM actions WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", action_id);
+            return SQliteDataAccess.LoadData<modules.Actions>(sql, parameters);
+        }
 
     }
 }

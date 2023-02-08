@@ -52,7 +52,7 @@ namespace D92A_Automation_Function_V7.modules
 
         public static void Delete(int id) 
         {
-            var actions = modules.Actions.LoadActions(id);
+            var actions = modules.Actions.LoadActionsID(id);
             foreach (var action in actions)
             {
                 Actions.ToTemp(action.id);

@@ -605,7 +605,7 @@ namespace D92A_Automation_Function_V7
                     continue;
                 }
                 actions = null;
-                actions = modules.Actions.LoadActions(item.id);
+                actions = modules.Actions.LoadActionsID(item.id);
                 foreach (modules.Actions action in actions)
                 {
                     //Console.WriteLine(action._type);
@@ -1026,7 +1026,7 @@ namespace D92A_Automation_Function_V7
                         continue;
                     }
                     actions = null;
-                    actions = modules.Actions.LoadActions(item.id);
+                    actions = modules.Actions.LoadActionsID(item.id);
                     foreach (modules.Actions action in actions)
                     {
                         if (action._type == 0)

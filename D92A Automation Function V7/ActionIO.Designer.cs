@@ -73,10 +73,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.checkBoxOFF = new System.Windows.Forms.CheckBox();
-            this.checkBocON = new System.Windows.Forms.CheckBox();
+            this.checkBoxON = new System.Windows.Forms.CheckBox();
             this.btnIO_TypeManual = new System.Windows.Forms.RadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lbTitle = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanelAction.SuspendLayout();
@@ -181,7 +182,7 @@
             this.R09.Name = "R09";
             this.R09.Size = new System.Drawing.Size(179, 46);
             this.R09.TabIndex = 0;
-            this.R09.Text = "button2";
+            this.R09.Text = "SLN  4 (45°)";
             this.R09.UseVisualStyleBackColor = true;
             this.R09.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -207,7 +208,7 @@
             this.R10.Name = "R10";
             this.R10.Size = new System.Drawing.Size(179, 46);
             this.R10.TabIndex = 0;
-            this.R10.Text = "button2";
+            this.R10.Text = "SLN  3 (45°)";
             this.R10.UseVisualStyleBackColor = true;
             this.R10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -233,7 +234,7 @@
             this.R11.Name = "R11";
             this.R11.Size = new System.Drawing.Size(179, 46);
             this.R11.TabIndex = 0;
-            this.R11.Text = "button2";
+            this.R11.Text = "SLN  2 (45°)";
             this.R11.UseVisualStyleBackColor = true;
             this.R11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -259,7 +260,7 @@
             this.R12.Name = "R12";
             this.R12.Size = new System.Drawing.Size(179, 46);
             this.R12.TabIndex = 0;
-            this.R12.Text = "button2";
+            this.R12.Text = "SLN  1 (45°)";
             this.R12.UseVisualStyleBackColor = true;
             this.R12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -285,7 +286,7 @@
             this.R16.Name = "R16";
             this.R16.Size = new System.Drawing.Size(179, 46);
             this.R16.TabIndex = 0;
-            this.R16.Text = "button2";
+            this.R16.Text = "SLN  1 (45°)";
             this.R16.UseVisualStyleBackColor = true;
             this.R16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -311,7 +312,7 @@
             this.R15.Name = "R15";
             this.R15.Size = new System.Drawing.Size(179, 46);
             this.R15.TabIndex = 0;
-            this.R15.Text = "button2";
+            this.R15.Text = "SLN  2 (45°)";
             this.R15.UseVisualStyleBackColor = true;
             this.R15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -336,7 +337,7 @@
             this.R14.Name = "R14";
             this.R14.Size = new System.Drawing.Size(179, 46);
             this.R14.TabIndex = 0;
-            this.R14.Text = "button2";
+            this.R14.Text = "SLN  3 (45°)";
             this.R14.UseVisualStyleBackColor = true;
             this.R14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -362,7 +363,7 @@
             this.R13.Name = "R13";
             this.R13.Size = new System.Drawing.Size(179, 46);
             this.R13.TabIndex = 0;
-            this.R13.Text = "button2";
+            this.R13.Text = "SLN  4 (90°)";
             this.R13.UseVisualStyleBackColor = true;
             this.R13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IO_click);
             // 
@@ -472,6 +473,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.lbTitle);
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -500,7 +502,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.checkBoxOFF);
-            this.groupBox1.Controls.Add(this.checkBocON);
+            this.groupBox1.Controls.Add(this.checkBoxON);
             this.groupBox1.Controls.Add(this.btnIO_TypeManual);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(480, 57);
@@ -526,7 +528,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(147, 292);
+            this.label5.Location = new System.Drawing.Point(147, 297);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(24, 15);
             this.label5.TabIndex = 23;
@@ -537,7 +539,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(8, 268);
+            this.label6.Location = new System.Drawing.Point(17, 276);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(115, 15);
             this.label6.TabIndex = 22;
@@ -547,7 +549,7 @@
             // 
             this.txtDelay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDelay.Location = new System.Drawing.Point(52, 290);
+            this.txtDelay.Location = new System.Drawing.Point(52, 295);
             this.txtDelay.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -702,17 +704,19 @@
             this.checkBoxOFF.TabIndex = 9;
             this.checkBoxOFF.Text = "OFF";
             this.checkBoxOFF.UseVisualStyleBackColor = true;
+            this.checkBoxOFF.CheckedChanged += new System.EventHandler(this.checkBoxOFF_CheckedChanged);
             // 
-            // checkBocON
+            // checkBoxON
             // 
-            this.checkBocON.AutoSize = true;
-            this.checkBocON.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBocON.Location = new System.Drawing.Point(49, 43);
-            this.checkBocON.Name = "checkBocON";
-            this.checkBocON.Size = new System.Drawing.Size(44, 19);
-            this.checkBocON.TabIndex = 10;
-            this.checkBocON.Text = "ON";
-            this.checkBocON.UseVisualStyleBackColor = true;
+            this.checkBoxON.AutoSize = true;
+            this.checkBoxON.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxON.Location = new System.Drawing.Point(49, 43);
+            this.checkBoxON.Name = "checkBoxON";
+            this.checkBoxON.Size = new System.Drawing.Size(44, 19);
+            this.checkBoxON.TabIndex = 10;
+            this.checkBoxON.Text = "ON";
+            this.checkBoxON.UseVisualStyleBackColor = true;
+            this.checkBoxON.CheckedChanged += new System.EventHandler(this.checkBoxON_CheckedChanged);
             // 
             // btnIO_TypeManual
             // 
@@ -746,6 +750,20 @@
             this.statusStrip1.Size = new System.Drawing.Size(855, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbTitle.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitle.Location = new System.Drawing.Point(6, 11);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(816, 43);
+            this.lbTitle.TabIndex = 2;
+            this.lbTitle.Text = "Add Actions";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ActionIO
             // 
@@ -809,7 +827,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox checkBoxOFF;
-        private System.Windows.Forms.CheckBox checkBocON;
+        private System.Windows.Forms.CheckBox checkBoxON;
         private System.Windows.Forms.RadioButton btnIO_TypeManual;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
@@ -837,5 +855,6 @@
         private System.Windows.Forms.Button R03;
         private System.Windows.Forms.Button R02;
         private System.Windows.Forms.Button R01;
+        private System.Windows.Forms.Label lbTitle;
     }
 }
