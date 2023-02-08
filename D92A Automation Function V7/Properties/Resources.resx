@@ -163,6 +163,9 @@
   <data name="process_is_runing" xml:space="preserve">
     <value>Process is running</value>
   </data>
+  <data name="please_select_action" xml:space="preserve">
+    <value>Please select action</value>
+  </data>
   <data name="please_select_item" xml:space="preserve">
     <value>Please select item</value>
   </data>

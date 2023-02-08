@@ -19,17 +19,35 @@ namespace D92A_Automation_Function_V7
         private Items Items;
         private string oldfileName = string.Empty;
         private int item_id = -1;
+        private int action_id = -1;
         public ActionImage(Items items)
         {
             InitializeComponent();
             Items = items;
             item_id = items.item_id;
         }
+        public ActionImage(Items items,int action_id)
+        {
+            InitializeComponent();
+            Items = items;
+            item_id = items.item_id;
+            this.action_id = action_id;
+        }
+
         LoadImage_2 loadImage;
 
         private void ActionImage_Load(object sender, EventArgs e)
         {
-
+            if(action_id != -1)
+            {
+                var action = modules.Actions.LoadActionsByID(action_id).First();
+                txtDelay.Value = action.delay;
+                txtPercent.Value = action.image_percent;
+                string path = action.image_path;
+                SetImage(path);
+                lbTitle.Text = "Update Image";
+                btnSave.Text = "Update";
+            }
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -70,22 +88,30 @@ namespace D92A_Automation_Function_V7
         {
             try
             {
-                modules.Actions actions = new modules.Actions();
-                actions.item_id = item_id;
-                actions.name = "Image Fuction";
-                actions._type = 1;  // 0 = IO, 1 = Image
+                modules.Actions action = new modules.Actions();
+                action.item_id = item_id;
+                action.name = "Image Fuction";
+                action._type = 1;  // 0 = IO, 1 = Image
 
-                actions.io_type = 0;     // 0 = Manual, 1 = Auto, 2 = Wait judgment
-                actions.io_state = 1;          // 0 = OFF,1 = ON
-                actions.io_port = "";
-                actions.io_name = "";
-                actions.io_timeout = 0;
-                actions.delay = (int)txtDelay.Value;
-                actions.auto_delay = 0;
-                actions.image_path = saveFileImage();
-                actions.image_percent = (int)txtPercent.Value;
-                actions.image_status = 1;
-                actions.Save();
+                action.io_type = 0;     // 0 = Manual, 1 = Auto, 2 = Wait judgment
+                action.io_state = 1;          // 0 = OFF,1 = ON
+                action.io_port = "";
+                action.io_name = "";
+                action.io_timeout = 0;
+                action.delay = (int)txtDelay.Value;
+                action.auto_delay = 0;
+                action.image_path = saveFileImage();
+                action.image_percent = (int)txtPercent.Value;
+                action.image_status = 1;
+                if (action_id != -1)
+                {
+                    action.id = action_id;
+                    action.Update();
+                }
+                else
+                {
+                    action.Save();
+                }
 
                 Items.LoadActionsList();
                 this.Close();

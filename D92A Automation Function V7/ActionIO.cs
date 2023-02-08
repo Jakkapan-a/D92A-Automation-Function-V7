@@ -1,6 +1,8 @@
-﻿using System;
+﻿using D92A_Automation_Function_V7.modules;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition.Primitives;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace D92A_Automation_Function_V7
 {
@@ -34,7 +37,7 @@ namespace D92A_Automation_Function_V7
             this.item_id = Items.item_id;
             this.action_id = action_id;
         }
-        private modules.Actions ActionsUpdate;
+        private modules.Actions ActionUpdate;
         private void ActionIO_Load(object sender, EventArgs e)
         {
             stateBtns = new List<stateBtn>();            
@@ -56,7 +59,31 @@ namespace D92A_Automation_Function_V7
             if(action_id != -1)
             {
                 btnSaveIO.Text = "Update";
-                ActionsUpdate = modules.Actions.LoadActionsByID(action_id).First();
+                lbTitle.Text = "Update Action IO";
+                ActionUpdate = modules.Actions.LoadActionsByID(action_id).First();
+                // Set default patameter
+                switch (ActionUpdate.io_type)
+                {
+                    case 0:
+                        btnIO_TypeManual.Checked = true;
+                        if (ActionUpdate.io_state == 1)
+                            checkBoxON.Checked = true;
+                        else
+                            checkBoxOFF.Checked = true;
+                        break;
+                    case 1:
+                        btnIO_TypeAuto.Checked = true;
+                        txtAutoDelay.Value = ActionUpdate.auto_delay;
+                        break;
+                    case 2:
+                        btnIO_TypeWaitJudgment.Checked = true;
+                        break;
+                }
+                // Set default IO
+                string IO = ActionUpdate.io_port;
+                this.stateBtns.Where(x => x.name == IO).ToList().ForEach(x => x.state = true);
+                this.stateBtns.Where(x => x.name != IO).ToList().ForEach(x => x.state = false);
+                cancelOldState();
             }
         }
 
@@ -68,10 +95,8 @@ namespace D92A_Automation_Function_V7
             string name = btn.Name;
             this.stateBtn[name] = true;
             // If name is not same as key, set value to false 
-
             this.stateBtns.Where(x => x.name == name).ToList().ForEach(x => x.state = true);
             this.stateBtns.Where(x => x.name != name).ToList().ForEach(x => x.state = false);
-
             cancelOldState();
         }
 
@@ -138,9 +163,7 @@ namespace D92A_Automation_Function_V7
                 // get name of state button color green
                 string IOPort= this.stateBtns.Where(x => x.state == true).ToList().First().name;
                 // get text of tableLayoutPanelAction -> Panel -> button name is getStateBtnName
-                var IOname = getTxtBtn(IOPort);
-
-           
+                var IOname = getTxtBtn(IOPort);         
 
                  // Validate 
                 if (IOname == string.Empty)
@@ -173,7 +196,15 @@ namespace D92A_Automation_Function_V7
                 actions.image_path = "-";
                 actions.image_percent = 50;
                 actions.image_status = 1;
-                actions.Save();
+                
+                if(action_id != -1)
+                {
+                    actions.id = action_id;
+                    actions.Update();
+                }else{
+                    actions.Save();
+                }
+               
                 this.Items.LoadActionsList();
                 stopwatch.Stop();
                 Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);

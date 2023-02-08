@@ -36,7 +36,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtDelay = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lbTitle = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtPercent = new System.Windows.Forms.NumericUpDown();
             this.panelActonImage.SuspendLayout();
@@ -141,18 +141,18 @@
             0,
             0});
             // 
-            // label9
+            // lbTitle
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(12, 9);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(715, 39);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Master Image";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbTitle.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitle.Location = new System.Drawing.Point(12, 9);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(715, 39);
+            this.lbTitle.TabIndex = 9;
+            this.lbTitle.Text = "Master Image";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label11
             // 
@@ -184,7 +184,7 @@
             this.ClientSize = new System.Drawing.Size(739, 446);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtPercent);
-            this.Controls.Add(this.label9);
+            this.Controls.Add(this.lbTitle);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtDelay);
@@ -213,7 +213,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown txtDelay;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox pictureBoxCamera;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown txtPercent;

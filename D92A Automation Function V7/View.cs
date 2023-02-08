@@ -22,7 +22,14 @@ namespace D92A_Automation_Function_V7
 
         private void View_Load(object sender, EventArgs e)
         {
-            pictureBox.Image = Image.FromFile(pathImage);
+            try
+            {
+                pictureBox.Image = Image.FromFile(pathImage);
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)

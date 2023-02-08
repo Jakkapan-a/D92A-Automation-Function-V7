@@ -167,6 +167,15 @@ namespace D92A_Automation_Function_V7.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select action.
+        /// </summary>
+        internal static string please_select_action {
+            get {
+                return ResourceManager.GetString("please_select_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select item.
         /// </summary>
         internal static string please_select_item {

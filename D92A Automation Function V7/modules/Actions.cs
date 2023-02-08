@@ -49,7 +49,6 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
-
         #region Update Action
         public void Update()
         {
@@ -83,7 +82,6 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
-
         #region Update DeleteTemp
         public static void DeleteTemp()
         {
@@ -111,7 +109,6 @@ namespace D92A_Automation_Function_V7.modules
             return SQliteDataAccess.LoadData<modules.Actions>(sql, parameters);
         }
         #endregion
-
         #region byItemToTemp
         public static void byItemToTemp(int item_id)
         {
@@ -123,7 +120,6 @@ namespace D92A_Automation_Function_V7.modules
             SQliteDataAccess.Execute(sql, parameters);
         }
         #endregion
-
         #region Delete Action
         public void Delete()
         {

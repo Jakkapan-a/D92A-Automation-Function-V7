@@ -48,20 +48,7 @@ namespace D92A_Automation_Function_V7
             lbModelName.Text = model.name;
         }
         ActionImage actions;
-        private void btnAddActions_Click(object sender, EventArgs e)
-        {
-            if(item_id == -1)
-            {
-                MessageBox.Show(Properties.Resources.please_select_item, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (actions != null)
-            {
-                actions.Close();
-            }
-            actions = new ActionImage(this);
-            actions.Show(this);
-        }
+
 
         private void Items_Load(object sender, EventArgs e)
         {
@@ -247,15 +234,16 @@ namespace D92A_Automation_Function_V7
         View view;
         private void viewActionList_Click(object sender, EventArgs e)
         {
-            if (path_image != string.Empty)
+            if (path_image == string.Empty || path_image == "-")
             {
-                if(view != null)
-                {
-                    view.Dispose();
-                }
-                view = new View(path_image);
-                view.Show(this);
+                return;
             }
+            if (view != null)
+            {
+                view.Dispose();
+            }
+            view = new View(path_image);
+            view.Show(this);
         }
         EditModel editModel;
         private void editModelNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -591,6 +579,51 @@ namespace D92A_Automation_Function_V7
 
             actionIO = new ActionIO(this);
             actionIO.Show();
+        }
+
+        private void btnAddActionImage_Click(object sender, EventArgs e)
+        {
+            if (item_id == -1)
+            {
+                MessageBox.Show(Properties.Resources.please_select_item, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (actions != null)
+            {
+                actions.Close();
+            }
+            actions = new ActionImage(this);
+            actions.Show(this);
+        }
+
+        private void editDelayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (action_id == -1)
+            {
+                MessageBox.Show(Properties.Resources.please_select_action, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var action = modules.Actions.LoadActionsByID(action_id).First();
+            if (action._type == 1)
+            {
+                if (actions != null)
+                {
+                    actions.Close();
+                }
+                actions = new ActionImage(this, action.id);
+                actions.Show(this);
+            }
+            else
+            {
+                if (actionIO != null)
+                {
+                    actionIO.Close();
+                    actionIO.Dispose();
+                }
+
+                actionIO = new ActionIO(this,action.id);
+                actionIO.Show();
+            }
         }
     }
 }
