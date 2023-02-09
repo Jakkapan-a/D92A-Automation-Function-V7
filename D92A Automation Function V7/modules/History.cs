@@ -12,33 +12,35 @@ namespace D92A_Automation_Function_V7.modules
         public string employee_id { get; set; }
         public string serial_no { get; set; }
         public string result { get; set; }
+        public string details { get; set; }
         public string created_at { get; set; }        
         public string updated_at { get; set;}
 
-        public void Save()
-        {
-            string sql = "INSERT INTO history (employee_id, serial_no, result, created_at, updated_at) VALUES (@employee_id, @serial_no, @result, @created_at, @updated_at)";
+        public void Save(){
+            string sql = "INSERT INTO history (employee_id, serial_no, result, details, created_at, updated_at) VALUES (@employee_id, @serial_no, @result, @details, @created_at, @updated_at)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@employee_id", employee_id);
             parameters.Add("@serial_no", serial_no);
             parameters.Add("@result", result);
-            parameters.Add("@created_at", SQliteDataAccess.getDateTimeNow);
-            parameters.Add("@updated_at", SQliteDataAccess.getDateTimeNow);
+            parameters.Add("@details", details);
+            parameters.Add("@created_at", created_at);
+            parameters.Add("@updated_at", updated_at);
             SQliteDataAccess.Execute(sql, parameters);
         }
 
         public void Update()
         {
-            string sql = "UPDATE history SET employee_id = @employee_id, serial_no = @serial_no, result = @result, updated_at = @updated_at WHERE id = @id";
+            string sql = "UPDATE history SET employee_id = @employee_id, serial_no = @serial_no, result = @result, details = @details, created_at = @created_at, updated_at = @updated_at WHERE id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
             parameters.Add("@employee_id", employee_id);
             parameters.Add("@serial_no", serial_no);
             parameters.Add("@result", result);
-            parameters.Add("@updated_at", SQliteDataAccess.getDateTimeNow);
-            parameters.Add("@id", id);
+            parameters.Add("@details", details);
+            parameters.Add("@created_at", created_at);
+            parameters.Add("@updated_at", updated_at);
             SQliteDataAccess.Execute(sql, parameters);
         }
-
         public void Delete()
         {
             string sql = "DELETE FROM history WHERE id = @id";

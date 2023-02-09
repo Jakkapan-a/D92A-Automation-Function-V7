@@ -59,8 +59,6 @@
             this.txtSerialProduct = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.lbCurrent = new System.Windows.Forms.Label();
-            this.lbVoltage = new System.Windows.Forms.Label();
             this.dataGridViewHistory = new System.Windows.Forms.DataGridView();
             this.pictureBoxCamera = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -85,9 +83,10 @@
             this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessTesting = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressTesting = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusCurrent = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerNG = new System.Windows.Forms.Timer(this.components);
             this.timerCounter = new System.Windows.Forms.Timer(this.components);
-            this.toolStripStatusCurrent = new System.Windows.Forms.ToolStripStatusLabel();
+            this.exportHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
@@ -144,6 +143,8 @@
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportHistoryToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -276,7 +277,7 @@
             this.tableLayoutPanelHome.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome.ColumnCount = 2;
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 509F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 510F));
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
             this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
@@ -299,12 +300,12 @@
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 1);
             this.tableLayoutPanelHome2.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanelHome2.Controls.Add(this.panel2, 1, 0);
-            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(298, 4);
+            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(297, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(503, 374);
+            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(504, 374);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
             // txtProcessDetails
@@ -314,7 +315,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProcessDetails.Location = new System.Drawing.Point(255, 190);
             this.txtProcessDetails.Name = "txtProcessDetails";
-            this.txtProcessDetails.Size = new System.Drawing.Size(244, 180);
+            this.txtProcessDetails.Size = new System.Drawing.Size(245, 180);
             this.txtProcessDetails.TabIndex = 1;
             this.txtProcessDetails.Text = "";
             // 
@@ -424,39 +425,11 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.lbCurrent);
-            this.panel2.Controls.Add(this.lbVoltage);
             this.panel2.Controls.Add(this.dataGridViewHistory);
             this.panel2.Location = new System.Drawing.Point(255, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(244, 179);
+            this.panel2.Size = new System.Drawing.Size(245, 179);
             this.panel2.TabIndex = 4;
-            // 
-            // lbCurrent
-            // 
-            this.lbCurrent.AccessibleDescription = "as";
-            this.lbCurrent.AccessibleName = "sa";
-            this.lbCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbCurrent.AutoSize = true;
-            this.lbCurrent.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lbCurrent.Location = new System.Drawing.Point(72, 153);
-            this.lbCurrent.Name = "lbCurrent";
-            this.lbCurrent.Size = new System.Drawing.Size(44, 13);
-            this.lbCurrent.TabIndex = 3;
-            this.lbCurrent.Text = "12V DC";
-            // 
-            // lbVoltage
-            // 
-            this.lbVoltage.AccessibleDescription = "as";
-            this.lbVoltage.AccessibleName = "sa";
-            this.lbVoltage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbVoltage.AutoSize = true;
-            this.lbVoltage.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lbVoltage.Location = new System.Drawing.Point(3, 153);
-            this.lbVoltage.Name = "lbVoltage";
-            this.lbVoltage.Size = new System.Drawing.Size(44, 13);
-            this.lbVoltage.TabIndex = 3;
-            this.lbVoltage.Text = "12V DC";
             // 
             // dataGridViewHistory
             // 
@@ -466,7 +439,7 @@
             this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewHistory.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewHistory.Name = "dataGridViewHistory";
-            this.dataGridViewHistory.Size = new System.Drawing.Size(238, 133);
+            this.dataGridViewHistory.Size = new System.Drawing.Size(239, 173);
             this.dataGridViewHistory.TabIndex = 2;
             // 
             // pictureBoxCamera
@@ -476,7 +449,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
             this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(287, 374);
+            this.pictureBoxCamera.Size = new System.Drawing.Size(286, 374);
             this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCamera.TabIndex = 1;
             this.pictureBoxCamera.TabStop = false;
@@ -650,8 +623,8 @@
             this.toolStripStatusSerialDetails,
             this.toolStripStatusLabelModelID,
             this.toolStripStatusProcessTesting,
-            this.toolStripProgressTesting,
-            this.toolStripStatusCurrent});
+            this.toolStripStatusCurrent,
+            this.toolStripProgressTesting});
             this.statusStripHome.Location = new System.Drawing.Point(0, 537);
             this.statusStripHome.Name = "statusStripHome";
             this.statusStripHome.Size = new System.Drawing.Size(834, 24);
@@ -697,6 +670,13 @@
             this.toolStripProgressTesting.Size = new System.Drawing.Size(100, 18);
             this.toolStripProgressTesting.Visible = false;
             // 
+            // toolStripStatusCurrent
+            // 
+            this.toolStripStatusCurrent.ForeColor = System.Drawing.Color.Blue;
+            this.toolStripStatusCurrent.Name = "toolStripStatusCurrent";
+            this.toolStripStatusCurrent.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusCurrent.Text = "toolStripStatusLabel1";
+            // 
             // timerNG
             // 
             this.timerNG.Interval = 1000;
@@ -707,11 +687,12 @@
             this.timerCounter.Interval = 900;
             this.timerCounter.Tick += new System.EventHandler(this.timerCounter_Tick);
             // 
-            // toolStripStatusCurrent
+            // exportHistoryToolStripMenuItem
             // 
-            this.toolStripStatusCurrent.Name = "toolStripStatusCurrent";
-            this.toolStripStatusCurrent.Size = new System.Drawing.Size(118, 19);
-            this.toolStripStatusCurrent.Text = "toolStripStatusLabel1";
+            this.exportHistoryToolStripMenuItem.Name = "exportHistoryToolStripMenuItem";
+            this.exportHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportHistoryToolStripMenuItem.Text = "Export CSV";
+            this.exportHistoryToolStripMenuItem.Visible = false;
             // 
             // Home
             // 
@@ -744,7 +725,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.tabPage3.ResumeLayout(false);
@@ -816,9 +796,8 @@
         private System.Windows.Forms.Timer timerNG;
         private System.Windows.Forms.Timer timerCounter;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lbVoltage;
-        private System.Windows.Forms.Label lbCurrent;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusCurrent;
+        private System.Windows.Forms.ToolStripMenuItem exportHistoryToolStripMenuItem;
     }
 }
 

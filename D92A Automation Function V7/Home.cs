@@ -17,7 +17,6 @@ using System.Windows.Forms;
 using System.Windows.Markup;
 using OpenCvSharp.Extensions;
 using System.Runtime.InteropServices;
-//using VideoTCapture;
 using D92A_Automation_Function_V7.VideoTCapture;
 using D92A_Automation_Function_V7.Class;
 using System.Timers;
@@ -177,7 +176,8 @@ namespace D92A_Automation_Function_V7
             }
 
         }
-
+        private double _currnet_mA = 0;
+        private double _dc_Voltage = 0;
         private void dataReceived(object sender, EventArgs e)
         {
             try
@@ -200,7 +200,6 @@ namespace D92A_Automation_Function_V7
                         blinkRuning = false;
                         pictureBoxDetect.Visible = true;
                         TestingToolStripMenuItem.PerformClick();
-                        //testProcess();
                     }
                     else if (data == "end")
                     {
@@ -217,18 +216,15 @@ namespace D92A_Automation_Function_V7
 
                     if (findKeyValue.Length == 2)
                     {
-                        double val = 0;
                         switch (findKeyValue[0])
                         {
                             case "C1":
-                                val = Double.Parse(findKeyValue[1]);
-                                lbCurrent.Text = val.ToString() + " mA.";
-                                lbVoltage.Text = val.ToString();
-                                Console.WriteLine($"C1 : {val.ToString()}");
+                                _currnet_mA = Double.Parse(findKeyValue[1]);
+                                toolStripStatusCurrent.Text = _currnet_mA.ToString() + "mA.";
                                 break;
                             case "C2":
-                                val = int.Parse(findKeyValue[1]) / 10;
-                                Console.WriteLine($"C2 : {val.ToString()}");
+                                _dc_Voltage = int.Parse(findKeyValue[1]) / 10;
+                                Console.WriteLine($"C2 : {_dc_Voltage.ToString()}");
                                 break;
 
                         }
@@ -571,6 +567,7 @@ namespace D92A_Automation_Function_V7
             bool toggle = false;
             int _counter = 0;
             bool found_NG = false;
+            string found_NG_details = string.Empty;
             foreach (_ItemsList item in _Items)
             {
                 _counter++;
@@ -578,6 +575,12 @@ namespace D92A_Automation_Function_V7
                 int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
                 onProcessUpdate.Invoke(persent);
 
+                if(_counter > 2 && _currnet_mA < 2)
+                {
+                    // Checking current 
+                    found_NG = true;
+                    found_NG_details = "Current is too low";
+                }
                 if (toggle)
                 {
                     setLBResult("Testing..");
@@ -602,7 +605,6 @@ namespace D92A_Automation_Function_V7
                 actions = modules.Actions.LoadActionsID(item.id);
                 foreach (modules.Actions action in actions)
                 {
-                    //Console.WriteLine(action._type);
                     if (action._type == 0)
                     {
                         // Mode IO Function
@@ -638,16 +640,13 @@ namespace D92A_Automation_Function_V7
                                 Thread.Sleep(150);
                                 goto process_compare;
                             }
-                            // Test 
                             txtProcessDetailsAppendText("Judement NG");
-                            //Console.WriteLine("Judement NG");
                             // End process
                             found_NG = true;
                         }
                         else
                         {
                             txtProcessDetailsAppendText("Judement OK");
-                            //Console.WriteLine("Judement OK");
                         }
                     }
                     else if (action._type == 2)
@@ -678,13 +677,13 @@ namespace D92A_Automation_Function_V7
                         }
                         else if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "NG")
                         {
-                            txtProcessDetailsAppendText("Pressed button NG");
                             found_NG = true;
+                            found_NG_details = "Pressed button NG";
                         }
                         else
                         {
-                            txtProcessDetailsAppendText("Time Out!!");
                             found_NG = true;
+                            found_NG_details = "Time Out!!";
                         }
                     }
                     if (found_NG)
@@ -699,17 +698,12 @@ namespace D92A_Automation_Function_V7
                     break;
                 }
             }
-
-
-
-            txtProcessDetailsAppendText("End Process");
-            Console.WriteLine("End Process");
-            sendSerialCommand("end");
             isTesting = false;
 
             if (found_NG)
             {
                 setLBResult("NG");
+                txtProcessDetailsAppendText($"NG : {found_NG_details}");
             }
             else
             {
@@ -721,10 +715,14 @@ namespace D92A_Automation_Function_V7
             history.employee_id = txtName.Text;
             history.serial_no = txtSerialProduct.Text;
             history.result = found_NG ? "NG" : "OK";
+            history.details = txtProcessDetails.Text;
             history.Save();
-
             // Load history
             loadhistoty();
+            txtProcessDetailsAppendText("End Process");
+            Console.WriteLine("End Process");
+            sendSerialCommand("end");
+
         }
 
         private delegate void loadhoistory();
@@ -739,7 +737,20 @@ namespace D92A_Automation_Function_V7
             var list = History.LoadHistory();
             list.Reverse();
             dataGridViewHistory.DataSource = null;
-            
+
+            var data = (from item in list
+                        select new
+                        {
+                            id = item.id,
+                            employee_id = item.employee_id,
+                            serial_no = item.serial_no,
+                            result = item.result,
+                            details = item.details,
+                            created_at = item.created_at
+                        }).ToList();
+
+            dataGridViewHistory.DataSource = data;
+            dataGridViewHistory.Columns["id"].Visible = false;            
             
         }
 
