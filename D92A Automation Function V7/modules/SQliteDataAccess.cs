@@ -59,6 +59,14 @@ namespace D92A_Automation_Function_V7.modules
             }
         }
 
+        public static int Count(string sql, Dictionary<string, object> parameters)
+        {
+            using(IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                return cnn.ExecuteScalar<int>(sql, parameters);
+            }
+        }
+
         public static string getDateTimeNow
         {
             get { return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); }

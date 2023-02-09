@@ -21,6 +21,12 @@ namespace D92A_Automation_Function_V7.modules
             }
             return false;
         }
-        
+
+        public static int getCountAllProcess(int model_id){
+            string sql = "SELECT COUNT(*) as total FROM itemslist join actions on itemslist.id = actions.item_id AND model_id = @model_id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@model_id", model_id);
+            return SQliteDataAccess.Count(sql, parameters);
+        }     
     }
 }

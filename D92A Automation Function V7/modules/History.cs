@@ -23,22 +23,21 @@ namespace D92A_Automation_Function_V7.modules
             parameters.Add("@serial_no", serial_no);
             parameters.Add("@result", result);
             parameters.Add("@details", details);
-            parameters.Add("@created_at", created_at);
-            parameters.Add("@updated_at", updated_at);
+            parameters.Add("@created_at", SQliteDataAccess.getDateTimeNow);
+            parameters.Add("@updated_at", SQliteDataAccess.getDateTimeNow);
             SQliteDataAccess.Execute(sql, parameters);
         }
 
         public void Update()
         {
-            string sql = "UPDATE history SET employee_id = @employee_id, serial_no = @serial_no, result = @result, details = @details, created_at = @created_at, updated_at = @updated_at WHERE id = @id";
+            string sql = "UPDATE history SET employee_id = @employee_id, serial_no = @serial_no, result = @result, details = @details, updated_at = @updated_at WHERE id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", id);
             parameters.Add("@employee_id", employee_id);
             parameters.Add("@serial_no", serial_no);
             parameters.Add("@result", result);
             parameters.Add("@details", details);
-            parameters.Add("@created_at", created_at);
-            parameters.Add("@updated_at", updated_at);
+            parameters.Add("@updated_at", SQliteDataAccess.getDateTimeNow);
             SQliteDataAccess.Execute(sql, parameters);
         }
         public void Delete()

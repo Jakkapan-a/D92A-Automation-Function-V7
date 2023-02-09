@@ -22,6 +22,7 @@ using D92A_Automation_Function_V7.Class;
 using System.Timers;
 using System.Reflection;
 using static Emgu.CV.DISOpticalFlow;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
 namespace D92A_Automation_Function_V7
 {
@@ -136,6 +137,8 @@ namespace D92A_Automation_Function_V7
             btnCheckBoxAuto.Checked = true;
 
             onProcessUpdate += _ProcessUpdate;
+
+            loadhistoty();
         }
         #endregion
         private void _Tcapture_OnVideoStarted()
@@ -282,8 +285,9 @@ namespace D92A_Automation_Function_V7
                     _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
                     _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
                     _SerialPort.Open();
+                    Thread.Sleep(50);
                     sendSerialCommand("conn");
-                    Task.Delay(100);
+                    Thread.Sleep(50);
                     sendSerialCommand("conn");
                     btnStartStop.Text = "STOP";
                 }
@@ -438,11 +442,25 @@ namespace D92A_Automation_Function_V7
                             }).ToList();
 
                 dataGridViewModelList.DataSource = data;
-                dataGridViewModelList.Columns[0].Visible = false;
-                dataGridViewModelList.Columns[1].Width = (int)(dataGridViewModelList.Width * 0.1);
+            
+                dataGridViewModelList.Columns["No"].Width = (int)(dataGridViewModelList.Width * 0.1);
+                Console.WriteLine("Model " + modelId);
 
-                // Add buuton to datagridview
 
+                if (modelId != -1)
+                {
+                    // Select row by modelId 
+                    foreach (DataGridViewRow row in dataGridViewModelList.Rows)
+                    {
+                        if (row.Cells["id"].Value.ToString() == modelId.ToString())
+                        {
+                            Console.WriteLine("Idex"+row.Index);
+                            dataGridViewModelList.Rows[row.Index].Selected = true;
+                            break;
+                        }
+                    }
+                }
+                    dataGridViewModelList.Columns["id"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -556,9 +574,9 @@ namespace D92A_Automation_Function_V7
                 sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
                 Thread.Sleep(50);
                 int persent = (Int32)Math.Round((double)(i * 100) / 16); // 
-                //toolStripProgressTesting.Value = persent;
                 onProcessUpdate.Invoke(persent);
             }
+
             onProcessUpdate.Invoke(0);
             _Items = null;
             _Items = _ItemsList.LoadItems(modelId);
@@ -566,33 +584,14 @@ namespace D92A_Automation_Function_V7
                 txtProcessDetails.Invoke((MethodInvoker)delegate { txtProcessDetails.Text = string.Empty; });
             bool toggle = false;
             int _counter = 0;
+            int _counter_process = 0;
             bool found_NG = false;
             string found_NG_details = string.Empty;
+            int countallActions = Process.getCountAllProcess(modelId);
+            txtProcessDetailsAppendText($"Actions total :{countallActions}");
             foreach (_ItemsList item in _Items)
             {
-                _counter++;
-                toggle = !toggle;
-                int persent = (Int32)Math.Round((double)(_counter * 100) / _Items.Count); // 
-                onProcessUpdate.Invoke(persent);
-
-                if(_counter > 2 && _currnet_mA < 2)
-                {
-                    // Checking current 
-                    found_NG = true;
-                    found_NG_details = "Current is too low";
-                }
-                if (toggle)
-                {
-                    setLBResult("Testing..");
-                 
-                }
-                else
-                {
-                    setLBResult("Testing....");
-                }
-
                 txtProcessDetailsAppendText($"Item : {item.name} ");
-
                 if (btnCheckBoxAuto.Checked && item._type == 1)
                 {
                     continue;
@@ -605,6 +604,26 @@ namespace D92A_Automation_Function_V7
                 actions = modules.Actions.LoadActionsID(item.id);
                 foreach (modules.Actions action in actions)
                 {
+                    toggle = !toggle;             
+                    if (toggle)
+                        setLBResult("Testing..");
+                    else
+                        setLBResult("Testing....");                    
+
+                    _counter++;
+                    int persent = (Int32)Math.Round((double)(_counter * 100) / countallActions); // 
+                    onProcessUpdate.Invoke(persent);
+
+                    _counter_process++;
+                    if (_counter_process > 2 && _counter_process < countallActions -3 && _currnet_mA < 2.00)
+                    {
+                        // Checking current 
+                        found_NG = true;
+                        found_NG_details = "Current is too low";
+                        break;
+                    }
+
+
                     if (action._type == 0)
                     {
                         // Mode IO Function
@@ -709,20 +728,45 @@ namespace D92A_Automation_Function_V7
             {
                 setLBResult("OK");
             }
-
+            sendSerialCommand("0R03");
+            Thread.Sleep(30);
+            sendSerialCommand("0R04");
+            Thread.Sleep(30);
+            sendSerialCommand("0R02");
+            Thread.Sleep(1000);
+            sendSerialCommand("0R01");
             // End Process
-            var history = new History();
-            history.employee_id = txtName.Text;
-            history.serial_no = txtSerialProduct.Text;
-            history.result = found_NG ? "NG" : "OK";
-            history.details = txtProcessDetails.Text;
-            history.Save();
-            // Load history
-            loadhistoty();
+            try
+            {
+                var history = new History();
+                history.employee_id = txtName.Text;
+                history.serial_no = txtSerialProduct.Text;
+                history.result = found_NG ? "NG" : "OK";
+                // Get txtProcessDetails
+                history.details = found_NG_details;
+                history.Save();
+                //// Load history
+                loadhistoty();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             txtProcessDetailsAppendText("End Process");
             Console.WriteLine("End Process");
             sendSerialCommand("end");
 
+        }
+
+        private delegate string getTxtProcessDetails();
+
+        private string getTxtProcessDetailsText()
+        {
+            if (this.InvokeRequired)
+            {                
+                return (string)this.Invoke(new getTxtProcessDetails(getTxtProcessDetailsText));
+            }
+            return txtProcessDetails.Text;
         }
 
         private delegate void loadhoistory();
@@ -735,13 +779,13 @@ namespace D92A_Automation_Function_V7
                 return;
             }
             var list = History.LoadHistory();
-            list.Reverse();
             dataGridViewHistory.DataSource = null;
-
+            int i = 0;
             var data = (from item in list
                         select new
                         {
                             id = item.id,
+                            No = ++i,
                             employee_id = item.employee_id,
                             serial_no = item.serial_no,
                             result = item.result,

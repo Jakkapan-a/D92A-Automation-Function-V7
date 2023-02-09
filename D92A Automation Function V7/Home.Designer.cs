@@ -436,9 +436,11 @@
             this.dataGridViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewHistory.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewHistory.Name = "dataGridViewHistory";
+            this.dataGridViewHistory.RowHeadersVisible = false;
             this.dataGridViewHistory.Size = new System.Drawing.Size(239, 173);
             this.dataGridViewHistory.TabIndex = 2;
             // 
