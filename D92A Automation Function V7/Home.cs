@@ -88,6 +88,7 @@ namespace D92A_Automation_Function_V7
 
         private bool isTesting = false;
         private bool lockImage = false;
+        private int oldSelectModel = -1;
         #endregion
 
         #region Form Home Load
@@ -102,6 +103,7 @@ namespace D92A_Automation_Function_V7
             this._Tcapture = new VideoTCapture.Capture();
             this._Tcapture.OnFrameHeadler += _Tcapture_OnFrameHeadler;
             this._Tcapture.OnVideoStarted += _Tcapture_OnVideoStarted;
+            this._Tcapture.OnVideoStop += _Tcapture_OnVideoStop;
             foreach (DsDevice device in drive)
             {
                 comboBoxDriveCamera.Items.Add(device.Name);
@@ -140,10 +142,15 @@ namespace D92A_Automation_Function_V7
 
             loadhistoty();
         }
+
+        private void _Tcapture_OnVideoStop()
+        {
+            log.Save("Camera Stop");
+        }
         #endregion
         private void _Tcapture_OnVideoStarted()
         {
-            log.Save("Cam Started");
+            log.Save("Camera Started");
         }
 
         private delegate void FrameVideo(Bitmap bitmap);
@@ -444,22 +451,20 @@ namespace D92A_Automation_Function_V7
                 dataGridViewModelList.DataSource = data;
             
                 dataGridViewModelList.Columns["No"].Width = (int)(dataGridViewModelList.Width * 0.1);
-                Console.WriteLine("Model " + modelId);
-
-
                 if (modelId != -1)
                 {
                     // Select row by modelId 
                     foreach (DataGridViewRow row in dataGridViewModelList.Rows)
                     {
+                        dataGridViewModelList.Rows[row.Index].Selected = false;
                         if (row.Cells["id"].Value.ToString() == modelId.ToString())
                         {
-                            Console.WriteLine("Idex"+row.Index);
                             dataGridViewModelList.Rows[row.Index].Selected = true;
                             break;
                         }
                     }
                 }
+                onloadModel = false;
                     dataGridViewModelList.Columns["id"].Visible = false;
             }
             catch (Exception ex)
@@ -467,11 +472,12 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show(ex.Message, "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
+        private bool onloadModel =false;
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl.SelectedIndex == 1)
             {
+                onloadModel = true;
                 loadModel();
             }
         }
@@ -484,8 +490,8 @@ namespace D92A_Automation_Function_V7
         private void dataGridViewModelList_SelectionChanged(object sender, EventArgs e)
         {
             try
-            {
-                if (dataGridViewModelList.SelectedRows.Count > 0)
+            {               
+                if (dataGridViewModelList.SelectedRows.Count > 0 && !onloadModel)
                 {
                     dynamic row = dataGridViewModelList.SelectedRows[0].DataBoundItem;
                     this.modelId = int.Parse(row.id.ToString());

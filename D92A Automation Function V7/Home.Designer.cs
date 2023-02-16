@@ -35,6 +35,7 @@
             this.comboBoxDriveCamera = new System.Windows.Forms.ComboBox();
             this.menuStripHome = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iOTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,11 +83,10 @@
             this.toolStripStatusSerialDetails = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelModelID = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessTesting = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressTesting = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusCurrent = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressTesting = new System.Windows.Forms.ToolStripProgressBar();
             this.timerNG = new System.Windows.Forms.Timer(this.components);
             this.timerCounter = new System.Windows.Forms.Timer(this.components);
-            this.exportHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripHome.SuspendLayout();
             this.tableLayoutPanelHomeHeader.SuspendLayout();
             this.panelHome.SuspendLayout();
@@ -149,6 +149,13 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // exportHistoryToolStripMenuItem
+            // 
+            this.exportHistoryToolStripMenuItem.Name = "exportHistoryToolStripMenuItem";
+            this.exportHistoryToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.exportHistoryToolStripMenuItem.Text = "Export CSV";
+            this.exportHistoryToolStripMenuItem.Visible = false;
+            // 
             // systemToolStripMenuItem
             // 
             this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -163,28 +170,28 @@
             // iOTestingToolStripMenuItem
             // 
             this.iOTestingToolStripMenuItem.Name = "iOTestingToolStripMenuItem";
-            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iOTestingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.iOTestingToolStripMenuItem.Text = "IO Testing";
             this.iOTestingToolStripMenuItem.Click += new System.EventHandler(this.iOTestingToolStripMenuItem_Click);
             // 
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.loginToolStripMenuItem.Text = "Login";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuIteam_Click);
             // 
             // TestingToolStripMenuItem
             // 
             this.TestingToolStripMenuItem.Name = "TestingToolStripMenuItem";
-            this.TestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.TestingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.TestingToolStripMenuItem.Text = "Testing";
             this.TestingToolStripMenuItem.Click += new System.EventHandler(this.TestingToolStripMenuItem_Click);
             // 
             // settingToolStripMenuItem
             // 
             this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.settingToolStripMenuItem.Text = "Setting";
             // 
             // tableLayoutPanelHomeHeader
@@ -277,7 +284,7 @@
             this.tableLayoutPanelHome.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome.ColumnCount = 2;
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 510F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 511F));
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
             this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
@@ -300,12 +307,12 @@
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 1);
             this.tableLayoutPanelHome2.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanelHome2.Controls.Add(this.panel2, 1, 0);
-            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(297, 4);
+            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(296, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(504, 374);
+            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(505, 374);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
             // txtProcessDetails
@@ -313,7 +320,7 @@
             this.txtProcessDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProcessDetails.Location = new System.Drawing.Point(255, 190);
+            this.txtProcessDetails.Location = new System.Drawing.Point(256, 190);
             this.txtProcessDetails.Name = "txtProcessDetails";
             this.txtProcessDetails.Size = new System.Drawing.Size(245, 180);
             this.txtProcessDetails.TabIndex = 1;
@@ -326,7 +333,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxDetect.Location = new System.Drawing.Point(4, 190);
             this.pictureBoxDetect.Name = "pictureBoxDetect";
-            this.pictureBoxDetect.Size = new System.Drawing.Size(244, 180);
+            this.pictureBoxDetect.Size = new System.Drawing.Size(245, 180);
             this.pictureBoxDetect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxDetect.TabIndex = 0;
             this.pictureBoxDetect.TabStop = false;
@@ -345,14 +352,14 @@
             this.panel1.Controls.Add(this.txtName);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(244, 179);
+            this.panel1.Size = new System.Drawing.Size(245, 179);
             this.panel1.TabIndex = 3;
             // 
             // btnCheckBoxAuto
             // 
             this.btnCheckBoxAuto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCheckBoxAuto.AutoSize = true;
-            this.btnCheckBoxAuto.Location = new System.Drawing.Point(193, 149);
+            this.btnCheckBoxAuto.Location = new System.Drawing.Point(194, 149);
             this.btnCheckBoxAuto.Name = "btnCheckBoxAuto";
             this.btnCheckBoxAuto.Size = new System.Drawing.Size(47, 17);
             this.btnCheckBoxAuto.TabIndex = 3;
@@ -364,7 +371,7 @@
             // 
             this.btnCheckBoxManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCheckBoxManual.AutoSize = true;
-            this.btnCheckBoxManual.Location = new System.Drawing.Point(127, 149);
+            this.btnCheckBoxManual.Location = new System.Drawing.Point(128, 149);
             this.btnCheckBoxManual.Name = "btnCheckBoxManual";
             this.btnCheckBoxManual.Size = new System.Drawing.Size(60, 17);
             this.btnCheckBoxManual.TabIndex = 3;
@@ -397,7 +404,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(237, 52);
+            this.label4.Size = new System.Drawing.Size(238, 52);
             this.label4.TabIndex = 1;
             this.label4.Text = "INSPECTION";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -408,7 +415,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSerialProduct.Location = new System.Drawing.Point(79, 116);
             this.txtSerialProduct.Name = "txtSerialProduct";
-            this.txtSerialProduct.Size = new System.Drawing.Size(161, 20);
+            this.txtSerialProduct.Size = new System.Drawing.Size(162, 20);
             this.txtSerialProduct.TabIndex = 0;
             // 
             // txtName
@@ -417,7 +424,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(79, 78);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(161, 20);
+            this.txtName.Size = new System.Drawing.Size(162, 20);
             this.txtName.TabIndex = 0;
             // 
             // panel2
@@ -426,7 +433,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dataGridViewHistory);
-            this.panel2.Location = new System.Drawing.Point(255, 4);
+            this.panel2.Location = new System.Drawing.Point(256, 4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(245, 179);
             this.panel2.TabIndex = 4;
@@ -451,7 +458,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
             this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(286, 374);
+            this.pictureBoxCamera.Size = new System.Drawing.Size(285, 374);
             this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCamera.TabIndex = 1;
             this.pictureBoxCamera.TabStop = false;
@@ -511,7 +518,6 @@
             this.dataGridViewModelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewModelList.Size = new System.Drawing.Size(598, 376);
             this.dataGridViewModelList.TabIndex = 1;
-            this.dataGridViewModelList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewModelList_CellContentClick);
             this.dataGridViewModelList.SelectionChanged += new System.EventHandler(this.dataGridViewModelList_SelectionChanged);
             // 
             // contextMenuStripModel
@@ -666,18 +672,18 @@
             this.toolStripStatusProcessTesting.Size = new System.Drawing.Size(118, 19);
             this.toolStripStatusProcessTesting.Text = "toolStripStatusLabel1";
             // 
-            // toolStripProgressTesting
-            // 
-            this.toolStripProgressTesting.Name = "toolStripProgressTesting";
-            this.toolStripProgressTesting.Size = new System.Drawing.Size(100, 18);
-            this.toolStripProgressTesting.Visible = false;
-            // 
             // toolStripStatusCurrent
             // 
             this.toolStripStatusCurrent.ForeColor = System.Drawing.Color.Blue;
             this.toolStripStatusCurrent.Name = "toolStripStatusCurrent";
             this.toolStripStatusCurrent.Size = new System.Drawing.Size(118, 19);
             this.toolStripStatusCurrent.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripProgressTesting
+            // 
+            this.toolStripProgressTesting.Name = "toolStripProgressTesting";
+            this.toolStripProgressTesting.Size = new System.Drawing.Size(100, 18);
+            this.toolStripProgressTesting.Visible = false;
             // 
             // timerNG
             // 
@@ -688,13 +694,6 @@
             // 
             this.timerCounter.Interval = 900;
             this.timerCounter.Tick += new System.EventHandler(this.timerCounter_Tick);
-            // 
-            // exportHistoryToolStripMenuItem
-            // 
-            this.exportHistoryToolStripMenuItem.Name = "exportHistoryToolStripMenuItem";
-            this.exportHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportHistoryToolStripMenuItem.Text = "Export CSV";
-            this.exportHistoryToolStripMenuItem.Visible = false;
             // 
             // Home
             // 

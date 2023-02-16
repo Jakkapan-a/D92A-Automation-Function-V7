@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace D92A_Automation_Function_V7.VideoTCapture
 {
-
     public class Capture
     {
         private Thread _thread;

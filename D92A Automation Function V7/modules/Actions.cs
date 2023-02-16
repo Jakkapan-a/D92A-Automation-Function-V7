@@ -1,4 +1,5 @@
-﻿using System;
+﻿using D92A_Automation_Function_V7.Class;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -86,20 +87,23 @@ namespace D92A_Automation_Function_V7.modules
         public static void DeleteTemp()
         {
             var actionListTemp = modules.Actions.GetTemp();
-            foreach(var item in actionListTemp)
+            LogWriter log = new LogWriter(Properties.Resources.path_log);
+            foreach (var item in actionListTemp)
             {
-                if(item._type == 1)
+                try
                 {
-                    if(File.Exists(item.image_path))
-                        File.Delete(item.image_path);
+                    if (item._type == 1)
+                    {
+                        if (File.Exists(item.image_path))
+                            File.Delete(item.image_path);
 
+                    }
+                    item.Delete();
+                }catch (Exception ex) {
+                    log.SaveLog("Error " + ex.Message);
                 }
                 item.Delete();
             }
-            //string sql = "DELETE FROM actions WHERE image_status = @image_status";
-            //Dictionary<string, object> parameters = new Dictionary<string, object>();
-            //parameters.Add("@image_status", 0);
-            //SQliteDataAccess.Execute(sql, parameters);
         }
         public static List<modules.Actions> GetTemp()
         {
