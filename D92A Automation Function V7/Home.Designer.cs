@@ -284,7 +284,7 @@
             this.tableLayoutPanelHome.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelHome.ColumnCount = 2;
             this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 511F));
+            this.tableLayoutPanelHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 512F));
             this.tableLayoutPanelHome.Controls.Add(this.tableLayoutPanelHome2, 1, 0);
             this.tableLayoutPanelHome.Controls.Add(this.pictureBoxCamera, 0, 0);
             this.tableLayoutPanelHome.Location = new System.Drawing.Point(6, 6);
@@ -307,12 +307,12 @@
             this.tableLayoutPanelHome2.Controls.Add(this.pictureBoxDetect, 0, 1);
             this.tableLayoutPanelHome2.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanelHome2.Controls.Add(this.panel2, 1, 0);
-            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(296, 4);
+            this.tableLayoutPanelHome2.Location = new System.Drawing.Point(295, 4);
             this.tableLayoutPanelHome2.Name = "tableLayoutPanelHome2";
             this.tableLayoutPanelHome2.RowCount = 2;
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelHome2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(505, 374);
+            this.tableLayoutPanelHome2.Size = new System.Drawing.Size(506, 374);
             this.tableLayoutPanelHome2.TabIndex = 2;
             // 
             // txtProcessDetails
@@ -322,7 +322,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProcessDetails.Location = new System.Drawing.Point(256, 190);
             this.txtProcessDetails.Name = "txtProcessDetails";
-            this.txtProcessDetails.Size = new System.Drawing.Size(245, 180);
+            this.txtProcessDetails.Size = new System.Drawing.Size(246, 180);
             this.txtProcessDetails.TabIndex = 1;
             this.txtProcessDetails.Text = "";
             // 
@@ -416,7 +416,7 @@
             this.txtSerialProduct.Location = new System.Drawing.Point(79, 116);
             this.txtSerialProduct.Name = "txtSerialProduct";
             this.txtSerialProduct.Size = new System.Drawing.Size(162, 20);
-            this.txtSerialProduct.TabIndex = 0;
+            this.txtSerialProduct.TabIndex = 1;
             // 
             // txtName
             // 
@@ -435,7 +435,7 @@
             this.panel2.Controls.Add(this.dataGridViewHistory);
             this.panel2.Location = new System.Drawing.Point(256, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(245, 179);
+            this.panel2.Size = new System.Drawing.Size(246, 179);
             this.panel2.TabIndex = 4;
             // 
             // dataGridViewHistory
@@ -448,7 +448,7 @@
             this.dataGridViewHistory.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewHistory.Name = "dataGridViewHistory";
             this.dataGridViewHistory.RowHeadersVisible = false;
-            this.dataGridViewHistory.Size = new System.Drawing.Size(239, 173);
+            this.dataGridViewHistory.Size = new System.Drawing.Size(240, 173);
             this.dataGridViewHistory.TabIndex = 2;
             // 
             // pictureBoxCamera
@@ -458,7 +458,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxCamera.Location = new System.Drawing.Point(4, 4);
             this.pictureBoxCamera.Name = "pictureBoxCamera";
-            this.pictureBoxCamera.Size = new System.Drawing.Size(285, 374);
+            this.pictureBoxCamera.Size = new System.Drawing.Size(284, 374);
             this.pictureBoxCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCamera.TabIndex = 1;
             this.pictureBoxCamera.TabStop = false;

@@ -79,6 +79,8 @@ namespace D92A_Automation_Function_V7
                         btnIO_TypeWaitJudgment.Checked = true;
                         break;
                 }
+
+                txtDelay.Value = ActionUpdate.delay;
                 // Set default IO
                 string IO = ActionUpdate.io_port;
                 this.stateBtns.Where(x => x.name == IO).ToList().ForEach(x => x.state = true);
@@ -160,17 +162,22 @@ namespace D92A_Automation_Function_V7
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                // get name of state button color green
-                string IOPort= this.stateBtns.Where(x => x.state == true).ToList().First().name;
-                // get text of tableLayoutPanelAction -> Panel -> button name is getStateBtnName
-                var IOname = getTxtBtn(IOPort);         
-
-                 // Validate 
-                if (IOname == string.Empty)
+                string IOname = string.Empty;
+                string IOPort = string.Empty;
+                if (TypeActionOfIO() !=2)
                 {
-                    throw new Exception("Please select IO port!");
-                }
 
+                    IOPort= this.stateBtns.Where(x => x.state == true).ToList().First().name;
+                    // get text of tableLayoutPanelAction -> Panel -> button name is getStateBtnName
+                    IOname = getTxtBtn(IOPort);         
+
+                     // Validate 
+                    if (IOname == string.Empty)
+                    {
+                        throw new Exception("Please select IO port!");
+                    }
+                }
+                // get name of state button color green
                 if (!isChecked())                    
                 {
                   throw new Exception("Please select IO type!");

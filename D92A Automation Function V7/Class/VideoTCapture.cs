@@ -71,10 +71,11 @@ namespace D92A_Automation_Function_V7.VideoTCapture
 
         private void FrameCapture()
         {
-            while (_isRunning)
+            try
             {
-                try
-                {
+                while (_isRunning)
+            {
+       
                     if (_videoCapture.IsOpened())
                     {
                         using (OpenCvSharp.Mat frame = _videoCapture.RetrieveMat())
@@ -95,12 +96,13 @@ namespace D92A_Automation_Function_V7.VideoTCapture
                             _onStarted = false;
                         }
                     }                    
-                }
-                catch (Exception ex)
-                {
-                    OnError?.Invoke(ex.Message);
-                }
+
                 Thread.Sleep(_frameRate);
+            }
+            }
+                catch (Exception ex)
+            {
+                OnError?.Invoke(ex.Message);
             }
         }
 
@@ -116,6 +118,7 @@ namespace D92A_Automation_Function_V7.VideoTCapture
             if(_videoCapture != null )
             {
                 _videoCapture.Release();
+                _videoCapture.Dispose();
             }
             OnVideoStop?.Invoke();
         }

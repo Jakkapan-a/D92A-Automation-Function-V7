@@ -75,7 +75,7 @@ namespace D92A_Automation_Function_V7
         public bool stateReceivedData = false;
         public string btnReceivedData = string.Empty;
 
-        private VideoTCapture.Capture _Tcapture;
+        private TCapture.Capture _Tcapture;
 
         private LogWriter log;
 
@@ -100,7 +100,7 @@ namespace D92A_Automation_Function_V7
 
             var drive = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
 
-            this._Tcapture = new VideoTCapture.Capture();
+            this._Tcapture = new TCapture.Capture();
             this._Tcapture.OnFrameHeadler += _Tcapture_OnFrameHeadler;
             this._Tcapture.OnVideoStarted += _Tcapture_OnVideoStarted;
             this._Tcapture.OnVideoStop += _Tcapture_OnVideoStop;
@@ -218,6 +218,8 @@ namespace D92A_Automation_Function_V7
                     {
                         if (data == "OK")
                             btnReceivedData = "OK";
+                        if (data == "NG")
+                            btnReceivedData = "NG";
                         stateReceivedData = true;
                         
                     }
@@ -283,16 +285,21 @@ namespace D92A_Automation_Function_V7
                     if (_indexDriverCamera == -1)
                         throw new Exception("Please select a camera drive!");
 
-                    if (_Tcapture != null && _Tcapture.IsOpened)
-                    {
-                        _Tcapture.Stop();
-                    }
-                    Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
+                    //if (_Tcapture != null && _Tcapture.IsOpened)
+                    //{
+                    //    _Tcapture.Stop();
+                    //}
 
-                    _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
-                    _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
-                    _SerialPort.Open();
-                    Thread.Sleep(50);
+                    //Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
+
+
+
+                    //_SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
+                    //_SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
+                    //_SerialPort.Open();
+
+                    isTesting = false;
+
                     sendSerialCommand("conn");
                     Thread.Sleep(50);
                     sendSerialCommand("conn");
@@ -302,18 +309,17 @@ namespace D92A_Automation_Function_V7
                 {
                     if (_Tcapture != null && _Tcapture.IsOpened)
                     {
-                        _Tcapture.Stop();
+                        //_Tcapture.Stop();
                     }
 
-                    if (_SerialPort != null || _SerialPort.IsOpen)
-                    {
-                        sendSerialCommand("close");
-                        _SerialPort.DataReceived -= serialPort_DataReceived;
-                        _SerialPort.Close();
-                        _SerialPort.Dispose();
-                    }
+                    //if (_SerialPort != null || _SerialPort.IsOpen)
+                    //{
+                    //    sendSerialCommand("close");
+                    //    //_SerialPort.Close();
+                    //    //_SerialPort.Dispose();
+                    //}
 
-                    _SerialPort = null;
+                    //_SerialPort = null;
 
                     btnStartStop.Text = "START";
                     pictureBoxCamera.Image = null;
@@ -323,6 +329,7 @@ namespace D92A_Automation_Function_V7
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exclamation 01", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                isCapturing = false;
                 if (_Tcapture.IsOpened)
                     _Tcapture.Stop();
 
@@ -355,15 +362,18 @@ namespace D92A_Automation_Function_V7
             {
                 if (comboBoxDriveCamera.SelectedIndex == -1)
                     throw new Exception("Please select a camera drive!");
+
                 _indexDriverCamera = comboBoxDriveCamera.SelectedIndex;
 
                 if (comboBoxBaudList.SelectedIndex == -1)
                     throw new Exception("Please select a baud rate!");
+
                 _baudRate = comboBoxBaudList.SelectedItem.ToString();
 
                 if (comboBoxSerialPort.SelectedIndex == -1)
                     throw new Exception("Please select a serial port!");
                 _serialPortName = comboBoxSerialPort.SelectedItem.ToString();
+
                 // Update to toolStripStatusConection status
                 toolStripStatusConection.Text = $"Camera : {_indexDriverCamera} | Baud Rate : {_baudRate} | Serial Port : {_serialPortName}";
                 btnStartStop.PerformClick();
@@ -632,6 +642,7 @@ namespace D92A_Automation_Function_V7
 
                     if (action._type == 0)
                     {
+                        
                         // Mode IO Function
                         if (action.io_type == 0)
                         {
@@ -641,16 +652,60 @@ namespace D92A_Automation_Function_V7
                         }
                         else if (action.io_type == 1)
                         {
+                            // Auto
                             sendSerialCommand($"1{action.io_port}");
                             txtProcessDetailsAppendText($"IO data : 1{action.io_port} ");
                             Thread.Sleep(action.auto_delay);
                             sendSerialCommand($"0{action.io_port}");
                             txtProcessDetailsAppendText($"IO data : 0{action.io_port} ");
                         }
+                        else if (action.io_type == 2)
+                        {
+                            // Wait Judgement OK or NG
+                            setLBResult("Please Judgement");
+                            stateReceivedData = false;
+                            btnReceivedData = string.Empty;
+                            // 1 se
+                            int timeOut = action.io_timeout * 1000;
+                            int counter = 0;
+                            int countTime = 0;
+                            while (counter <= timeOut)
+                            {
+                                if (stateReceivedData == true)
+                                {
+                                    break;
+                                }
+                                Thread.Sleep(50);
+                                counter+=50;
+                                countTime++;
+                                if (countTime > 10)
+                                {
+                                    txtProcessDetailsAppendText(".", true);
+                                    countTime = 0;
+                                }
 
+                            }
+                            if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "OK")
+                            {
+                                txtProcessDetailsAppendText("Pressed button OK");
+                            }
+                            else if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "NG")
+                            {
+                                found_NG = true;
+                                found_NG_details = "Pressed button NG";
+                            }
+                            else
+                            {
+                                found_NG = true;
+                                found_NG_details = "Time Out!!";
+                            }
+                        }
+
+                        // End type
                     }
                     else if (action._type == 1)
                     {
+                        // Start type 1 compare image
                         int ngCount = 0;
                         process_compare:
                         var result = ProcessCompare(action.image_path);
@@ -673,44 +728,9 @@ namespace D92A_Automation_Function_V7
                         {
                             txtProcessDetailsAppendText("Judement OK");
                         }
+                        // End type 1 
                     }
-                    else if (action._type == 2)
-                    {
-                        stateReceivedData = false;
-                        btnReceivedData = string.Empty;
-                        // 1 se
-                        int timeOut = action.io_timeout * 1000;
-                        int counter = 0;
-                        int countTime = 0;
-                        while (counter <= timeOut)
-                        {
-                            if (stateReceivedData == true)
-                            {
-                                break;
-                            }
-                            Thread.Sleep(50);
-                            counter++;
-                            countTime++;
-                            if (countTime > 10)
-                            {
-                                txtProcessDetailsAppendText(".", true);
-                            }
-                        }
-                        if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "OK")
-                        {
-                            txtProcessDetailsAppendText("Pressed button OK");
-                        }
-                        else if (stateReceivedData && btnReceivedData != string.Empty && btnReceivedData == "NG")
-                        {
-                            found_NG = true;
-                            found_NG_details = "Pressed button NG";
-                        }
-                        else
-                        {
-                            found_NG = true;
-                            found_NG_details = "Time Out!!";
-                        }
-                    }
+                   
                     if (found_NG)
                     {
                         break;
@@ -753,10 +773,14 @@ namespace D92A_Automation_Function_V7
                 history.Save();
                 //// Load history
                 loadhistoty();
+                Invoke(new Action(() =>
+                {
+                    pictureBoxDetect.Image = null;
+                }));
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                log.SaveLog("Error h001" + ex.Message);
             }
             txtProcessDetailsAppendText("End Process");
             Console.WriteLine("End Process");
@@ -812,7 +836,9 @@ namespace D92A_Automation_Function_V7
                 {
                     string newLine = noNewLine ? "" : Environment.NewLine;
                     string date = DateTime.Now.ToString("HH:mm:ss");
-                    txtProcessDetails.AppendText($"{date} ->{data} {newLine}");
+                    string txt = $"{date} ->{data} {newLine}";
+                    if (noNewLine) txt = data;
+                    txtProcessDetails.AppendText(txt);
                     txtProcessDetails.ScrollToCaret();
                 });
             }
@@ -820,7 +846,9 @@ namespace D92A_Automation_Function_V7
             {
                 string newLine = noNewLine ? "" : Environment.NewLine;
                 string date = DateTime.Now.ToString("HH:mm:ss");
-                txtProcessDetails.AppendText($"{date} ->{data} {newLine}");
+                string txt = $"{date} ->{data} {newLine}";
+                if (noNewLine) txt = data;
+                txtProcessDetails.AppendText(txt);
                 txtProcessDetails.ScrollToCaret();
             }
         }
@@ -967,9 +995,10 @@ namespace D92A_Automation_Function_V7
                 MessageBox.Show("Please enter ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
             if (isTesting)
             {
-                //MessageBox.Show(Properties.Resources.process_is_runing, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                MessageBox.Show(Properties.Resources.process_is_runing, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             // 
