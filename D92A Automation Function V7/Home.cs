@@ -163,10 +163,11 @@ namespace D92A_Automation_Function_V7
                 pictureBoxCamera.Invoke(new FrameVideo(_Tcapture_OnFrameHeadler), bitmap);
                 return;
             }
+
             else
             {
                 pictureBoxCamera.SuspendLayout();
-                pictureBoxCamera.Image = new Bitmap(bitmap);
+                pictureBoxCamera.Image = (Image)bitmap.Clone();
                 bitmapCamera = (Bitmap)pictureBoxCamera.Image.Clone();                
                 pictureBoxCamera.ResumeLayout();
             }
@@ -285,18 +286,24 @@ namespace D92A_Automation_Function_V7
                     if (_indexDriverCamera == -1)
                         throw new Exception("Please select a camera drive!");
 
-                    //if (_Tcapture != null && _Tcapture.IsOpened)
-                    //{
-                    //    _Tcapture.Stop();
-                    //}
+                    if (_Tcapture != null && _Tcapture.IsOpened)
+                    {
+                        _Tcapture.Stop();
+                    }
+                    if (comboBoxDriveCamera.SelectedIndex == -1)
+                        throw new Exception("Please select a camera drive!");
 
-                    //Task.Factory.StartNew(() => _Tcapture.Start(_indexDriverCamera));
+                    
+                    //Task.Factory.StartNew(() => _Tcapture.Start(comboBoxDriveCamera.SelectedIndex));
+                    int index = comboBoxDriveCamera.SelectedIndex;
+                    _Tcapture.Start(index);
+                    //Task.Factory.StartNew(()=> _Tcapture.Start(index));
 
 
 
-                    //_SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
-                    //_SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
-                    //_SerialPort.Open();
+                    _SerialPort = new SerialPort(_serialPortName, int.Parse(_baudRate));
+                    _SerialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived);
+                    _SerialPort.Open();
 
                     isTesting = false;
 
@@ -309,20 +316,21 @@ namespace D92A_Automation_Function_V7
                 {
                     if (_Tcapture != null && _Tcapture.IsOpened)
                     {
-                        //_Tcapture.Stop();
+                        _Tcapture.Stop();
                     }
 
-                    //if (_SerialPort != null || _SerialPort.IsOpen)
-                    //{
-                    //    sendSerialCommand("close");
-                    //    //_SerialPort.Close();
-                    //    //_SerialPort.Dispose();
-                    //}
+                    if (_SerialPort != null || _SerialPort.IsOpen)
+                    {
+                        sendSerialCommand("close");
+                        _SerialPort.Close();
+                        _SerialPort.Dispose();
+                        _SerialPort.DataReceived -= serialPort_DataReceived;
+                    }
 
                     //_SerialPort = null;
 
                     btnStartStop.Text = "START";
-                    pictureBoxCamera.Image = null;
+                    //pictureBoxCamera.Image = null;
                 }
                 update_status();
             }

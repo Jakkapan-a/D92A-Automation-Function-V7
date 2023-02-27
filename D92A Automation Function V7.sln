@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D92A Automation Function V7", "D92A Automation Function V7\D92A Automation Function V7.csproj", "{0CC2CCD3-887B-410B-881A-A10A8B7856EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogWriter", "LogWriter\LogWriter.csproj", "{FCAAE10F-1B60-47E5-AF93-60750AF54164}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogWriter", "LogWriter\LogWriter.csproj", "{FCAAE10F-1B60-47E5-AF93-60750AF54164}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D92A Automation Function V8", "D92A Automation Function V8\D92A Automation Function V8.csproj", "{3F7EC351-DBE9-44E6-9518-EF9C6C9DBEB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FCAAE10F-1B60-47E5-AF93-60750AF54164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCAAE10F-1B60-47E5-AF93-60750AF54164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCAAE10F-1B60-47E5-AF93-60750AF54164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F7EC351-DBE9-44E6-9518-EF9C6C9DBEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F7EC351-DBE9-44E6-9518-EF9C6C9DBEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F7EC351-DBE9-44E6-9518-EF9C6C9DBEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F7EC351-DBE9-44E6-9518-EF9C6C9DBEB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

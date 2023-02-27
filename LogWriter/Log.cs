@@ -1,4 +1,4 @@
-﻿namespace Log
+﻿namespace LogWriter
 {
     public class LogWriter
     {
@@ -13,10 +13,10 @@
         {
             try
             {
-                if (!Directory.Exists(this.path))
-                    Directory.CreateDirectory(this.path);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
                 // Create a new file
-                string file = Path.Combine(this.path, DateTime.Now.ToString("dd-MM-yyyy-hh") + "-log.txt");
+                string file = Path.Combine(path, DateTime.Now.ToString("dd-MM-yyyy-hh") + "-log.txt");
                 if (!File.Exists(file))
                 {
                     File.Create(file);
@@ -36,10 +36,10 @@
         {
             try
             {
-                if (!Directory.Exists(this.path))
-                    Directory.CreateDirectory(this.path);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
                 // Create a new file
-                string file = Path.Combine(this.path, DateTime.Now.ToString("dd-MM-yyyy-hh") + "-log.txt");
+                string file = Path.Combine(path, DateTime.Now.ToString("dd-MM-yyyy-hh") + "-log.txt");
                 if (!File.Exists(file))
                 {
                     File.Create(file);
@@ -60,7 +60,7 @@
             try
             {
                 // File all
-                string[] files = Directory.GetFiles(this.path);
+                string[] files = Directory.GetFiles(path);
                 foreach (string file in files)
                 {
                     // Remove file 30 day
