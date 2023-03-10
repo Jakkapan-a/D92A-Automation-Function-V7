@@ -180,7 +180,7 @@ namespace D92A_Automation_Function_V7
                 // get name of state button color green
                 if (!isChecked())                    
                 {
-                  throw new Exception("Please select IO type!");
+                  throw new Exception("Please select parameter!");
                 }
 
                 if(this.item_id == -1)
@@ -191,7 +191,7 @@ namespace D92A_Automation_Function_V7
                 modules.Actions actions = new modules.Actions();
                 actions.item_id = item_id;
                 actions.name = "IO Fuction";
-                actions._type = 0;  // 0 = IO, 1 = Image
+                actions._type = 0;  // 0 = IO, 1 = Image, 2 = servo
 
                 actions.io_type = TypeActionOfIO();     // 0 = Manual, 1 = Auto, 2 = Wait judgment
                 actions.io_state = checkBoxON.Checked ? 1 : 0;          // 0 = OFF,1 = ON
