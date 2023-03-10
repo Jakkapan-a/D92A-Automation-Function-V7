@@ -22,6 +22,8 @@ namespace D92A_Automation_Function_V7.modules
         public int io_type { get; set; }        // 0 = Manual, 1 = Auto, 2 = Wait judment
         public int io_state { get; set; }       // Active in io_type = 0;
         public int io_timeout { get; set; }     // Second
+        public int servo { get; set; }          // Servo motor number
+        public int servo_val { get; set; }      // Servo motor value
         public int delay { get; set; }          // Active after end process = 0;
         public int auto_delay { get; set; }     // Active in Auto = 0;
         public string created_at { get; set; }
@@ -30,7 +32,7 @@ namespace D92A_Automation_Function_V7.modules
         #region Save Action
         public void Save()
         {
-            string sql = "INSERT INTO actions (item_id, name, _type, image_path, image_percent, image_status, io_port, io_name, io_type, io_state,io_timeout, delay, auto_delay,created_at,updated_at) VALUES (@item_id, @name, @_type, @image_path, @image_percent, @image_status, @io_port, @io_name, @io_type, @io_state,@io_timeout, @delay, @auto_delay,@created_at,@updated_at)";
+            string sql = "INSERT INTO actions (item_id, name, _type, image_path, image_percent, image_status, io_port, io_name, io_type, io_state,io_timeout,servo , servo_val, delay, auto_delay,created_at,updated_at) VALUES (@item_id, @name, @_type, @image_path, @image_percent, @image_status, @io_port, @io_name, @io_type, @io_state,@io_timeout,@servo ,@servo_val , @delay, @auto_delay,@created_at,@updated_at)";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@item_id", item_id);
             parameters.Add("@name", name);
@@ -43,6 +45,8 @@ namespace D92A_Automation_Function_V7.modules
             parameters.Add("@io_type", io_type);
             parameters.Add("@io_state", io_state);
             parameters.Add("@io_timeout", io_timeout);
+            parameters.Add("@servo", servo);
+            parameters.Add("@servo_val", servo_val);
             parameters.Add("@delay", delay);
             parameters.Add("@auto_delay", auto_delay);
             parameters.Add("@created_at", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -53,7 +57,7 @@ namespace D92A_Automation_Function_V7.modules
         #region Update Action
         public void Update()
         {
-            string sql = "UPDATE actions SET item_id = @item_id, name = @name, _type = @_type, image_path = @image_path, image_percent = @image_percent, image_status = @image_status, io_port = @io_port, io_name = @io_name, io_type = @io_type, io_state = @io_state, delay = @delay, auto_delay = @auto_delay, updated_at = @updated_at WHERE id = @id";
+            string sql = "UPDATE actions SET item_id = @item_id, name = @name, _type = @_type, image_path = @image_path, image_percent = @image_percent, image_status = @image_status, io_port = @io_port, io_name = @io_name, io_type = @io_type, io_state = @io_state, io_timeout = @io_timeout, servo = @servo, servo_val = @servo_val, delay = @delay, auto_delay = @auto_delay, updated_at = @updated_at WHERE id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", id);
             parameters.Add("@item_id", item_id);
@@ -66,6 +70,9 @@ namespace D92A_Automation_Function_V7.modules
             parameters.Add("@io_name", io_name);
             parameters.Add("@io_type", io_type);
             parameters.Add("@io_state", io_state);
+            parameters.Add("@io_timeout", io_timeout);
+            parameters.Add("@servo", servo);
+            parameters.Add("@servo_val", servo_val);
             parameters.Add("@delay", delay);
             parameters.Add("@auto_delay", auto_delay);
             parameters.Add("@updated_at", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));

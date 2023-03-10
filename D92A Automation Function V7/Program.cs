@@ -1,4 +1,5 @@
-﻿using System;
+﻿using D92A_Automation_Function_V7.forms.ServoControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace D92A_Automation_Function_V7
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Home());
+            Application.Run(new ServoControls());
         }
     }
 }

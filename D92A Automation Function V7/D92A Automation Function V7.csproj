@@ -197,6 +197,12 @@
     <Compile Include="forms\ItemList\Edit_Item.Designer.cs">
       <DependentUpon>Edit_Item.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\ServoControls\ServoControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ServoControls\ServoControls.Designer.cs">
+      <DependentUpon>ServoControls.cs</DependentUpon>
+    </Compile>
     <Compile Include="Home.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +279,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ItemList\Edit_Item.resx">
       <DependentUpon>Edit_Item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ServoControls\ServoControls.resx">
+      <DependentUpon>ServoControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Home.resx">
       <DependentUpon>Home.cs</DependentUpon>
@@ -360,6 +369,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PD_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\degree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\degree_02.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

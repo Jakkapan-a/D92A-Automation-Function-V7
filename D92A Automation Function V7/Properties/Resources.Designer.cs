@@ -73,6 +73,16 @@ namespace D92A_Automation_Function_V7.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap degree_02 {
+            get {
+                object obj = ResourceManager.GetObject("degree_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap edit_production_order_16 {
             get {
                 object obj = ResourceManager.GetObject("edit_production_order_16", resourceCulture);
