@@ -55,6 +55,10 @@
             this.R01 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.trackBarServo = new System.Windows.Forms.TrackBar();
+            this.txtServo = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -68,6 +72,9 @@
             this.panel10.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarServo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtServo)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -347,6 +354,9 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.txtServo);
+            this.panel2.Controls.Add(this.trackBarServo);
             this.panel2.Controls.Add(this.R04);
             this.panel2.Controls.Add(this.R03);
             this.panel2.Controls.Add(this.R02);
@@ -409,7 +419,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = global::D92A_Automation_Function_V7.Properties.Resources.PD_4;
-            this.pictureBox1.Location = new System.Drawing.Point(111, 57);
+            this.pictureBox1.Location = new System.Drawing.Point(134, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(499, 221);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -418,11 +428,52 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar});
             this.statusStrip1.Location = new System.Drawing.Point(0, 555);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(750, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // trackBarServo
+            // 
+            this.trackBarServo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.trackBarServo.Location = new System.Drawing.Point(183, 231);
+            this.trackBarServo.Maximum = 180;
+            this.trackBarServo.Name = "trackBarServo";
+            this.trackBarServo.Size = new System.Drawing.Size(315, 45);
+            this.trackBarServo.TabIndex = 1;
+            this.trackBarServo.ValueChanged += new System.EventHandler(this.trackBarServo_ValueChanged);
+            // 
+            // txtServo
+            // 
+            this.txtServo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtServo.Location = new System.Drawing.Point(504, 245);
+            this.txtServo.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.txtServo.Name = "txtServo";
+            this.txtServo.Size = new System.Drawing.Size(120, 20);
+            this.txtServo.TabIndex = 2;
+            this.txtServo.ValueChanged += new System.EventHandler(this.txtServo_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(142, 245);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Servo";
+            // 
+            // toolStripProgressBar
+            // 
+            this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar.Visible = false;
             // 
             // Test_IO
             // 
@@ -433,6 +484,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(766, 616);
             this.Name = "Test_IO";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Test_IO";
             this.Load += new System.EventHandler(this.Test_IO_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -447,7 +499,12 @@
             this.panel9.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarServo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtServo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -482,5 +539,9 @@
         private System.Windows.Forms.Button R02;
         private System.Windows.Forms.Button R01;
         private System.Windows.Forms.CheckBox cbMode;
+        private System.Windows.Forms.TrackBar trackBarServo;
+        private System.Windows.Forms.NumericUpDown txtServo;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
     }
 }

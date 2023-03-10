@@ -101,7 +101,6 @@ namespace D92A_Automation_Function_V7.forms.ServoControls
             {
                 MessageBox.Show(ex.Message, "Exclamation 007", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
 
         private bool isChecked()
@@ -115,10 +114,10 @@ namespace D92A_Automation_Function_V7.forms.ServoControls
 
         private int getServoValue()
         {
-            if(getActionType()== 0)
-            {
-                return trackBarAngleManual.Value;
-            }
+            if (getActionType() == -1)
+                return 0;
+            if (getActionType() == 0)
+                return trackBarAngleManual.Value;            
 
             return trackBarAngleAuto.Value;
         }

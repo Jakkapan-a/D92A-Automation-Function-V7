@@ -418,6 +418,16 @@ namespace D92A_Automation_Function_V7
         Test_IO io;
         private void iOTestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            //if (io != null)
+            //{
+            //    io.Close();
+            //    io.Dispose();
+            //}
+            //io = new Test_IO(this);
+            //io.Show();
+
+
             if (_SerialPort != null && _SerialPort.IsOpen)
             {
                 if (io != null)

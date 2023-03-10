@@ -11,6 +11,7 @@
 #include "TM1637Display.h"
 #include <PINOUT.h>
 #include <BUTTON.h>
+#include <Servo.h>
 
 // Display TM1637
 #define CLK 10
@@ -96,6 +97,7 @@ BUTTON SW_Button_Start(22);
 BUTTON SW_Button_JudgeOK(23);
 BUTTON SW_Button_JudgeNG(24);
 
+Servo servo1;
 //-- Variable Serial Read --//
 String inputString = "";      // String to hold incoming data
 bool stringComplete = false;  // Whether the string is complete
@@ -327,6 +329,9 @@ void setup() {
   sendSerialCommand("Starting.......");
   uint8_t data[] = { 0xff, 0xff, 0xff, 0xff };
   uint8_t blank[] = { 0x00, 0x00, 0x00, 0x00 };
+
+  servo1.attach(5);// Set servo1 to pin 5
+
   display.setBrightness(5);
   //display.showNumberHexEx(0xbaaa);        // Expect: f1Af
   display.clear();
@@ -338,12 +343,10 @@ void setup() {
   display.setBrightness(5, true);  // on
   display.setSegments(SEG_WAIT);
   // delay(TEST_DELAY);
-
   // SLN90_BT4.on();
 }
 bool state_btn_Start, state_btn_OK, state_btn_NG;
 void func_button() {
-
   if (SW_Button_Start.getState() && state_btn_Start) {
     IsRunning = true;
     judgement = -1;
@@ -369,11 +372,29 @@ void func_button() {
     state_btn_OK = true;
   }
 }
+bool isControlServo(String input){
+  for(auto i : input){
+    // If found 'S'
+    if(i == 'S'){
+      return true;
+    }
+  }
+  return false;
+}
 
+int getValueServo(String input){
+  String value = "";
+  for(auto i : input){
+    // If found 'S'
+    if(i == 'S'){
+      continue;
+    }
+    value += i;
+  }
+  return value.toInt();
+}
 void loop() {
-
   func_button();
-
   //-- Received data --//
   if (stringComplete == true) {
     state_connected = true;
@@ -402,6 +423,9 @@ void loop() {
     // For control
     if (state_connected && isControlKeys(inputString)) {
       func_control(inputString);
+    }else if (state_connected && isControlServo(inputString)){
+      int value = getValueServo(inputString);
+      servo1.write(value);
     }
     inputString = "";        // Clear string to empty
     stringComplete = false;  // Reset string is complete to false

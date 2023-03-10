@@ -23,12 +23,7 @@ namespace D92A_Automation_Function_V7
 
         private void Test_IO_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 16; i++)
-            {
-                this.home.sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
-                Thread.Sleep(60);
-            }
-
+            offIO();
             // toolStripStatusSerialData.Text = string.Empty;
             for (int i = 1; i <= 16; i++)
             {
@@ -42,7 +37,22 @@ namespace D92A_Automation_Function_V7
                 }
             }
         }
-
+        private async void offIO()
+        {
+            toolStripProgressBar.Visible = true;
+            int percent = 0;
+            for (int i = 0; i < 16; i++)
+            {
+                percent = (i + 1) * 100 / 16;
+                toolStripProgressBar.Value = percent;
+                this.home.sendSerialCommand("0R" + (i + 1 < 10 ? "0" + (i + 1).ToString() : (i + 1).ToString()));
+                await Task.Delay(100);
+            }
+            await Task.Delay(100);
+            this.home.sendSerialCommand("0S0");
+            await Task.Delay(500);
+            toolStripProgressBar.Visible = false;
+        } 
         private void btn_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine("Test kd");
@@ -111,6 +121,24 @@ namespace D92A_Automation_Function_V7
                 }
                 this.home.sendSerialCommand((this.stateBtn[name] ? 1 : 0) + name);
                 updateLight(btn, name);
+            }
+        }
+
+        private void trackBarServo_ValueChanged(object sender, EventArgs e)
+        {
+            if (txtServo.Value != trackBarServo.Value)
+            {
+                txtServo.Value = trackBarServo.Value;
+                this.home.sendSerialCommand("0S" + trackBarServo.Value.ToString());
+            }
+        }
+
+        private void txtServo_ValueChanged(object sender, EventArgs e)
+        {
+            if (trackBarServo.Value != txtServo.Value)
+            {
+                trackBarServo.Value = (int)txtServo.Value;
+                this.home.sendSerialCommand("0S" + txtServo.Value.ToString());
             }
         }
     }

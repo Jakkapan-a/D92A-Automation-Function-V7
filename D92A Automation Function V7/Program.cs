@@ -17,7 +17,7 @@ namespace D92A_Automation_Function_V7
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ServoControls());
+            Application.Run(new Home());
         }
     }
 }
