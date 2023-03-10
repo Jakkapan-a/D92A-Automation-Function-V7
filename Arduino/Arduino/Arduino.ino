@@ -376,6 +376,7 @@ void loop() {
 
   //-- Received data --//
   if (stringComplete == true) {
+    state_connected = true;
     // If received image
     if (inputString == "NG" || inputString == "PASS") {
       if (inputString == "NG") {

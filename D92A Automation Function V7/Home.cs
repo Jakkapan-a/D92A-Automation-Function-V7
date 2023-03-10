@@ -509,7 +509,7 @@ namespace D92A_Automation_Function_V7
         {
             try
             {               
-                if (dataGridViewModelList.SelectedRows.Count > 0 && !onloadModel)
+                if (dataGridViewModelList.SelectedRows.Count > 0)
                 {
                     dynamic row = dataGridViewModelList.SelectedRows[0].DataBoundItem;
                     this.modelId = int.Parse(row.id.ToString());
@@ -639,7 +639,7 @@ namespace D92A_Automation_Function_V7
                     onProcessUpdate.Invoke(persent);
 
                     _counter_process++;
-                    if (_counter_process > 2 && _counter_process < countallActions -3 && _currnet_mA < 2.00)
+                    if (_counter_process > 2 && _counter_process < countallActions -10 && _currnet_mA < 2.00)
                     {
                         // Checking current 
                         found_NG = true;
@@ -762,6 +762,7 @@ namespace D92A_Automation_Function_V7
             {
                 setLBResult("OK");
             }
+            /*
             sendSerialCommand("0R03");
             Thread.Sleep(30);
             sendSerialCommand("0R04");
@@ -769,6 +770,7 @@ namespace D92A_Automation_Function_V7
             sendSerialCommand("0R02");
             Thread.Sleep(1000);
             sendSerialCommand("0R01");
+            */
             // End Process
             try
             {
@@ -784,7 +786,13 @@ namespace D92A_Automation_Function_V7
                 Invoke(new Action(() =>
                 {
                     pictureBoxDetect.Image = null;
+                    txtSerialProduct.Text = "";
+                    this.ActiveControl = txtSerialProduct;
+                    txtSerialProduct.Focus();
+
                 }));
+
+
             }
             catch(Exception ex)
             {
