@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -26,22 +27,42 @@ namespace D92A_Automation_Function_V7.forms.ServoControls
             InitializeComponent();
             this.items = items;
         }
+   
 
         public ServoControls(Items items, int action_id)
         {
             InitializeComponent();
             this.items = items;
             this.action_id = action_id;
+
         }
+
 
         private int WIDTH = 900, HEIGHT = 900;
         private int cx, cy;
         private Bitmap bitmap;
         private int[] handDegree;
 
+        private modules.Actions action;
         private void ServoControls_Load(object sender, EventArgs e)
         {
-
+            if(this.action_id != -1)
+            {
+                this.action = modules.Actions.LoadActionsByID(action_id).First();
+                
+                if(this.action.io_type == 0)
+                {
+                    btnIO_TypeManual.Checked = true;
+                    txtAngleManual.Value = this.action.servo_val;
+                }
+                else if(this.action.io_type == 1)
+                {
+                    btnIO_TypeAuto.Checked = true;
+                    txtAngleAuto.Value = this.action.servo_val;
+                }
+                txtAutoDelay.Value = this.action.auto_delay;
+                txtDelay.Value = this.action.delay;
+            }
         }
 
         private void txtAngleManual_ValueChanged(object sender, EventArgs e)
@@ -78,12 +99,17 @@ namespace D92A_Automation_Function_V7.forms.ServoControls
                 }
 
                 modules.Actions actions = new modules.Actions();
-                actions._type = 2; // 0 = IO, 1 = Image, 2 = servo
-                actions.servo = 0;
+                actions._type = 0; // 0 = IO, 1 = Image, 2 = servo
+                actions.servo = 1;
+                actions.image_status = 1;
+                actions.name = "Servo Control";
+                actions.io_port = "S" + getServoValue().ToString();
+                actions.io_name = "Servo";
+                actions.io_type = getActionType() != -1? getActionType(): throw new Exception("Please select parameter!");
                 actions.servo_val = getServoValue() != 0 ? getServoValue() : throw new Exception("Value of servo is empty!");
-                actions.auto_delay = trackBarAngleAuto.Value;
+                actions.auto_delay = (int)txtAutoDelay.Value;
                 actions.delay = (int)txtDelay.Value;
-                actions._type = this.items.item_id;
+                actions.item_id = this.items.item_id;
 
                 if (action_id != -1)
                 {

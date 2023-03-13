@@ -29,6 +29,12 @@ namespace D92A_Automation_Function_V7.modules
         public string created_at { get; set; }
         public string updated_at { get; set; }
 
+        public Actions()
+        {
+            servo = 0;
+            servo_val = 0;
+        }
+
         #region Save Action
         public void Save()
         {

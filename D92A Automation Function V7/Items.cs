@@ -1,5 +1,6 @@
 ﻿using D92A_Automation_Function_V7.Class;
 using D92A_Automation_Function_V7.forms.ItemList;
+using D92A_Automation_Function_V7.forms.ServoControls;
 using D92A_Automation_Function_V7.modules;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,8 @@ namespace D92A_Automation_Function_V7
                 await Task.Delay(100);
                 this._total = i + 1;
             }
+            await Task.Delay(100);
+            this.home.sendSerialCommand("1S0");
             this.toolStripProgressLoader.Visible = false;
         }
         public void LoadItemList()
@@ -348,20 +351,46 @@ namespace D92A_Automation_Function_V7
                         if (action.io_type == 0)
                         {
                             //Console.WriteLine($"{action.io_state}{action.io_port}");
-                            str = $"{action.io_state}{action.io_port}";
-                            this.home.sendSerialCommand(str);
 
-                            toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ";
+                            if (action.servo >0)
+                            {
+                                str = $"{action.servo}{action.io_port}";
+                                this.home.sendSerialCommand(str);
+
+                                toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ";
+                            }
+                            else
+                            {
+                                str = $"{action.io_state}{action.io_port}";
+                                this.home.sendSerialCommand(str);
+
+                                toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {action.io_state}{action.io_port} ";
+
+                            }
                         }
                         else if (action.io_type == 1)
                         {
-                            str = $"1{action.io_port}";
-                            this.home.sendSerialCommand(str);
-                            toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ";
-                            Thread.Sleep(action.auto_delay);
-                            str = $"0{action.io_port}";
-                            this.home.sendSerialCommand(str);
-                            toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ";
+                            if(action.servo > 0)
+                            {
+                                str = $"{action.servo}{action.io_port}";
+                                //str = $"1{action.io_port}";
+                                this.home.sendSerialCommand(str);
+                                toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {str} ";
+                                Thread.Sleep(action.auto_delay);
+                                str = $"{action.servo}S0";
+                                this.home.sendSerialCommand(str);
+                                toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : {str} ";
+                            }
+                            else
+                            {
+                                str = $"1{action.io_port}";
+                                this.home.sendSerialCommand(str);
+                                toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 1{action.io_port} ";
+                                Thread.Sleep(action.auto_delay);
+                                str = $"0{action.io_port}";
+                                this.home.sendSerialCommand(str);
+                                toolStripStatusTestting.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} -> io data : 0{action.io_port} ";
+                            }
                         }
                     }
                     else if (action._type == 1)
@@ -601,6 +630,8 @@ namespace D92A_Automation_Function_V7
             actions.Show(this);
         }
 
+
+        private ServoControls servo;
         private void editDelayToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (action_id == -1)
@@ -620,15 +651,35 @@ namespace D92A_Automation_Function_V7
             }
             else
             {
-                if (actionIO != null)
+                if (action.servo > 0)
                 {
-                    actionIO.Close();
-                    actionIO.Dispose();
-                }
+                    if (servo != null)
+                    {
+                        servo.Close();
 
-                actionIO = new ActionIO(this,action.id);
-                actionIO.Show();
+                    }
+
+                    servo = new ServoControls(this, action.id);
+                    servo.Show();
+                }
+                else
+                {
+                    if (actionIO != null)
+                    {
+                        actionIO.Close();
+                        actionIO.Dispose();
+                    }
+
+                    actionIO = new ActionIO(this, action.id);
+                    actionIO.Show();
+                }
+              
             }
+        }
+
+        private void btAddServo_Click(object sender, EventArgs e)
+        {
+         
         }
     }
 }

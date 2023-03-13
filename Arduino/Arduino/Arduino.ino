@@ -1,3 +1,5 @@
+#include <SD.h>
+
 /*
   Name:    Arduino.ino v2.02
   Created: 9/24/2022 12:17:46 PM
@@ -320,7 +322,10 @@ void serialEvent() {
     inputString += inChar;
   }
 }
-
+int getValueServo(String);
+bool isControlServo(String);
+void func_button(void);
+bool state_btn_Start, state_btn_OK, state_btn_NG;
 void setup() {
   //
   Serial.begin(115200);
@@ -331,7 +336,7 @@ void setup() {
   uint8_t blank[] = { 0x00, 0x00, 0x00, 0x00 };
 
   servo1.attach(5);// Set servo1 to pin 5
-
+  servo1.write(0);
   display.setBrightness(5);
   //display.showNumberHexEx(0xbaaa);        // Expect: f1Af
   display.clear();
@@ -344,61 +349,15 @@ void setup() {
   display.setSegments(SEG_WAIT);
   // delay(TEST_DELAY);
   // SLN90_BT4.on();
-}
-bool state_btn_Start, state_btn_OK, state_btn_NG;
-void func_button() {
-  if (SW_Button_Start.getState() && state_btn_Start) {
-    IsRunning = true;
-    judgement = -1;
-    state_btn_Start = false;
-    sendSerialCommand("start");
-  } else if (!SW_Button_Start.getState()) {
-    state_btn_Start = true;
-  }
 
-  if (SW_Button_JudgeNG.getState() && state_btn_NG) {
-    judgement = 0;
-    state_btn_NG = false;
-    sendSerialCommand("NG");
-  } else if (!SW_Button_JudgeNG.getState()) {
-    state_btn_NG = true;
-  }
-
-  if (SW_Button_JudgeOK.getState() && state_btn_OK) {
-    judgement = 1;
-    state_btn_OK = false;
-    sendSerialCommand("OK");
-  } else if (!SW_Button_JudgeOK.getState()) {
-    state_btn_OK = true;
-  }
-}
-bool isControlServo(String input){
-  for(auto i : input){
-    // If found 'S'
-    if(i == 'S'){
-      return true;
-    }
-  }
-  return false;
 }
 
-int getValueServo(String input){
-  String value = "";
-  for(auto i : input){
-    // If found 'S'
-    if(i == 'S'){
-      continue;
-    }
-    value += i;
-  }
-  return value.toInt();
-}
 void loop() {
   func_button();
   //-- Received data --//
   if (stringComplete == true) {
     state_connected = true;
-    // If received image
+    
     if (inputString == "NG" || inputString == "PASS") {
       if (inputString == "NG") {
         judgement = 0;
@@ -431,4 +390,56 @@ void loop() {
     stringComplete = false;  // Reset string is complete to false
   }
   timeCount();
+}
+
+int getValueServo(String input){
+  String value = "";
+  bool isFound = false;
+  for(auto i : input){
+    // If found 'S'
+    if(i == 'S'){
+      isFound = true;
+      continue;
+    }
+    if(isFound){
+      value += i;
+    }
+  }
+  return value.toInt();
+}
+bool isControlServo(String input){
+  for(auto i : input){
+    // If found 'S'
+    if(i == 'S'){
+      return true;
+    }
+  }
+  return false;
+}
+
+void func_button() {
+  if (SW_Button_Start.getState() && state_btn_Start) {
+    IsRunning = true;
+    judgement = -1;
+    state_btn_Start = false;
+    sendSerialCommand("start");
+  } else if (!SW_Button_Start.getState()) {
+    state_btn_Start = true;
+  }
+
+  if (SW_Button_JudgeNG.getState() && state_btn_NG) {
+    judgement = 0;
+    state_btn_NG = false;
+    sendSerialCommand("NG");
+  } else if (!SW_Button_JudgeNG.getState()) {
+    state_btn_NG = true;
+  }
+
+  if (SW_Button_JudgeOK.getState() && state_btn_OK) {
+    judgement = 1;
+    state_btn_OK = false;
+    sendSerialCommand("OK");
+  } else if (!SW_Button_JudgeOK.getState()) {
+    state_btn_OK = true;
+  }
 }

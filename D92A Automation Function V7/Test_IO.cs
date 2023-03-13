@@ -129,7 +129,7 @@ namespace D92A_Automation_Function_V7
             if (txtServo.Value != trackBarServo.Value)
             {
                 txtServo.Value = trackBarServo.Value;
-                this.home.sendSerialCommand("0S" + trackBarServo.Value.ToString());
+                this.home.sendSerialCommand("1S" + trackBarServo.Value.ToString());
             }
         }
 
@@ -138,7 +138,7 @@ namespace D92A_Automation_Function_V7
             if (trackBarServo.Value != txtServo.Value)
             {
                 trackBarServo.Value = (int)txtServo.Value;
-                this.home.sendSerialCommand("0S" + txtServo.Value.ToString());
+                this.home.sendSerialCommand("1S" + txtServo.Value.ToString());
             }
         }
     }

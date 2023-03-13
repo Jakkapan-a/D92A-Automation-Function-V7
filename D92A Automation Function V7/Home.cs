@@ -23,6 +23,7 @@ using System.Timers;
 using System.Reflection;
 using static Emgu.CV.DISOpticalFlow;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using OpenCvSharp;
 
 namespace D92A_Automation_Function_V7
 {
@@ -203,7 +204,7 @@ namespace D92A_Automation_Function_V7
                     int indexStart = data.IndexOf(">") + ">".Length;
                     int indexEnd = data.IndexOf("<");
                     data = data.Substring(indexStart, indexEnd - indexStart);
-                    Console.WriteLine("Received : " + data);
+                    //Console.WriteLine("Received : " + data);
                     data = data.Replace(">", string.Empty).Replace("<", string.Empty);
                     log.Save("Serial Received :" + data);
                     if (data == "start")
@@ -418,16 +419,6 @@ namespace D92A_Automation_Function_V7
         Test_IO io;
         private void iOTestingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            //if (io != null)
-            //{
-            //    io.Close();
-            //    io.Dispose();
-            //}
-            //io = new Test_IO(this);
-            //io.Show();
-
-
             if (_SerialPort != null && _SerialPort.IsOpen)
             {
                 if (io != null)
@@ -610,7 +601,7 @@ namespace D92A_Automation_Function_V7
                 int persent = (Int32)Math.Round((double)(i * 100) / 16); // 
                 onProcessUpdate.Invoke(persent);
             }
-
+            sendSerialCommand("1S0");
             onProcessUpdate.Invoke(0);
             _Items = null;
             _Items = _ItemsList.LoadItems(modelId);
@@ -660,22 +651,46 @@ namespace D92A_Automation_Function_V7
 
                     if (action._type == 0)
                     {
-                        
                         // Mode IO Function
                         if (action.io_type == 0)
                         {
-                            // Console.WriteLine($"{action.io_state}{action.io_port}");
-                            sendSerialCommand($"{action.io_state}{action.io_port}");
-                            txtProcessDetailsAppendText($"IO data : {action.io_state}{action.io_port} ");
+                           
+
+                            if (action.servo > 0)
+                            {
+                                // Console.WriteLine($"{action.io_state}{action.io_port}");
+                                sendSerialCommand($"{action.servo}{action.io_port}");
+                                txtProcessDetailsAppendText($"IO data : {action.servo}{action.io_port}");
+                               
+                            }
+                            else
+                            {
+                                // Console.WriteLine($"{action.io_state}{action.io_port}");
+                                sendSerialCommand($"{action.io_state}{action.io_port}");
+                                txtProcessDetailsAppendText($"IO data : {action.io_state}{action.io_port} ");
+                            }
                         }
                         else if (action.io_type == 1)
                         {
-                            // Auto
-                            sendSerialCommand($"1{action.io_port}");
-                            txtProcessDetailsAppendText($"IO data : 1{action.io_port} ");
-                            Thread.Sleep(action.auto_delay);
-                            sendSerialCommand($"0{action.io_port}");
-                            txtProcessDetailsAppendText($"IO data : 0{action.io_port} ");
+                            if(action.servo > 0)
+                            {
+                                // Auto
+                                sendSerialCommand($"{action.servo}{action.io_port}");
+                                txtProcessDetailsAppendText($"IO data : {action.servo}{action.io_port} ");
+                                Thread.Sleep(action.auto_delay);
+                                sendSerialCommand($"1S0");
+                                txtProcessDetailsAppendText($"IO data : 1S0 ");
+                            }
+                            else
+                            {
+                                // Auto
+                                sendSerialCommand($"1{action.io_port}");
+                                txtProcessDetailsAppendText($"IO data : 1{action.io_port} ");
+                                Thread.Sleep(action.auto_delay);
+                                sendSerialCommand($"0{action.io_port}");
+                                txtProcessDetailsAppendText($"IO data : 0{action.io_port} ");
+                            }
+
                         }
                         else if (action.io_type == 2)
                         {
@@ -747,6 +762,18 @@ namespace D92A_Automation_Function_V7
                             txtProcessDetailsAppendText("Judement OK");
                         }
                         // End type 1 
+                    }
+                    else if(action._type == 2)
+                    {
+                        if(action.io_type == 0)
+                        {
+                            sendSerialCommand($"{action.servo}R{action.servo_val}");
+                        }else if(action.io_type == 1)
+                        {
+                            sendSerialCommand($"{action.servo}R{action.servo_val}");
+                            Thread.Sleep(action.auto_delay);
+                            sendSerialCommand($"{action.servo}R0");
+                        }
                     }
                    
                     if (found_NG)
